@@ -36,12 +36,13 @@ function game() {
     window.addEventListener("keyup", keyUp)
     window.addEventListener("keydown", keyDown)
 
-    players.push(new Player(playerRadius, canvas.height / 2 - playerRadius - 5, false))
-    players.push(new Player(playerRadius, canvas.height / 2 + playerRadius + 5, true))
+    players.push(new Player(playerRadius, canvas.height / 2 - playerRadius - gap, false))
+    players.push(new Player(playerRadius, canvas.height / 2 + playerRadius + gap, true))
     animate()
     //img.src = "";
 }
-let playerRadius = 64/2
+let playerRadius = 64 / 2
+let gap = 10
 let players = []
 let keyPressed = {
     up: false
@@ -78,7 +79,7 @@ class Player {
         this.y = y
         this.jumping = false
         this.upside = upside
-        this.dy = 10
+        this.dy = 5
     }
 
     draw() {
@@ -88,16 +89,35 @@ class Player {
     }
 
     move() {
-        if(keyPressed.up) {
-            if(this.upside) {
-                this.y += this.dy
+        if (keyPressed.up && !this.jumping) {
+            this.jumping = true
+        }
+
+        if (this.jumping) {
+            if (this.upside) {
+                this.y += this.dy + 10
             } else {
-                this.y -= this.dy
+                this.y -= this.dy + 10
+            }
+            this.jumping = false
+        }
+
+        if (!this.upside) {
+            this.y += this.dy
+        } else {
+            this.y -= this.dy
+        }
+
+        if (!this.upside) {
+            if (this.y + playerRadius + gap >= canvas.height / 2) {
+                this.y = canvas.height / 2 - playerRadius - gap
             }
         } else {
-            console.log(false)
+            if (this.y - playerRadius - gap <= canvas.height / 2) {
+                this.y = canvas.height / 2 + playerRadius + gap
+            }
         }
-        
+
     }
 }
 
@@ -108,6 +128,12 @@ function keyDown(e) {
         case 38:
             keyPressed.up = true
             break
+        case 37:
+            keyPressed.left = true
+            break
+        case 39:
+            keyPressed.right = true
+            break
     }
 }
 
@@ -115,6 +141,12 @@ function keyUp(e) {
     switch (e.keyCode) {
         case 38:
             keyPressed.up = false
+            break
+        case 37:
+            keyPressed.left = false
+            break
+        case 39:
+            keyPressed.right = false
             break
     }
 }
