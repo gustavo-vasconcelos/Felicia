@@ -36,12 +36,12 @@ function game() {
     window.addEventListener("keyup", keyUp)
     window.addEventListener("keydown", keyDown)
 
-    players.push(new Player(playerRadius, canvas.height / 2 - playerRadius))
-    players.push(new Player(playerRadius, canvas.height / 2 + playerRadius))
+    players.push(new Player(playerRadius, canvas.height / 2 - playerRadius - 5, false))
+    players.push(new Player(playerRadius, canvas.height / 2 + playerRadius + 5, true))
     animate()
     //img.src = "";
 }
-let playerRadius = 55
+let playerRadius = 64/2
 let players = []
 let keyPressed = {
     up: false
@@ -60,7 +60,7 @@ function animate() {
 
     players.forEach(player => {
         player.draw()
-        player.eventListeners()
+        player.move()
     })
 
 
@@ -68,25 +68,36 @@ function animate() {
 
 }
 
+function generateGrid() {
+
+}
 
 class Player {
-    constructor(x, y) {
+    constructor(x, y, upside) {
         this.x = x
         this.y = y
+        this.jumping = false
+        this.upside = upside
+        this.dy = 10
     }
 
     draw() {
         context.beginPath()
-        context.arc(this.x, this.y, 50, 0, 2 * Math.PI)
+        context.arc(this.x, this.y, playerRadius, 0, 2 * Math.PI)
         context.fill()
     }
 
-    eventListeners() {
+    move() {
         if(keyPressed.up) {
-            console.log(true)
+            if(this.upside) {
+                this.y += this.dy
+            } else {
+                this.y -= this.dy
+            }
         } else {
             console.log(false)
         }
+        
     }
 }
 
@@ -102,7 +113,7 @@ function keyDown(e) {
 
 function keyUp(e) {
     switch (e.keyCode) {
-        case 39:
+        case 38:
             keyPressed.up = false
             break
     }
