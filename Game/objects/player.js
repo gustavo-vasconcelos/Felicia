@@ -40,7 +40,7 @@ class Player {
         } else {
             context.fillRect(
                 this.x - this.frameSize.idle.x / 2,
-                this.y - this.frameSize.idle.y / 2,
+                this.y  - this.frameSize.idle.y / 2,
                 this.frameSize.idle.x,
                 this.frameSize.idle.y
             )
@@ -170,8 +170,12 @@ class Player {
         this.body.position.x = this.x
         this.body.position.y = this.y
         context.beginPath()
-        context.arc(this.body.position.x, this.body.position.y, 20, 0, 2 * Math.PI)
+        context.arc(this.body.position.x, this.body.position.y+10, 20, 0, 2 * Math.PI)
         context.stroke()
+
+        
+
+        
 
         if (keyPressed.right && !keyBlocked.right) {
             this.x += this.v0
@@ -193,45 +197,56 @@ class Player {
         
         if (this.jumping && keyPressed.up) {
             if (this.upside) {
-                this.y += this.v0 + 10
+                this.y  += this.v0 + 10
             } else {
-                this.y -= this.v0 + 10
+                this.y  -= this.v0 + 10
             }
         }
 
         if (this.jumping && !keyPressed.up) {
             this.falling = true
             if (!this.upside) {
-                this.y += this.v0
-                this.y -= 0.2
+                this.y  += this.v0
+                this.y  -= 0.2
             } else {
-                this.y -= this.v0
-                this.y += 0.2
+                this.y  -= this.v0
+                this.y  += 0.2
             }
         }
 
         if (!this.upside) { //CIMA
-            if (this.y + playerRadius >= canvas.height / 2) {
-                this.y = canvas.height / 2 - playerRadius
+            if (this.y  + playerRadius >= canvas.height / 2) {
+                this.y  = canvas.height / 2 - playerRadius
                 this.jumping = false
                 this.falling = false
             }
-            if (this.groundHeight - (this.y + playerRadius) >= 150) {
+            if (this.groundHeight - (this.y  + playerRadius) >= 150) {
                 this.falling = true
                 //LIMITE
             }
         } else {
-            if (this.y - playerRadius <= canvas.height / 2 - 1) {
-                this.y = canvas.height / 2 + playerRadius - 1
+            if (this.y  - playerRadius <= canvas.height / 2 - 1) {
+                this.y  = canvas.height / 2 + playerRadius - 1
                 this.jumping = false
                 this.falling = false
             }
-            if ((this.y - playerRadius) - this.groundHeight >= 150) {
+            if ((this.y  - playerRadius) - this.groundHeight >= 150) {
                 this.falling = true
                 //LIMITE
             }
 
         }
+
+        platforms.forEach( plat => {
+            if(this.x <= plat.x + 50 && this.x >= plat.x  && this.y + 10 + 20 >= plat.y && this.x - 20 <= plat.y + 50){
+                this.y = plat.y - 64 + 10
+            }            
+            if(this.y + 10 >= plat.y  && this.y + 10 <= plat.y + 50 && this.x + 20 >= plat.x  && this.x - 20 <= plat.x + 50){
+                this.x = plat.x - 64
+            }
+            
+            
+        })
         
     }
     /*
@@ -242,7 +257,7 @@ class Player {
                     if (
                         this.x + this.frameSize.idle.x / 2 >= platform.x && // ok
                         this.x <= platform.x + platform.w && // ok
-                        this.y + this.frameSize.idle.y / 2 >= platform.y // ok
+                        this.y + 10 + this.frameSize.idle.y / 2 >= platform.y // ok
                     ) {
                         console.log("PARFAIT TOPO")
                     }
@@ -250,7 +265,7 @@ class Player {
                     if (
                         this.x + this.frameSize.idle.x / 2 >= platform.x && // ok
                         this.x <= platform.x + platform.w && // ok
-                        this.y - this.frameSize.idle.y / 2 <= platform.y // ok
+                        this.y + 10 - this.frameSize.idle.y / 2 <= platform.y // ok
                     ) {
                         console.log("PARFAIT DOWN")
                     }
@@ -260,7 +275,7 @@ class Player {
                     if (
                         this.x + this.frameSize.walk.x / 2 >= platform.x && // ok
                         this.x <= platform.x + platform.w && // ok
-                        this.y + this.frameSize.walk.y / 2 >= platform.y // ok
+                        this.y + 10 + this.frameSize.walk.y / 2 >= platform.y // ok
                     ) {
                         console.log("PARFAIT TOPO")
                     }
@@ -268,7 +283,7 @@ class Player {
                     if (
                         this.x + this.frameSize.walk.x / 2 >= platform.x && // ok
                         this.x <= platform.x + platform.w && // ok
-                        this.y - this.frameSize.walk.y / 2 <= platform.y // ok
+                        this.y + 10 - this.frameSize.walk.y / 2 <= platform.y // ok
                     ) {
                         console.log("PARFAIT DOWN")
                     }
