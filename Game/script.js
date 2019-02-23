@@ -28,6 +28,16 @@ let frame = 0
 let platforms = []
 let finalBoss = []
 let balls = []
+let ground
+let keyBlocked = {
+    right: false,
+    left: false,
+    up: false
+}
+
+let Engine, World, Composites, Composite, Bodies, engine
+
+
 
 //OnLoad
 window.onload = function () {
@@ -42,11 +52,9 @@ window.onload = function () {
 
     if (localStorage.getItem('currentLevel') != null) {
         currentLevel = localStorage.getItem('currentLevel')
-    }
-    else {
+    } else {
         localStorage.setItem('currentLevel', currentLevel)
     }
-    console.log(currentLevel)
     if (currentLevel == 1) {
 
         background = images.levels_background.one
@@ -62,37 +70,20 @@ window.onload = function () {
 
     }
 
+
     // module aliases
     Engine = Matter.Engine
-    Render = Matter.Render
     World = Matter.World
+    Composites = Matter.Composites
+    Composite = Matter.Composite
     Bodies = Matter.Bodies
 
     // create an engine
-    engine = Engine.create()
+    engine = Engine.create();
+    //engine.world.gravity.scale = 0; //turn off gravity (it's added back in later)
 
-    // create a renderer
-    render = Render.create({
-        element: canvas,
-        engine: engine
-    })
-
-    // create two boxes and a ground
-    var boxA = Bodies.rectangle(400, 200, 80, 80);
-    var boxB = Bodies.rectangle(450, 50, 80, 80);
-    var ground = Bodies.rectangle(400, 610, 810, 60, { isStatic: true });
-
-    // add all of the bodies to the world
-    World.add(engine.world, [boxA, boxB, ground]);
-
-    // run the engine
-    Engine.run(engine);
-
-    // run the renderer
-    Render.run(render);
-
-
-
+    ground = Bodies.rectangle(0, canvas.height / 2, 4800, 1)
+    World.add(engine.world, ground);
     game()
 }
 
@@ -102,7 +93,9 @@ function game() {
     window.addEventListener("keydown", keyDown)
 
     players.push(new Player(playerRadius, canvas.height / 2 - playerRadius - 1, false))
+    //players[0].body.label = "lightCharacter"
     players.push(new Player(playerRadius, canvas.height / 2 + playerRadius, true))
+    //players[1].body.label = "darkCharacter"
 
     if (currentLevel == 0) {
         platforms.push(new Platform(0, 1200, (canvas.height / 2) - 50, 1, true))
@@ -217,7 +210,6 @@ function game() {
     //Level 2
     if (currentLevel == 2) {
         //up 
-
         platforms.push(new Platform(2, 450, (canvas.height / 2) - 50, 1, true))
         platforms.push(new Platform(2, 600, (canvas.height / 2) - 50, 1, true))
         platforms.push(new Platform(2, 750, (canvas.height / 2) - 50, 1, true))
@@ -238,8 +230,6 @@ function game() {
         platforms.push(new Platform(2, 3050, (canvas.height / 2) - 50, 5, true))
 
         platforms.push(new Platform(2, 3400, (canvas.height / 2) - 100, 6, true)) //type 10
-
-
 
         //down
         platforms.push(new Platform(2, 550, (canvas.height / 2), 1, false))
@@ -355,30 +345,73 @@ function animate() {
         players.forEach(player => {
             player.draw()
             player.move()
-            player.platformsCollisions()
         })
         if (currentLevel != 3) {
             if (sceneLimits.right <= 3998) {
+/*
                 context.translate(-2, 0)
                 sceneLimits.left += 2
-                sceneLimits.right += 2
+                sceneLimits.right += 2*/
             }
-        }
-        else {
+        } else {
             if (sceneLimits.right <= 3775) {
                 context.translate(-10, 0)
                 sceneLimits.left += 10
                 sceneLimits.right += 10
-            }
-            else {
+            } else {
                 context.clearRect(sceneLimits.left, 0, sceneLimits.right, height); //clears everything
                 boss = images.levels_background.boss
-                context.drawImage(boss,sceneLimits.left, 100)
+                context.drawImage(boss, sceneLimits.left, 100)
             }
         }
 
 
         frame++
+
+
+        Engine.update(engine, 16);
+        var bodies = Composite.allBodies(engine.world);
+        context.beginPath();
+        for (var i = 0; i < bodies.length; i += 1) {
+            var vertices = bodies[i].vertices;
+            context.moveTo(vertices[0].x, vertices[0].y);
+            for (var j = 1; j < vertices.length; j += 1) {
+                context.lineTo(vertices[j].x, vertices[j].y);
+            }
+            context.lineTo(vertices[0].x, vertices[0].y);
+        }
+        context.lineWidth = 1;
+        context.strokeStyle = '#000000';
+        context.stroke();
+        ground.position.x = sceneLimits.left
+
+        Matter.Events.on(engine, 'beforeUpdate ', (e) => {
+            keyBlocked.down = false
+            keyBlocked.right = false
+            keyBlocked.left = false
+            keyBlocked.up = false
+        });
+
+        Matter.Events.on(engine, "collisionActive", (e) => {
+            e.pairs.forEach(pair => {
+                if (
+                    pair.bodyA.label === "platform" && pair.bodyB.label === "character" ||
+                    pair.bodyA.label === "character" && pair.bodyB.label === "platform"
+                ) {
+                    let normal = pair.collision.normal
+                    if (normal.x === -1) {
+                        keyBlocked.right = true
+                    }
+                    if (normal.x === 1) {
+                        keyBlocked.left = true
+                    }
+                    if (normal.y === 1) {
+                        keyBlocked.up = true
+                    }
+                }
+            })
+        })
+
     }
     window.requestAnimationFrame(animate)
 }
@@ -439,21 +472,25 @@ class BurstAttack {
 function keyDown(e) {
     switch (e.keyCode) {
         case 38:
-            keyPressed.up = true
+            if (!keyBlocked.up)
+                keyPressed.up = true
             clicks++
             break
         case 37:
-            keyPressed.left = true
+            if (!keyBlocked.left)
+                keyPressed.left = true
             clicks++
             changePlayersAnimation("walkLeft")
             break
         case 39:
-            keyPressed.right = true
+            if (!keyBlocked.right)
+                keyPressed.right = true
             clicks++
             changePlayersAnimation("walkRight")
             break
         case 32:
-            keyPressed.space = true
+            if (!keyBlocked.space)
+                keyPressed.space = true
             break
         case 82:
             restartGame()
@@ -464,18 +501,22 @@ function keyDown(e) {
 function keyUp(e) {
     switch (e.keyCode) {
         case 38:
-            keyPressed.up = false
+            if (keyPressed.up)
+                keyPressed.up = false
             break
         case 37:
-            keyPressed.left = false
+            if (keyPressed.left)
+                keyPressed.left = false
             changePlayersAnimation("walkLeft")
             break
         case 39:
-            keyPressed.right = false
+            if (keyPressed.right)
+                keyPressed.right = false
             changePlayersAnimation("idleRight")
             break
         case 32:
-            keyPressed.space = false
+            if (keyPressed.space)
+                keyPressed.space = false
             break
     }
 }
