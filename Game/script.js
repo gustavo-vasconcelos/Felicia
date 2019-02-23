@@ -14,6 +14,8 @@ var theme = "Theme";
 var boss = "Boss";
 var firstLevel = "First Level";
 
+var flag = 0
+
 let playerRadius = 64 / 2
 let gap = 10
 let players = []
@@ -87,6 +89,10 @@ window.onload = function () {
         background = images.levels_background.zero
     }
 
+    if (currentLevel == 4) {
+        background = images.levels_background.goodbye
+    }
+
 
     // module aliases
     Engine = Matter.Engine
@@ -128,7 +134,10 @@ window.onload = function () {
 
     ground = Bodies.rectangle(0, canvas.height / 2, 4800, 1)
     World.add(engine.world, ground);
+
+
     game()
+
 }
 
 //Preload, mouse events
@@ -136,17 +145,25 @@ function game() {
     window.addEventListener("keyup", keyUp)
     window.addEventListener("keydown", keyDown)
 
-    players.push(new Player(playerRadius, canvas.height / 2 - playerRadius - 1, false))
-    //players[0].body.label = "lightCharacter"
-    players.push(new Player(playerRadius, canvas.height / 2 + playerRadius, true))
-    //players[1].body.label = "darkCharacter"
+    if (currentLevel != 0 && currentLevel != 4) {
+        players.push(new Player(playerRadius, canvas.height / 2 - playerRadius - 1, false))
+        //players[0].body.label = "lightCharacter"
+        players.push(new Player(playerRadius, canvas.height / 2 + playerRadius, true))
+        //players[1].body.label = "darkCharacter"
+    }
+    if (currentLevel == 0){
+        players.push(new Player(playerRadius, canvas.height / 2 - playerRadius - 1, false))
+    }
+
+
+
 
     if (currentLevel == 0) {
         platforms.push(new Platform(0, 1200, (canvas.height / 2) - 50, 1, true))
         platforms.push(new Platform(0, 1250, (canvas.height / 2) - 50, 1, true))
         platforms.push(new Platform(0, 1300, (canvas.height / 2) - 50, 1, true))
         platforms.push(new Platform(0, 1350, (canvas.height / 2) - 50, 3, true))
-        platforms.push(new Platform(0, 1500, (canvas.height / 2) - 100, 2, true))
+        platforms.push(new Platform(0, 1500, (canvas.height / 2) - 100, 1, true))
         platforms.push(new Platform(0, 1850, (canvas.height / 2) - 100, 6, true))
     }
 
@@ -273,7 +290,7 @@ function game() {
         platforms.push(new Platform(2, 3050, (canvas.height / 2) - 100, 5, true))
         platforms.push(new Platform(2, 3050, (canvas.height / 2) - 50, 5, true))
 
-        platforms.push(new Platform(2, 3400, (canvas.height / 2) - 100, 9, true)) //type 10
+        platforms.push(new Platform(2, 3400, (canvas.height / 2) - 50, 9, true)) //type 10
 
         //down
         platforms.push(new Platform(2, 550, (canvas.height / 2), 1, false))
@@ -364,7 +381,9 @@ function game() {
         platforms.push(new Platform(3, 3500, (canvas.height / 2) + 150, 1, true))
     }
 
+
     animate()
+
 
 }
 
@@ -421,6 +440,27 @@ function animate() {
         players.forEach(player => {
             player.draw()
             player.move()
+            if (currentLevel == 0) {
+                if (player.x >= 1850) {
+                    currentLevel++
+                    localStorage.setItem("currentLevel", currentLevel)
+                    restartGame()
+                }
+            }
+            if (currentLevel == 1) {
+                if (player.x >= 3850) {
+                    currentLevel++
+                    localStorage.setItem("currentLevel", currentLevel)
+                    restartGame()
+                }
+            }
+            if (currentLevel == 2) {
+                if (player.x >= 4500) {
+                    currentLevel++
+                    localStorage.setItem("currentLevel", currentLevel)
+                    restartGame()
+                }
+            }
         })
 
 
@@ -485,6 +525,16 @@ function animate() {
                     platforms.forEach(plataform => {
                         plataform.draw()
                     })
+                    //ESTOU AQUI
+                    if (flag == 0) {
+                        players = []
+                        players.push(new Player(3000, 700, true))
+
+                        players.push(new Player(3700, 700, true))
+                        flag++
+                    }
+
+
                 }
             }
             if (currentLevel == 2) {
@@ -500,6 +550,9 @@ function animate() {
             finalBoss.forEach(boss => {
                 boss.draw()
                 boss.attack(atk2)
+                if (boss.die()) {
+                    gameWon()
+                }
             })
         }
 
@@ -540,21 +593,21 @@ function animate() {
             keyBlocked.left = false
             keyBlocked.up = false
         });
-
+        /*
         Matter.Events.on(engine, "collisionActive", (e) => {
             e.pairs.forEach(pair => {
                 if (
                     pair.bodyA.label === "platform" && pair.bodyB.label === "character" ||
                     pair.bodyA.label === "character" && pair.bodyB.label === "platform"
                 ) {
-                    if(pair.bodyA === "platform") {
+                    if (pair.bodyA === "platform") {
                         let type = platforms.find(platform => platform.id === pair.bodyA.id).type
-                        if(type === 3 || type === 5) {
+                        if (type === 3 || type === 5) {
                             console.log("MORREU")
                         }
-                    } else if(pair.bodyB === "platform") {
+                    } else if (pair.bodyB === "platform") {
                         let type = platforms.find(platform => platform.id === pair.bodyA.id).type
-                        if(type === 3 || type === 5) {
+                        if (type === 3 || type === 5) {
                             console.log("MORREU")
                         }
                     }
@@ -570,7 +623,7 @@ function animate() {
                     }
                 }
             })
-        })
+        })*/
 
     }
     window.requestAnimationFrame(animate)
@@ -592,6 +645,14 @@ function restartGame() {
         pl.x = playerRadius
     })*/
     location.reload();
+}
+
+function gameWon() {
+
+
+    localStorage.setItem("currentLevel", 4)
+    location.reload()
+
 }
 
 class FinalBoss {
@@ -751,6 +812,9 @@ function keyDown(e) {
             break
         case 82:
             restartGame()
+            break
+        case 71:
+            gameWon()
             break
     }
 }

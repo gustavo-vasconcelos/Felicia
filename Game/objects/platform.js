@@ -32,6 +32,23 @@ class Platform {
         World.add(engine.world, this.body)
     }
     draw() {
+        if (this.lvl == 0) {
+            if (this.type == 1) {
+                context.drawImage(images.tiles.zero.tilerock, this.x, this.y, this.w, this.h)
+
+            }
+            if (this.type == 6) {
+
+                context.drawImage(images.tiles.zero.puddle, this.x, this.y, this.w, this.h)
+
+            }
+            if (this.type == 3) {
+
+                context.drawImage(images.enemies.zero.spikehazard, this.x, this.y, this.w, this.h)
+
+            }
+
+        }
         if (this.lvl == 1) {
             //plataforms upside
             if (this.type == 1 && this.upside) {
