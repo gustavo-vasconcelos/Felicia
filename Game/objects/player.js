@@ -50,12 +50,6 @@ class Player {
                         this.spriteSheet.frameSize.y,
                     )
                 }
-                if (frame % 10 === 0) {
-                    this.currFrame++
-                }
-                if (this.currFrame >= 2) {
-                    this.currFrame = 0
-                }
                 break
             case "idleLeft":
                 break
@@ -85,12 +79,7 @@ class Player {
                         this.spriteSheet.frameSize.y,
                     )
                 }
-                if (frame % 10 === 0) {
-                    this.currFrame++
-                }
-                if (this.currFrame >= 2) {
-                    this.currFrame = 0
-                }
+                
                 break
             case "walkLeft":
                 if (!this.upside) {
@@ -118,13 +107,14 @@ class Player {
                         this.spriteSheet.frameSize.y,
                     )
                 }
-                if (frame % 10 === 0) {
-                    this.currFrame++
-                }
-                if (this.currFrame >= 2) {
-                    this.currFrame = 0
-                }
-                break
+                break            
+        }
+
+        if (frame % 10 === 0) {
+            this.currFrame++
+        }
+        if (this.currFrame > 3) {
+            this.currFrame = 0
         }
 
 
