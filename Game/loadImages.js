@@ -162,7 +162,7 @@ images.levels_background.one.src = "img/levels_background/one.png"
 images.levels_background.two.src = "img/levels_background/two.png"
 images.levels_background.twoOne.src = "img/levels_background/twoOne.png"
 images.levels_background.twoSecond.src = "img/levels_background/twoSecond.png"
-//images.levels_background.three.src = "img/levels_background/three.png"
+images.levels_background.three.src = "img/levels_background/three.png"
 images.levels_background.boss.src = "img/levels_background/boss.png"
 
 images.tiles.one.upside.type.one.variantOne.src = "img/tiles/one/upside/type/one/variantOne.png"
