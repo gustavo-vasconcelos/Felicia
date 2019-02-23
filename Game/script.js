@@ -175,7 +175,7 @@ function game() {
 
     //Level 2
     //up 
-    
+
     platforms.push(new Platform(2, 450, (canvas.height / 2) - 50, 1, true))
     platforms.push(new Platform(2, 600, (canvas.height / 2) - 50, 1, true))
     platforms.push(new Platform(2, 750, (canvas.height / 2) - 50, 1, true))
@@ -187,44 +187,44 @@ function game() {
     platforms.push(new Platform(2, 1350, (canvas.height / 2) - 150, 1, true))
     platforms.push(new Platform(2, 1700, (canvas.height / 2) - 50, 9, true)) //type 9
 
-        //up second
-        platforms.push(new Platform(2, 2800, (canvas.height / 2) - 150, 5, true))
-        platforms.push(new Platform(2, 2800, (canvas.height / 2) - 100, 5, true))
-        platforms.push(new Platform(2, 2800, (canvas.height / 2) - 50, 5, true))
-        platforms.push(new Platform(2, 3050, (canvas.height / 2) - 150, 5, true))
-        platforms.push(new Platform(2, 3050, (canvas.height / 2) - 100, 5, true))
-        platforms.push(new Platform(2, 3050, (canvas.height / 2) - 50, 5, true))
+    //up second
+    platforms.push(new Platform(2, 2800, (canvas.height / 2) - 150, 5, true))
+    platforms.push(new Platform(2, 2800, (canvas.height / 2) - 100, 5, true))
+    platforms.push(new Platform(2, 2800, (canvas.height / 2) - 50, 5, true))
+    platforms.push(new Platform(2, 3050, (canvas.height / 2) - 150, 5, true))
+    platforms.push(new Platform(2, 3050, (canvas.height / 2) - 100, 5, true))
+    platforms.push(new Platform(2, 3050, (canvas.height / 2) - 50, 5, true))
 
-        platforms.push(new Platform(2, 3400, (canvas.height / 2) - 50, 9, true)) //type 10
-        
+    platforms.push(new Platform(2, 3400, (canvas.height / 2) - 50, 9, true)) //type 10
+
 
 
     //down
-    platforms.push(new Platform(2, 550, (canvas.height / 2) , 1, false))
-    platforms.push(new Platform(2, 600, (canvas.height / 2) +50 , 5, false)) //type 8
-    platforms.push(new Platform(2, 850, (canvas.height / 2) , 1, false))
-    platforms.push(new Platform(2, 850, (canvas.height / 2) +50 , 2, false))
-    platforms.push(new Platform(2, 900, (canvas.height / 2) +100 , 5, false))
-    platforms.push(new Platform(2, 900, (canvas.height / 2) +50 , 4, false))
-    platforms.push(new Platform(2, 950, (canvas.height / 2) +50 , 4, false))
-    platforms.push(new Platform(2, 1000, (canvas.height / 2) +50 , 4, false))
-    platforms.push(new Platform(2, 1050, (canvas.height / 2) +50 , 4, false))
-    platforms.push(new Platform(2, 1100, (canvas.height / 2) , 1, false))
-    platforms.push(new Platform(2, 1100, (canvas.height / 2) +50 , 2, false))
-    platforms.push(new Platform(2, 1150, (canvas.height / 2) +100 , 5, false))
-    platforms.push(new Platform(2, 1400, (canvas.height / 2) , 3, false))
-    platforms.push(new Platform(2, 1450, (canvas.height / 2) , 1, false))
+    platforms.push(new Platform(2, 550, (canvas.height / 2), 1, false))
+    platforms.push(new Platform(2, 600, (canvas.height / 2) + 50, 5, false)) //type 8
+    platforms.push(new Platform(2, 850, (canvas.height / 2), 1, false))
+    platforms.push(new Platform(2, 850, (canvas.height / 2) + 50, 2, false))
+    platforms.push(new Platform(2, 900, (canvas.height / 2) + 100, 5, false))
+    platforms.push(new Platform(2, 900, (canvas.height / 2) + 50, 4, false))
+    platforms.push(new Platform(2, 950, (canvas.height / 2) + 50, 4, false))
+    platforms.push(new Platform(2, 1000, (canvas.height / 2) + 50, 4, false))
+    platforms.push(new Platform(2, 1050, (canvas.height / 2) + 50, 4, false))
+    platforms.push(new Platform(2, 1100, (canvas.height / 2), 1, false))
+    platforms.push(new Platform(2, 1100, (canvas.height / 2) + 50, 2, false))
+    platforms.push(new Platform(2, 1150, (canvas.height / 2) + 100, 5, false))
+    platforms.push(new Platform(2, 1400, (canvas.height / 2), 3, false))
+    platforms.push(new Platform(2, 1450, (canvas.height / 2), 1, false))
     platforms.push(new Platform(2, 1700, (canvas.height / 2), 9, false))
 
-        //down second
-        platforms.push(new Platform(2, 4000, (canvas.height / 2) - 50, 1, false))
-        platforms.push(new Platform(2, 4050, (canvas.height / 2) - 50, 3, false))  
-        platforms.push(new Platform(2, 4100, (canvas.height / 2) - 50, 3, false)) 
-        platforms.push(new Platform(2, 4150, (canvas.height / 2) - 50, 3, false)) 
-        platforms.push(new Platform(2, 4200, (canvas.height / 2) - 50, 1, false)) 
+    //down second
+    platforms.push(new Platform(2, 4000, (canvas.height / 2) - 50, 1, false))
+    platforms.push(new Platform(2, 4050, (canvas.height / 2) - 50, 3, false))
+    platforms.push(new Platform(2, 4100, (canvas.height / 2) - 50, 3, false))
+    platforms.push(new Platform(2, 4150, (canvas.height / 2) - 50, 3, false))
+    platforms.push(new Platform(2, 4200, (canvas.height / 2) - 50, 1, false))
 
-        platforms.push(new Platform(2, 4500, (canvas.height / 2) - 100, 9, false)) //type 10
-    
+    platforms.push(new Platform(2, 4500, (canvas.height / 2) - 100, 9, false)) //type 10
+
     /*
     //Level 3
     //Up

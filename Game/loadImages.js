@@ -31,7 +31,7 @@ let images = {
                 checkPoint: {
                     upsidecheckpointOne: new Image()
                 },
-    
+
             },
             downside: {
                 type: {
@@ -98,10 +98,10 @@ let images = {
             },
             portal: new Image(),
         }
-        
+
     },
     enemies: {
-        one:{
+        one: {
             upside: {
                 three: {
                     upsidehazardspike: new Image(),
@@ -122,7 +122,7 @@ let images = {
             }
 
         },
-        two:{
+        two: {
             upside: {
                 three: {
                     upsidehazardspike: new Image(),
@@ -143,7 +143,7 @@ let images = {
             }
 
         }
-        
+
     }
 }
 
