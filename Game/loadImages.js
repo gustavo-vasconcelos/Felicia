@@ -149,8 +149,18 @@ let images = {
 
         }
 
+    },
+    boss: {
+        bossidle: new Image(),
+        bosssphere1: new Image(),
+        bosssphere2: new Image(),
     }
 }
+
+images.boss.bossidle.src = "img/boss/bossidle.png"
+images.boss.bosssphere1.src = "img/boss/bosssphere1.png"
+images.boss.bosssphere2.src = "img/boss/bosssphere2.png"
+
 
 images.characters.light.idle.src = "img/characters/light/idle.png"
 images.characters.light.walk.src = "img/characters/light/walk.png"

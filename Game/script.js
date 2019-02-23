@@ -28,6 +28,9 @@ let frame = 0
 let platforms = []
 let finalBoss = []
 let balls = []
+let kamehamehaa = false
+let atk2 = 0
+let timer = 0
 
 //OnLoad
 window.onload = function () {
@@ -46,7 +49,7 @@ window.onload = function () {
     else {
         localStorage.setItem('currentLevel', currentLevel)
     }
-    console.log(currentLevel)
+    
     if (currentLevel == 1) {
 
         background = images.levels_background.one
@@ -92,6 +95,7 @@ window.onload = function () {
     Render.run(render);
 
 
+    
 
     game()
 }
@@ -217,7 +221,6 @@ function game() {
     //Level 2
     if (currentLevel == 2) {
         //up 
-
         platforms.push(new Platform(2, 450, (canvas.height / 2) - 50, 1, true))
         platforms.push(new Platform(2, 600, (canvas.height / 2) - 50, 1, true))
         platforms.push(new Platform(2, 750, (canvas.height / 2) - 50, 1, true))
@@ -337,6 +340,12 @@ function game() {
 
 //Update, draw ...
 function animate() {
+
+    if (currentLevel == 3 && sceneLimits.right > 3500 && finalBoss.length < 1) {
+        finalBoss.push(new FinalBoss(3275, 100))
+    }
+
+
     if (keyPressed.space && !pause) {
         pause = true
     } else if (keyPressed.space && pause) {
@@ -357,6 +366,39 @@ function animate() {
             player.move()
             player.platformsCollisions()
         })
+
+        
+        
+        if (kamehamehaa) {
+            let x = 0
+            let y = 0
+            let r = 0
+            let velIn = 0
+            let acc = 0
+            let ang = 0
+            
+            if(balls.length<10){            
+            
+            x = 3362
+            y = 275
+            r = 15
+            velIn = 1
+            acc = 0.1
+            ang = Math.random() * 110
+            ang += 90
+            ang -= 55
+            
+            balls.push(new BurstAttack(x, y, velIn, r, acc, ang))
+            }           
+
+
+            kamehamehaa = false
+
+            
+        }
+
+        
+
         if (currentLevel != 3) {
             if (sceneLimits.right <= 3998) {
                 context.translate(-2, 0)
@@ -372,14 +414,33 @@ function animate() {
             }
             else {
                 //background = images.levels_background.boss
-                context.drawImage(images.levels_background.boss, sceneLimits.left, 0)
+                context.drawImage(images.levels_background.boss, sceneLimits.left, 100)
                 platforms.forEach(plataform => {
                     plataform.draw()
                 })
             }
         }
+        if (currentLevel == 3 && sceneLimits.right > 3500){
 
+            finalBoss.forEach(boss => {
+                boss.draw()
+                boss.attack(atk2)
+            })
+        }
+        
 
+        balls.forEach(ball => {
+            ball.update()
+            ball.draw(atk2)
+        })
+        
+
+        for (let i = 0; i < balls.length; i++) {
+            if (balls[i].active == false) {
+               balls.splice(i, 1)
+            }
+        }
+        
         frame++
     }
     window.requestAnimationFrame(animate)
@@ -402,41 +463,139 @@ function restartGame() {
     })*/
     location.reload();
 }
-/*
+
 class FinalBoss {
-    constructor(x,y) {
+    constructor(x, y) {
         this.x = x
         this.y = y
+        this.frame = 0
+        this.w = 200
+        this.h = 200
+        this.life = 5
+        this.ableToAttack = true
+        
+        this.random = 0
+        this.count = 0
+        this.atk = false
         this.time = 0
-        this.particleR1 = 20
-        this.particleR2 = 10
-        this.velIn = velIn
-
-    
+        this.time2 = 0
     }
 
-    draw(){
+    draw() {
+        this.count++
+        context.drawImage(images.boss.bossidle, this.frame * this.w, 0, this.w, this.h, this.x, this.y, this.w, this.h)
+        if(this.count % 5 == 0){
+            this.frame++
+            this.count = 0
+        }
+        
+        
+        if (this.frame > 4) {
+            this.frame = 0
+        }
 
+        
+    }
+
+    attack(atk2) {
+        if (this.time = 0) {
+            this.ableToAttack = true
+            this.random = Math.random()*3
+            
+        }
+        if (this.ableToAttack = true) {
+            switch (this.random) {
+                case 0:
+                    kamehamehaa = true
+                    this.ableToAttack = false
+                    break
+                    
+                case 1:
+                    this.atk = true
+                    
+                    this.ableToAttack = false
+                    break
+                case 2:
+                    //third
+                    this.ableToAttack = false
+                    break
+            }
+        }
+        this.time++
+        if (this.time > 1000) {
+            this.time = 0
+            
+        }
+
+
+    }
+    die() {
+        if (this.life < 1) {
+            return true
+        }
+        else {
+            return false
+        }
+    }
+    time(){
+        if(this.atk==true){
+            this.time++
+        }
+        if(this.time > 300){
+            this.atk=false
+            this.time=0
+        }
     }
 
 }
 
 class BurstAttack {
+    constructor(x, y, velIn, r, acc, ang) {
+        this.x = x;
+        this.y = y;
+        this.r = r;
+        this.velIn = velIn
+        this.ang = ang
+        this.vX = this.velIn * Math.cos(this.ang * Math.PI / 180)
+        this.vY = this.velIn * Math.sin(this.ang * Math.PI / 180)
+        this.acc = acc;
+        this.active = true
+        this.frame = 0
 
-    this.x = x;
-    this.y = y;
-    this.r = r;
-    this.velIn = velIn
-    this.ang = ang
-    this.vX = this.velIn * Math.cos(this.ang* Math.PI / 180)
-    this.vY = this.velIn * Math.sin(this.ang* Math.PI / 180)
-    this.acc = acc;   
-    this.color = color
-    this.active = true
+        
+    }
+    draw(atk2) {
+        context.drawImage(images.boss.bosssphere1, this.frame * (this.r*2), 0, this.r*2, this.r*2, this.x, this.y, this.r*2, this.r*2 )
+        this.frame++
+        
+        if (this.frame > 3) {
+            this.frame = 0
+        }
+        if(atk2 == 2){
+
+        context.drawImage(images.boss.bosssphere1, this.frame * (this.r*2), 0, this.r*2, this.r*2, 3262, 300, this.r*2, this.r*2)
+        context.drawImage(images.boss.bosssphere1, this.frame * (this.r*2), 0, this.r*2, this.r*2, 3462, 300, this.r*2, this.r*2)
+
+        context.drawImage(images.boss.bosssphere1, this.frame * (this.r*2), 0, this.r*2, this.r*2, 3162, 200, this.r*2, this.r*2)
+        context.drawImage(images.boss.bosssphere1, this.frame * (this.r*2), 0, this.r*2, this.r*2, 3562, 200, this.r*2, this.r*2)
+        }
+        
+    }
+    update() {
+        this.x += this.vX;
+        
+        this.y += this.vY;
+        if (this.y > 500) {
+            this.active = false
+        }
+
+    }
+    pos() {
+        return [this.x, this.y]
+    }
 
 
-
-}*/
+}
 
 function keyDown(e) {
     switch (e.keyCode) {
