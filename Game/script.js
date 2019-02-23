@@ -9,6 +9,11 @@ let currentLevel = -1
 let clicks = 0
 let background = ""
 
+//Sounds
+var theme = "Theme";
+var boss = "Boss";
+var firstLevel = "First Level";
+
 let playerRadius = 64 / 2
 let gap = 10
 let players = []
@@ -50,6 +55,11 @@ window.onload = function () {
 
     canvas.width = width;
     canvas.height = height;
+
+    //Load Sounds
+    createjs.Sound.registerSound("sounds/ORIGINALTHEME_1.mp3", theme);
+    createjs.Sound.registerSound("sounds/DARKFEMALECHOIR.mp3", boss);
+    createjs.Sound.registerSound("sounds/DARK.mp3", firstLevel);
 
     context.clearRect(0, 0, width, height); //clears everything
 
@@ -362,6 +372,16 @@ function game() {
 //Update, draw ...
 function animate() {
 
+    if (clicks == 1) {
+        if (currentLevel == 2) {
+            createjs.Sound.play(theme);
+        }
+        if (currentLevel == 3) {
+            createjs.Sound.play(boss);
+        }
+        clicks++
+    }
+
     if (currentLevel == 3 && sceneLimits.right > 3500 && finalBoss.length < 1) {
         finalBoss.push(new FinalBoss(3275, 100))
     }
@@ -375,9 +395,18 @@ function animate() {
 
     if (!pause) {
         context.clearRect(sceneLimits.left, 0, sceneLimits.right, height); //clears everything
-        context.drawImage(background, 0, 0)
-        context.drawImage(background, 2000, 0)
-        context.drawImage(background, 4000, 0)
+
+        if (currentLevel != 0) {
+            context.drawImage(background, 0, 0)
+            context.drawImage(background, 2000, 0)
+            context.drawImage(background, 4000, 0)
+        }
+        else {
+            context.drawImage(background, 0, 0)
+            context.drawImage(background, 1000, 0)
+            context.drawImage(background, 2000, 0)
+        }
+
 
         platforms.forEach(plataform => {
             plataform.draw()
@@ -421,10 +450,16 @@ function animate() {
 
         if (clicks != 0) {
             if (currentLevel == 0) {
-                if (sceneLimits.right <= 3998) {
+                if (sceneLimits.right <= 1848) {
                     context.translate(-2, 0)
                     sceneLimits.left += 2
                     sceneLimits.right += 2
+                }
+                else {
+                    /*
+                    localStorage.setItem("currentLevel",currentLevel++)
+                    location.reload()
+                    */
                 }
             }
             if (currentLevel == 1) {
