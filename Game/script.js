@@ -1,7 +1,29 @@
+// global variables
+
 let canvas = null
 let context = null
 const width = 800
 const height = 600
+
+let playerRadius = 64 / 2
+let gap = 10
+let players = []
+let keyPressed = {
+    up: false,
+    left: false,
+    right: false,
+    space: false,
+    last: "right"
+}
+let sceneLimits = {
+    left: 0,
+    right: 800
+}
+let pause = false
+let frame = 0
+let platforms = []
+let finalBoss = []
+let balls = []
 
 //OnLoad
 window.onload = function () {
@@ -41,252 +63,234 @@ function game() {
 
     //Level 0
     //up
-    /*plataforms.push(new Platform(0, 1200, (canvas.height / 2) - 50, 1, true))
-    plataforms.push(new Platform(0, 1250, (canvas.height / 2) - 50, 1, true))
-    plataforms.push(new Platform(0, 1300, (canvas.height / 2) - 50, 1, true))
-    plataforms.push(new Platform(0, 1350, (canvas.height / 2) - 50, 3, true))
-    plataforms.push(new Platform(0, 1500, (canvas.height / 2) - 100, 2, true))
-    plataforms.push(new Platform(0, 1850, (canvas.height / 2) - 100, 6, true))
+    /*platforms.push(new Platform(0, 1200, (canvas.height / 2) - 50, 1, true))
+    platforms.push(new Platform(0, 1250, (canvas.height / 2) - 50, 1, true))
+    platforms.push(new Platform(0, 1300, (canvas.height / 2) - 50, 1, true))
+    platforms.push(new Platform(0, 1350, (canvas.height / 2) - 50, 3, true))
+    platforms.push(new Platform(0, 1500, (canvas.height / 2) - 100, 2, true))
+    platforms.push(new Platform(0, 1850, (canvas.height / 2) - 100, 6, true))
     */
 
     //Level 1
-    /*plataforms.push(new Platform(1, 400, (canvas.height / 2) - 50, 1, true))
-    plataforms.push(new Platform(1, 450, (canvas.height / 2) - 50, 1, true))
-    plataforms.push(new Platform(1, 500, (canvas.height / 2) - 50, 1, true))
-    plataforms.push(new Platform(1, 550, (canvas.height / 2) - 50, 1, true))
-    plataforms.push(new Platform(1, 600, (canvas.height / 2) - 50, 1, true))
-    plataforms.push(new Platform(1, 550, (canvas.height / 2) - 100, 2, true))
-    plataforms.push(new Platform(1, 600, (canvas.height / 2) - 100, 2, true))
-    plataforms.push(new Platform(1, 550, (canvas.height / 2) - 150, 2, true))
-    plataforms.push(new Platform(1, 600, (canvas.height / 2) - 150, 2, true))
-    plataforms.push(new Platform(1, 650, (canvas.height / 2) - 50, 3, true))
-    plataforms.push(new Platform(1, 700, (canvas.height / 2) - 50, 3, true))
-    plataforms.push(new Platform(1, 750, (canvas.height / 2) - 50, 1, true))
-    plataforms.push(new Platform(1, 800, (canvas.height / 2) - 50, 1, true))
-    plataforms.push(new Platform(1, 750, (canvas.height / 2) - 100, 2, true))
-    plataforms.push(new Platform(1, 800, (canvas.height / 2) - 100, 2, true))
-    plataforms.push(new Platform(1, 750, (canvas.height / 2) - 150, 2, true))
-    plataforms.push(new Platform(1, 800, (canvas.height / 2) - 150, 2, true))
-    plataforms.push(new Platform(1, 850, (canvas.height / 2) - 50, 3, true))
-    plataforms.push(new Platform(1, 900, (canvas.height / 2) - 50, 3, true))
-    plataforms.push(new Platform(1, 950, (canvas.height / 2) - 50, 1, true))
-    plataforms.push(new Platform(1, 950, (canvas.height / 2) - 100, 2, true))
-    plataforms.push(new Platform(1, 950, (canvas.height / 2) - 150, 2, true))
-    plataforms.push(new Platform(1, 1000, (canvas.height / 2) - 50, 1, true))
-    plataforms.push(new Platform(1, 1000, (canvas.height / 2) - 100, 2, true))
-    plataforms.push(new Platform(1, 1050, (canvas.height / 2) - 50, 1, true))
-    plataforms.push(new Platform(1, 1200, (canvas.height / 2) - 50, 3, true))
-    plataforms.push(new Platform(1, 1250, (canvas.height / 2) - 50, 3, true))
-    plataforms.push(new Platform(1, 1650, (canvas.height / 2) - 50, 1, true))
-    plataforms.push(new Platform(1, 1700, (canvas.height / 2) - 50, 1, true))
-    plataforms.push(new Platform(1, 1750, (canvas.height / 2) - 50, 1, true))
-    plataforms.push(new Platform(1, 1750, (canvas.height / 2) - 100, 2, true))
-    plataforms.push(new Platform(1, 1800, (canvas.height / 2) - 50, 3, true))
-    plataforms.push(new Platform(1, 1850, (canvas.height / 2) - 50, 3, true))
-    plataforms.push(new Platform(1, 1900, (canvas.height / 2) - 50, 1, true))
-    plataforms.push(new Platform(1, 2300, (canvas.height / 2) - 50, 1, true))
-    plataforms.push(new Platform(1, 2350, (canvas.height / 2) - 50, 1, true))
-    plataforms.push(new Platform(1, 2350, (canvas.height / 2) - 100, 2, true))
-    plataforms.push(new Platform(1, 2550, (canvas.height / 2) - 100, 2, true))
-    plataforms.push(new Platform(1, 2550, (canvas.height / 2) - 50, 1, true))
-    plataforms.push(new Platform(1, 2600, (canvas.height / 2) - 150, 5, true))
-    plataforms.push(new Platform(1, 2750, (canvas.height / 2) - 50, 1, true))
-    plataforms.push(new Platform(1, 2750, (canvas.height / 2) - 100, 2, true))
-    plataforms.push(new Platform(1, 2800, (canvas.height / 2) - 100, 5, true))
-    plataforms.push(new Platform(1, 2950, (canvas.height / 2) - 50, 3, true))
-    plataforms.push(new Platform(1, 3000, (canvas.height / 2) - 50, 3, true))
-    plataforms.push(new Platform(1, 3350, (canvas.height / 2) - 50, 1, true))
-    plataforms.push(new Platform(1, 3350, (canvas.height / 2) - 100, 2, true))
-    plataforms.push(new Platform(1, 3850, (canvas.height / 2) - 100, 6, true))
+    /*platforms.push(new Platform(1, 400, (canvas.height / 2) - 50, 1, true))
+    platforms.push(new Platform(1, 450, (canvas.height / 2) - 50, 1, true))
+    platforms.push(new Platform(1, 500, (canvas.height / 2) - 50, 1, true))
+    platforms.push(new Platform(1, 550, (canvas.height / 2) - 50, 1, true))
+    platforms.push(new Platform(1, 600, (canvas.height / 2) - 50, 1, true))
+    platforms.push(new Platform(1, 550, (canvas.height / 2) - 100, 2, true))
+    platforms.push(new Platform(1, 600, (canvas.height / 2) - 100, 2, true))
+    platforms.push(new Platform(1, 550, (canvas.height / 2) - 150, 2, true))
+    platforms.push(new Platform(1, 600, (canvas.height / 2) - 150, 2, true))
+    platforms.push(new Platform(1, 650, (canvas.height / 2) - 50, 3, true))
+    platforms.push(new Platform(1, 700, (canvas.height / 2) - 50, 3, true))
+    platforms.push(new Platform(1, 750, (canvas.height / 2) - 50, 1, true))
+    platforms.push(new Platform(1, 800, (canvas.height / 2) - 50, 1, true))
+    platforms.push(new Platform(1, 750, (canvas.height / 2) - 100, 2, true))
+    platforms.push(new Platform(1, 800, (canvas.height / 2) - 100, 2, true))
+    platforms.push(new Platform(1, 750, (canvas.height / 2) - 150, 2, true))
+    platforms.push(new Platform(1, 800, (canvas.height / 2) - 150, 2, true))
+    platforms.push(new Platform(1, 850, (canvas.height / 2) - 50, 3, true))
+    platforms.push(new Platform(1, 900, (canvas.height / 2) - 50, 3, true))
+    platforms.push(new Platform(1, 950, (canvas.height / 2) - 50, 1, true))
+    platforms.push(new Platform(1, 950, (canvas.height / 2) - 100, 2, true))
+    platforms.push(new Platform(1, 950, (canvas.height / 2) - 150, 2, true))
+    platforms.push(new Platform(1, 1000, (canvas.height / 2) - 50, 1, true))
+    platforms.push(new Platform(1, 1000, (canvas.height / 2) - 100, 2, true))
+    platforms.push(new Platform(1, 1050, (canvas.height / 2) - 50, 1, true))
+    platforms.push(new Platform(1, 1200, (canvas.height / 2) - 50, 3, true))
+    platforms.push(new Platform(1, 1250, (canvas.height / 2) - 50, 3, true))
+    platforms.push(new Platform(1, 1650, (canvas.height / 2) - 50, 1, true))
+    platforms.push(new Platform(1, 1700, (canvas.height / 2) - 50, 1, true))
+    platforms.push(new Platform(1, 1750, (canvas.height / 2) - 50, 1, true))
+    platforms.push(new Platform(1, 1750, (canvas.height / 2) - 100, 2, true))
+    platforms.push(new Platform(1, 1800, (canvas.height / 2) - 50, 3, true))
+    platforms.push(new Platform(1, 1850, (canvas.height / 2) - 50, 3, true))
+    platforms.push(new Platform(1, 1900, (canvas.height / 2) - 50, 1, true))
+    platforms.push(new Platform(1, 2300, (canvas.height / 2) - 50, 1, true))
+    platforms.push(new Platform(1, 2350, (canvas.height / 2) - 50, 1, true))
+    platforms.push(new Platform(1, 2350, (canvas.height / 2) - 100, 2, true))
+    platforms.push(new Platform(1, 2550, (canvas.height / 2) - 100, 2, true))
+    platforms.push(new Platform(1, 2550, (canvas.height / 2) - 50, 1, true))
+    platforms.push(new Platform(1, 2600, (canvas.height / 2) - 150, 5, true))
+    platforms.push(new Platform(1, 2750, (canvas.height / 2) - 50, 1, true))
+    platforms.push(new Platform(1, 2750, (canvas.height / 2) - 100, 2, true))
+    platforms.push(new Platform(1, 2800, (canvas.height / 2) - 100, 5, true))
+    platforms.push(new Platform(1, 2950, (canvas.height / 2) - 50, 3, true))
+    platforms.push(new Platform(1, 3000, (canvas.height / 2) - 50, 3, true))
+    platforms.push(new Platform(1, 3350, (canvas.height / 2) - 50, 1, true))
+    platforms.push(new Platform(1, 3350, (canvas.height / 2) - 100, 2, true))
+    platforms.push(new Platform(1, 3850, (canvas.height / 2) - 100, 6, true))
 
 
 
     //Downside
-    plataforms.push(new Platform(1, 400, (canvas.height / 2), 1, false))
-    plataforms.push(new Platform(1, 450, (canvas.height / 2), 1, false))
-    plataforms.push(new Platform(1, 500, (canvas.height / 2), 1, false))
-    plataforms.push(new Platform(1, 550, (canvas.height / 2), 1, false))
-    plataforms.push(new Platform(1, 600, (canvas.height / 2), 1, false))
-    plataforms.push(new Platform(1, 550, (canvas.height / 2) + 50, 2, false))
-    plataforms.push(new Platform(1, 600, (canvas.height / 2) + 50, 2, false))
-    plataforms.push(new Platform(1, 550, (canvas.height / 2) + 100, 2, false))
-    plataforms.push(new Platform(1, 600, (canvas.height / 2) + 100, 2, false))
-    plataforms.push(new Platform(1, 750, (canvas.height / 2), 1, false))
-    plataforms.push(new Platform(1, 750, (canvas.height / 2) + 50, 2, false))
-    plataforms.push(new Platform(1, 800, (canvas.height / 2), 1, false))
-    plataforms.push(new Platform(1, 800, (canvas.height / 2) + 50, 2, false))
-    plataforms.push(new Platform(1, 750, (canvas.height / 2) + 100, 2, false))
-    plataforms.push(new Platform(1, 800, (canvas.height / 2) + 100, 2, false))
-    plataforms.push(new Platform(1, 650, (canvas.height / 2), 3, false))
-    plataforms.push(new Platform(1, 700, (canvas.height / 2), 3, false))
-    plataforms.push(new Platform(1, 850, (canvas.height / 2), 3, false))
-    plataforms.push(new Platform(1, 900, (canvas.height / 2), 3, false))
-    plataforms.push(new Platform(1, 950, (canvas.height / 2), 1, false))
-    plataforms.push(new Platform(1, 950, (canvas.height / 2) + 50, 2, false))
-    plataforms.push(new Platform(1, 950, (canvas.height / 2) + 100, 2, false))
-    plataforms.push(new Platform(1, 1000, (canvas.height / 2), 1, false))
-    plataforms.push(new Platform(1, 1000, (canvas.height / 2) + 50, 2, false))
-    plataforms.push(new Platform(1, 1050, (canvas.height / 2), 1, false))
-    plataforms.push(new Platform(1, 1400, (canvas.height / 2), 3, false))
-    plataforms.push(new Platform(1, 1450, (canvas.height / 2), 3, false))
-    plataforms.push(new Platform(1, 1650, (canvas.height / 2), 1, false))
-    plataforms.push(new Platform(1, 1700, (canvas.height / 2), 1, false))
-    plataforms.push(new Platform(1, 1700, (canvas.height / 2) + 50, 2, false))
-    plataforms.push(new Platform(1, 1750, (canvas.height / 2) + 50, 4, false))
-    plataforms.push(new Platform(1, 1800, (canvas.height / 2) + 50, 4, false))
-    plataforms.push(new Platform(1, 1850, (canvas.height / 2) + 50, 4, false))
-    plataforms.push(new Platform(1, 1800, (canvas.height / 2) + 100, 5, false))
-    plataforms.push(new Platform(1, 1900, (canvas.height / 2) + 50, 2, false))
-    plataforms.push(new Platform(1, 1900, (canvas.height / 2), 1, false))
-    plataforms.push(new Platform(1, 2300, (canvas.height / 2), 1, false))
-    plataforms.push(new Platform(1, 2350, (canvas.height / 2), 3, false))
-    plataforms.push(new Platform(1, 2400, (canvas.height / 2), 3, false))
-    plataforms.push(new Platform(1, 2450, (canvas.height / 2), 1, false))
-    plataforms.push(new Platform(1, 2700, (canvas.height / 2), 1, false))
-    plataforms.push(new Platform(1, 2750, (canvas.height / 2), 1, false))
-    plataforms.push(new Platform(1, 2800, (canvas.height / 2) + 50, 5, false))
-    plataforms.push(new Platform(1, 3100, (canvas.height / 2) + 100, 5, false))
-    plataforms.push(new Platform(1, 3300, (canvas.height / 2), 3, false))
-    plataforms.push(new Platform(1, 3350, (canvas.height / 2), 3, false))
-    plataforms.push(new Platform(1, 3850, (canvas.height / 2), 6, false))
+    platforms.push(new Platform(1, 400, (canvas.height / 2), 1, false))
+    platforms.push(new Platform(1, 450, (canvas.height / 2), 1, false))
+    platforms.push(new Platform(1, 500, (canvas.height / 2), 1, false))
+    platforms.push(new Platform(1, 550, (canvas.height / 2), 1, false))
+    platforms.push(new Platform(1, 600, (canvas.height / 2), 1, false))
+    platforms.push(new Platform(1, 550, (canvas.height / 2) + 50, 2, false))
+    platforms.push(new Platform(1, 600, (canvas.height / 2) + 50, 2, false))
+    platforms.push(new Platform(1, 550, (canvas.height / 2) + 100, 2, false))
+    platforms.push(new Platform(1, 600, (canvas.height / 2) + 100, 2, false))
+    platforms.push(new Platform(1, 750, (canvas.height / 2), 1, false))
+    platforms.push(new Platform(1, 750, (canvas.height / 2) + 50, 2, false))
+    platforms.push(new Platform(1, 800, (canvas.height / 2), 1, false))
+    platforms.push(new Platform(1, 800, (canvas.height / 2) + 50, 2, false))
+    platforms.push(new Platform(1, 750, (canvas.height / 2) + 100, 2, false))
+    platforms.push(new Platform(1, 800, (canvas.height / 2) + 100, 2, false))
+    platforms.push(new Platform(1, 650, (canvas.height / 2), 3, false))
+    platforms.push(new Platform(1, 700, (canvas.height / 2), 3, false))
+    platforms.push(new Platform(1, 850, (canvas.height / 2), 3, false))
+    platforms.push(new Platform(1, 900, (canvas.height / 2), 3, false))
+    platforms.push(new Platform(1, 950, (canvas.height / 2), 1, false))
+    platforms.push(new Platform(1, 950, (canvas.height / 2) + 50, 2, false))
+    platforms.push(new Platform(1, 950, (canvas.height / 2) + 100, 2, false))
+    platforms.push(new Platform(1, 1000, (canvas.height / 2), 1, false))
+    platforms.push(new Platform(1, 1000, (canvas.height / 2) + 50, 2, false))
+    platforms.push(new Platform(1, 1050, (canvas.height / 2), 1, false))
+    platforms.push(new Platform(1, 1400, (canvas.height / 2), 3, false))
+    platforms.push(new Platform(1, 1450, (canvas.height / 2), 3, false))
+    platforms.push(new Platform(1, 1650, (canvas.height / 2), 1, false))
+    platforms.push(new Platform(1, 1700, (canvas.height / 2), 1, false))
+    platforms.push(new Platform(1, 1700, (canvas.height / 2) + 50, 2, false))
+    platforms.push(new Platform(1, 1750, (canvas.height / 2) + 50, 4, false))
+    platforms.push(new Platform(1, 1800, (canvas.height / 2) + 50, 4, false))
+    platforms.push(new Platform(1, 1850, (canvas.height / 2) + 50, 4, false))
+    platforms.push(new Platform(1, 1800, (canvas.height / 2) + 100, 5, false))
+    platforms.push(new Platform(1, 1900, (canvas.height / 2) + 50, 2, false))
+    platforms.push(new Platform(1, 1900, (canvas.height / 2), 1, false))
+    platforms.push(new Platform(1, 2300, (canvas.height / 2), 1, false))
+    platforms.push(new Platform(1, 2350, (canvas.height / 2), 3, false))
+    platforms.push(new Platform(1, 2400, (canvas.height / 2), 3, false))
+    platforms.push(new Platform(1, 2450, (canvas.height / 2), 1, false))
+    platforms.push(new Platform(1, 2700, (canvas.height / 2), 1, false))
+    platforms.push(new Platform(1, 2750, (canvas.height / 2), 1, false))
+    platforms.push(new Platform(1, 2800, (canvas.height / 2) + 50, 5, false))
+    platforms.push(new Platform(1, 3100, (canvas.height / 2) + 100, 5, false))
+    platforms.push(new Platform(1, 3300, (canvas.height / 2), 3, false))
+    platforms.push(new Platform(1, 3350, (canvas.height / 2), 3, false))
+    platforms.push(new Platform(1, 3850, (canvas.height / 2), 6, false))
     */
 
     //Level 2
     //up 
     /*
-    plataforms.push(new Platform(2, 450, (canvas.height / 2) - 50, 1, true))
-    plataforms.push(new Platform(2, 600, (canvas.height / 2) - 50, 1, true))
-    plataforms.push(new Platform(2, 750, (canvas.height / 2) - 50, 1, true))
-    plataforms.push(new Platform(2, 900, (canvas.height / 2) - 50, 1, true))
-    plataforms.push(new Platform(2, 1050, (canvas.height / 2) - 100, 5, true)) //type 8
-    plataforms.push(new Platform(2, 1300, (canvas.height / 2) - 50, 1, true))
-    plataforms.push(new Platform(2, 1350, (canvas.height / 2) - 50, 1, true))
-    plataforms.push(new Platform(2, 1350, (canvas.height / 2) - 100, 1, true))
-    plataforms.push(new Platform(2, 1350, (canvas.height / 2) - 150, 1, true))
-    plataforms.push(new Platform(2, 1700, (canvas.height / 2) - 100, 6, true)) //type 9
+    platforms.push(new Platform(2, 450, (canvas.height / 2) - 50, 1, true))
+    platforms.push(new Platform(2, 600, (canvas.height / 2) - 50, 1, true))
+    platforms.push(new Platform(2, 750, (canvas.height / 2) - 50, 1, true))
+    platforms.push(new Platform(2, 900, (canvas.height / 2) - 50, 1, true))
+    platforms.push(new Platform(2, 1050, (canvas.height / 2) - 100, 5, true)) //type 8
+    platforms.push(new Platform(2, 1300, (canvas.height / 2) - 50, 1, true))
+    platforms.push(new Platform(2, 1350, (canvas.height / 2) - 50, 1, true))
+    platforms.push(new Platform(2, 1350, (canvas.height / 2) - 100, 1, true))
+    platforms.push(new Platform(2, 1350, (canvas.height / 2) - 150, 1, true))
+    platforms.push(new Platform(2, 1700, (canvas.height / 2) - 100, 6, true)) //type 9
 
         //up second
-        plataforms.push(new Platform(2, 2800, (canvas.height / 2) - 150, 5, true))
-        plataforms.push(new Platform(2, 2800, (canvas.height / 2) - 100, 5, true))
-        plataforms.push(new Platform(2, 2800, (canvas.height / 2) - 50, 5, true))
-        plataforms.push(new Platform(2, 3050, (canvas.height / 2) - 150, 5, true))
-        plataforms.push(new Platform(2, 3050, (canvas.height / 2) - 100, 5, true))
-        plataforms.push(new Platform(2, 3050, (canvas.height / 2) - 50, 5, true))
+        platforms.push(new Platform(2, 2800, (canvas.height / 2) - 150, 5, true))
+        platforms.push(new Platform(2, 2800, (canvas.height / 2) - 100, 5, true))
+        platforms.push(new Platform(2, 2800, (canvas.height / 2) - 50, 5, true))
+        platforms.push(new Platform(2, 3050, (canvas.height / 2) - 150, 5, true))
+        platforms.push(new Platform(2, 3050, (canvas.height / 2) - 100, 5, true))
+        platforms.push(new Platform(2, 3050, (canvas.height / 2) - 50, 5, true))
 
-        plataforms.push(new Platform(2, 3400, (canvas.height / 2) - 100, 6, true)) //type 10
+        platforms.push(new Platform(2, 3400, (canvas.height / 2) - 100, 6, true)) //type 10
         
 
 
     //down
-    plataforms.push(new Platform(2, 550, (canvas.height / 2) , 1, false))
-    plataforms.push(new Platform(2, 600, (canvas.height / 2) +50 , 5, false)) //type 8
-    plataforms.push(new Platform(2, 850, (canvas.height / 2) , 1, false))
-    plataforms.push(new Platform(2, 850, (canvas.height / 2) +50 , 2, false))
-    plataforms.push(new Platform(2, 900, (canvas.height / 2) +100 , 5, false))
-    plataforms.push(new Platform(2, 900, (canvas.height / 2) +50 , 4, false))
-    plataforms.push(new Platform(2, 950, (canvas.height / 2) +50 , 4, false))
-    plataforms.push(new Platform(2, 1000, (canvas.height / 2) +50 , 4, false))
-    plataforms.push(new Platform(2, 1050, (canvas.height / 2) +50 , 4, false))
-    plataforms.push(new Platform(2, 1100, (canvas.height / 2) , 1, false))
-    plataforms.push(new Platform(2, 1100, (canvas.height / 2) +50 , 2, false))
-    plataforms.push(new Platform(2, 1150, (canvas.height / 2) +100 , 5, false))
-    plataforms.push(new Platform(2, 1400, (canvas.height / 2) , 3, false))
-    plataforms.push(new Platform(2, 1450, (canvas.height / 2) , 1, false))
-    plataforms.push(new Platform(2, 1700, (canvas.height / 2), 6, false))
+    platforms.push(new Platform(2, 550, (canvas.height / 2) , 1, false))
+    platforms.push(new Platform(2, 600, (canvas.height / 2) +50 , 5, false)) //type 8
+    platforms.push(new Platform(2, 850, (canvas.height / 2) , 1, false))
+    platforms.push(new Platform(2, 850, (canvas.height / 2) +50 , 2, false))
+    platforms.push(new Platform(2, 900, (canvas.height / 2) +100 , 5, false))
+    platforms.push(new Platform(2, 900, (canvas.height / 2) +50 , 4, false))
+    platforms.push(new Platform(2, 950, (canvas.height / 2) +50 , 4, false))
+    platforms.push(new Platform(2, 1000, (canvas.height / 2) +50 , 4, false))
+    platforms.push(new Platform(2, 1050, (canvas.height / 2) +50 , 4, false))
+    platforms.push(new Platform(2, 1100, (canvas.height / 2) , 1, false))
+    platforms.push(new Platform(2, 1100, (canvas.height / 2) +50 , 2, false))
+    platforms.push(new Platform(2, 1150, (canvas.height / 2) +100 , 5, false))
+    platforms.push(new Platform(2, 1400, (canvas.height / 2) , 3, false))
+    platforms.push(new Platform(2, 1450, (canvas.height / 2) , 1, false))
+    platforms.push(new Platform(2, 1700, (canvas.height / 2), 6, false))
 
         //down second
-        plataforms.push(new Platform(2, 4000, (canvas.height / 2) - 50, 1, true))
-        plataforms.push(new Platform(2, 4050, (canvas.height / 2) - 50, 3, true))  
-        plataforms.push(new Platform(2, 4100, (canvas.height / 2) - 50, 3, true)) 
-        plataforms.push(new Platform(2, 4150, (canvas.height / 2) - 50, 3, true)) 
-        plataforms.push(new Platform(2, 4200, (canvas.height / 2) - 50, 1, true)) 
+        platforms.push(new Platform(2, 4000, (canvas.height / 2) - 50, 1, true))
+        platforms.push(new Platform(2, 4050, (canvas.height / 2) - 50, 3, true))  
+        platforms.push(new Platform(2, 4100, (canvas.height / 2) - 50, 3, true)) 
+        platforms.push(new Platform(2, 4150, (canvas.height / 2) - 50, 3, true)) 
+        platforms.push(new Platform(2, 4200, (canvas.height / 2) - 50, 1, true)) 
 
-        plataforms.push(new Platform(2, 4500, (canvas.height / 2) - 100, 6, true)) //type 10
+        platforms.push(new Platform(2, 4500, (canvas.height / 2) - 100, 6, true)) //type 10
     */
 
     //Level 3
     //Up
-    plataforms.push(new Platform(3, 550, (canvas.height / 2) - 50, 5, true))
-    plataforms.push(new Platform(3, 550, (canvas.height / 2) - 100, 5, true))
-    plataforms.push(new Platform(3, 950, (canvas.height / 2) - 50, 5, true))
-    plataforms.push(new Platform(3, 1000, (canvas.height / 2) - 50, 1, true))
-    plataforms.push(new Platform(3, 1000, (canvas.height / 2) - 100, 2, true))
-    plataforms.push(new Platform(3, 1050, (canvas.height / 2) - 100, 4, true))
-    plataforms.push(new Platform(3, 1100, (canvas.height / 2) - 100, 4, true))
-    plataforms.push(new Platform(3, 1150, (canvas.height / 2) - 100, 4, true))
-    plataforms.push(new Platform(3, 1200, (canvas.height / 2) - 100, 4, true))
-    plataforms.push(new Platform(3, 1250, (canvas.height / 2) - 100, 4, true))
-    plataforms.push(new Platform(3, 1300, (canvas.height / 2) - 100, 2, true))
-    plataforms.push(new Platform(3, 1300, (canvas.height / 2) - 50, 2, true))
-    plataforms.push(new Platform(3, 1050, (canvas.height / 2) - 150, 5, true))
-    plataforms.push(new Platform(3, 1200, (canvas.height / 2) - 150, 5, true))
-    plataforms.push(new Platform(3, 1450, (canvas.height / 2) - 50, 1, true))
-    plataforms.push(new Platform(3, 1450, (canvas.height / 2) - 100, 2, true))
-    plataforms.push(new Platform(3, 1500, (canvas.height / 2) - 150, 5, true))
-    plataforms.push(new Platform(3, 1950, (canvas.height / 2) - 50, 1, true))
-    plataforms.push(new Platform(3, 2050, (canvas.height / 2) - 150, 2, true))
-    plataforms.push(new Platform(3, 2100, (canvas.height / 2) - 150, 2, true))
-    plataforms.push(new Platform(3, 2100, (canvas.height / 2) - 100, 5, true))
-    plataforms.push(new Platform(3, 2100, (canvas.height / 2) - 50, 5, true))
+    platforms.push(new Platform(3, 550, (canvas.height / 2) - 50, 5, true))
+    platforms.push(new Platform(3, 550, (canvas.height / 2) - 100, 5, true))
+    platforms.push(new Platform(3, 950, (canvas.height / 2) - 50, 5, true))
+    platforms.push(new Platform(3, 1000, (canvas.height / 2) - 50, 1, true))
+    platforms.push(new Platform(3, 1000, (canvas.height / 2) - 100, 2, true))
+    platforms.push(new Platform(3, 1050, (canvas.height / 2) - 100, 4, true))
+    platforms.push(new Platform(3, 1100, (canvas.height / 2) - 100, 4, true))
+    platforms.push(new Platform(3, 1150, (canvas.height / 2) - 100, 4, true))
+    platforms.push(new Platform(3, 1200, (canvas.height / 2) - 100, 4, true))
+    platforms.push(new Platform(3, 1250, (canvas.height / 2) - 100, 4, true))
+    platforms.push(new Platform(3, 1300, (canvas.height / 2) - 100, 2, true))
+    platforms.push(new Platform(3, 1300, (canvas.height / 2) - 50, 2, true))
+    platforms.push(new Platform(3, 1050, (canvas.height / 2) - 150, 5, true))
+    platforms.push(new Platform(3, 1200, (canvas.height / 2) - 150, 5, true))
+    platforms.push(new Platform(3, 1450, (canvas.height / 2) - 50, 1, true))
+    platforms.push(new Platform(3, 1450, (canvas.height / 2) - 100, 2, true))
+    platforms.push(new Platform(3, 1500, (canvas.height / 2) - 150, 5, true))
+    platforms.push(new Platform(3, 1950, (canvas.height / 2) - 50, 1, true))
+    platforms.push(new Platform(3, 2050, (canvas.height / 2) - 150, 2, true))
+    platforms.push(new Platform(3, 2100, (canvas.height / 2) - 150, 2, true))
+    platforms.push(new Platform(3, 2100, (canvas.height / 2) - 100, 5, true))
+    platforms.push(new Platform(3, 2100, (canvas.height / 2) - 50, 5, true))
 
     //Down
-    plataforms.push(new Platform(3, 700, (canvas.height / 2), 5, false))
-    plataforms.push(new Platform(3, 700, (canvas.height / 2) + 50, 5, false))
-    plataforms.push(new Platform(3, 1050, (canvas.height / 2), 1, false))
-    plataforms.push(new Platform(3, 1100, (canvas.height / 2), 1, false))
-    plataforms.push(new Platform(3, 1150, (canvas.height / 2), 1, false))
-    plataforms.push(new Platform(3, 1200, (canvas.height / 2) + 50, 5, false))
-    plataforms.push(new Platform(3, 1250, (canvas.height / 2), 1, false))
-    plataforms.push(new Platform(3, 1300, (canvas.height / 2), 1, false))
-    plataforms.push(new Platform(3, 1350, (canvas.height / 2), 3, false))
-    plataforms.push(new Platform(3, 1400, (canvas.height / 2), 3, false))
-    plataforms.push(new Platform(3, 1550, (canvas.height / 2) + 50, 5, false))
-    plataforms.push(new Platform(3, 1900, (canvas.height / 2), 1, false))
-    plataforms.push(new Platform(3, 2000, (canvas.height / 2) + 100, 2, false))
-    plataforms.push(new Platform(3, 2050, (canvas.height / 2) + 100, 2, false))
-    plataforms.push(new Platform(3, 2050, (canvas.height / 2) + 150, 5, false))
-    plataforms.push(new Platform(3, 2050, (canvas.height / 2) + 200, 5, false))
-    plataforms.push(new Platform(3, 2050, (canvas.height / 2) + 250, 5, false))
+    platforms.push(new Platform(3, 700, (canvas.height / 2), 5, false))
+    platforms.push(new Platform(3, 700, (canvas.height / 2) + 50, 5, false))
+    platforms.push(new Platform(3, 1050, (canvas.height / 2), 1, false))
+    platforms.push(new Platform(3, 1100, (canvas.height / 2), 1, false))
+    platforms.push(new Platform(3, 1150, (canvas.height / 2), 1, false))
+    platforms.push(new Platform(3, 1200, (canvas.height / 2) + 50, 5, false))
+    platforms.push(new Platform(3, 1250, (canvas.height / 2), 1, false))
+    platforms.push(new Platform(3, 1300, (canvas.height / 2), 1, false))
+    platforms.push(new Platform(3, 1350, (canvas.height / 2), 3, false))
+    platforms.push(new Platform(3, 1400, (canvas.height / 2), 3, false))
+    platforms.push(new Platform(3, 1550, (canvas.height / 2) + 50, 5, false))
+    platforms.push(new Platform(3, 1900, (canvas.height / 2), 1, false))
+    platforms.push(new Platform(3, 2000, (canvas.height / 2) + 100, 2, false))
+    platforms.push(new Platform(3, 2050, (canvas.height / 2) + 100, 2, false))
+    platforms.push(new Platform(3, 2050, (canvas.height / 2) + 150, 5, false))
+    platforms.push(new Platform(3, 2050, (canvas.height / 2) + 200, 5, false))
+    platforms.push(new Platform(3, 2050, (canvas.height / 2) + 250, 5, false))
 
 
     //Boss Fight
-    plataforms.push(new Platform(3, 3000, (canvas.height / 2), 2, true))
-    plataforms.push(new Platform(3, 3050, (canvas.height / 2), 2, true))
-    plataforms.push(new Platform(3, 3100, (canvas.height / 2), 2, true))
-    plataforms.push(new Platform(3, 3000, (canvas.height / 2) - 50, 2, true))
-    plataforms.push(new Platform(3, 3000, (canvas.height / 2) - 100, 2, true))
-    plataforms.push(new Platform(3, 3200, (canvas.height / 2) + 150, 1, true))
+    platforms.push(new Platform(3, 3000, (canvas.height / 2), 2, true))
+    platforms.push(new Platform(3, 3050, (canvas.height / 2), 2, true))
+    platforms.push(new Platform(3, 3100, (canvas.height / 2), 2, true))
+    platforms.push(new Platform(3, 3000, (canvas.height / 2) - 50, 2, true))
+    platforms.push(new Platform(3, 3000, (canvas.height / 2) - 100, 2, true))
+    platforms.push(new Platform(3, 3200, (canvas.height / 2) + 150, 1, true))
 
-    plataforms.push(new Platform(3, 3700, (canvas.height / 2), 2, true))
-    plataforms.push(new Platform(3, 3650, (canvas.height / 2), 2, true))
-    plataforms.push(new Platform(3, 3600, (canvas.height / 2), 2, true))
-    plataforms.push(new Platform(3, 3700, (canvas.height / 2) - 50, 2, true))
-    plataforms.push(new Platform(3, 3700, (canvas.height / 2) - 100, 2, true))
-    plataforms.push(new Platform(3, 3500, (canvas.height / 2) + 150, 1, true))
+    platforms.push(new Platform(3, 3700, (canvas.height / 2), 2, true))
+    platforms.push(new Platform(3, 3650, (canvas.height / 2), 2, true))
+    platforms.push(new Platform(3, 3600, (canvas.height / 2), 2, true))
+    platforms.push(new Platform(3, 3700, (canvas.height / 2) - 50, 2, true))
+    platforms.push(new Platform(3, 3700, (canvas.height / 2) - 100, 2, true))
+    platforms.push(new Platform(3, 3500, (canvas.height / 2) + 150, 1, true))
     //finalBoss.push(new FinalBoss())
 
     animate()
 
 }
-let playerRadius = 64 / 2
-let gap = 10
-let players = []
-let keyPressed = {
-    up: false,
-    left: false,
-    right: false,
-    space: false
-}
-let sceneLimits = {
-    left: 0,
-    right: 800
-}
-let pause = false
-let frame = 0
 
-plataforms = []
-finalBoss = []
-balls = []
 
 //Update, draw ...
 function animate() {
@@ -298,18 +302,17 @@ function animate() {
 
     if (!pause) {
         context.clearRect(sceneLimits.left, 0, sceneLimits.right, height); //clears everything
-        // generateGrid(50, "gray")
-
         context.drawImage(images.levels_background.one, 0, 0)
         context.drawImage(images.levels_background.one, 2000, 0)
 
-        plataforms.forEach(plataform => {
+        platforms.forEach(plataform => {
             plataform.draw()
         })
 
         players.forEach(player => {
             player.draw()
             player.move()
+            player.platformsCollisions()
         })
         if (sceneLimits.right <= 3998) {
             context.translate(-2, 0)
@@ -320,24 +323,6 @@ function animate() {
         frame++
     }
     window.requestAnimationFrame(animate)
-}
-
-function generateGrid(delta, color) {
-    let quantity = sceneLimits.right / delta
-    context.beginPath()
-    context.lineWidth = 1
-    for (let i = 0; i < quantity * delta; i += delta) {
-        context.strokeStyle = color
-        context.moveTo(i, 0)
-        context.lineTo(i, canvas.height)
-
-        context.moveTo(0, i)
-        context.lineTo(sceneLimits.right, i)
-
-        context.strokeText(i, sceneLimits.right - delta, i, 50)
-        context.strokeText(i, i, canvas.height, 50)
-    }
-    context.stroke()
 }
 
 

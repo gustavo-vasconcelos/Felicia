@@ -5,13 +5,17 @@ class Player {
         this.jumping = false
         this.upside = upside
         this.falling = false
-        this.d = 5
+        this.v0 = 5
         this.currFrame = 0
 
         this.groundHeight = canvas.height / 2
-        this.spriteSheet = {
-            frameSize: {
+        this.frameSize = {
+            idle: {
                 x: 38,
+                y: 64
+            },
+            walk: {
+                x: 40,
                 y: 64
             }
         }
@@ -20,66 +24,101 @@ class Player {
 
     draw() {
         context.fillRect(
-            this.x - this.spriteSheet.frameSize.x / 2,
-            this.y - this.spriteSheet.frameSize.y / 2,
-            this.spriteSheet.frameSize.x - 10,
-            this.spriteSheet.frameSize.y
+            this.x - this.frameSize.x / 2,
+            this.y - this.frameSize.y / 2,
+            this.frameSize.x - 10,
+            this.frameSize.y
         )
+
+        context.beginPath()
+        context.moveTo(this.x, this.y)
+        context.lineTo(sceneLimits.right + 50, this.y)
+        context.stroke()
+
+        context.beginPath()
+        context.moveTo(this.x, this.y)
+        context.lineTo(this.x, canvas.height)
+        context.stroke()
 
         switch (this.currAnimation) {
             case "idleRight":
                 if (!this.upside) {
                     context.drawImage(
                         images.characters.light.idle,
-                        this.currFrame * this.spriteSheet.frameSize.x,
+                        this.currFrame * this.frameSize.idle.x,
                         0,
-                        this.spriteSheet.frameSize.x,
-                        this.spriteSheet.frameSize.y,
-                        this.x - this.spriteSheet.frameSize.x / 2,
-                        this.y - this.spriteSheet.frameSize.y / 2,
-                        this.spriteSheet.frameSize.x,
-                        this.spriteSheet.frameSize.y,
+                        this.frameSize.idle.x,
+                        this.frameSize.idle.y,
+                        this.x - this.frameSize.idle.x / 2,
+                        this.y - this.frameSize.idle.y / 2,
+                        this.frameSize.idle.x,
+                        this.frameSize.idle.y,
                     )
                 } else {
                     context.drawImage(
                         images.characters.dark.idle,
-                        this.currFrame * this.spriteSheet.frameSize.x,
+                        this.currFrame * this.frameSize.idle.x,
                         0,
-                        this.spriteSheet.frameSize.x,
-                        this.spriteSheet.frameSize.y,
-                        this.x - this.spriteSheet.frameSize.x / 2,
-                        this.y - this.spriteSheet.frameSize.y / 2,
-                        this.spriteSheet.frameSize.x,
-                        this.spriteSheet.frameSize.y,
+                        this.frameSize.idle.x,
+                        this.frameSize.idle.y,
+                        this.x - this.frameSize.idle.x / 2,
+                        this.y - this.frameSize.idle.y / 2,
+                        this.frameSize.idle.x,
+                        this.frameSize.idle.y,
                     )
                 }
                 break
             case "idleLeft":
+                if (!this.upside) {
+                    context.drawImage(
+                        images.characters.light.idle,
+                        this.currFrame * this.frameSize.idle.x,
+                        this.frameSize.idle.y,
+                        this.frameSize.idle.x,
+                        this.frameSize.idle.y,
+                        this.x - this.frameSize.idle.x / 2,
+                        this.y - this.frameSize.idle.y / 2,
+                        this.frameSize.idle.x,
+                        this.frameSize.idle.y,
+                    )
+                } else {
+                    context.drawImage(
+                        images.characters.dark.idle,
+                        this.currFrame * this.frameSize.idle.x,
+                        this.frameSize.idle.y,
+                        this.frameSize.idle.x,
+                        this.frameSize.idle.y,
+                        this.x - this.frameSize.idle.x / 2,
+                        this.y - this.frameSize.idle.y / 2,
+                        this.frameSize.idle.x,
+                        this.frameSize.idle.y,
+                    )
+                }
                 break
             case "walkRight":
                 if (!this.upside) {
                     context.drawImage(
                         images.characters.light.walk,
-                        this.currFrame * this.spriteSheet.frameSize.x,
+                        this.currFrame * this.frameSize.walk.x,
                         0,
-                        this.spriteSheet.frameSize.x,
-                        this.spriteSheet.frameSize.y,
-                        this.x - this.spriteSheet.frameSize.x / 2,
-                        this.y - this.spriteSheet.frameSize.y / 2,
-                        this.spriteSheet.frameSize.x,
-                        this.spriteSheet.frameSize.y,
+                        this.frameSize.walk.x,
+                        this.frameSize.walk.y,
+                        this.x - this.frameSize.walk.x / 2,
+                        this.y - this.frameSize.walk.y / 2,
+                        this.frameSize.walk.x,
+                        this.frameSize.walk.y,
                     )
                 } else {
                     context.drawImage(
-                        images.characters.dark.idle,
-                        this.currFrame * this.spriteSheet.frameSize.x,
+                        images.characters.dark.walk,
+                        this.currFrame * this.frameSize.walk.x,
                         0,
-                        this.spriteSheet.frameSize.x,
-                        this.spriteSheet.frameSize.y,
-                        this.x - this.spriteSheet.frameSize.x / 2,
-                        this.y - this.spriteSheet.frameSize.y / 2,
-                        this.spriteSheet.frameSize.x,
-                        this.spriteSheet.frameSize.y,
+                        this.frameSize.walk.x,
+                        this.frameSize.walk.y,
+                        this.x - this.frameSize.walk.x / 2,
+                        this.y - this.frameSize.walk.y / 2,
+                        this.frameSize.walk.x,
+                        this.frameSize.walk.y,
                     )
                 }
                 break
@@ -87,29 +126,29 @@ class Player {
                 if (!this.upside) {
                     context.drawImage(
                         images.characters.light.walk,
-                        this.currFrame * this.spriteSheet.frameSize.x,
-                        this.spriteSheet.frameSize.y,
-                        this.spriteSheet.frameSize.x,
-                        this.spriteSheet.frameSize.y,
-                        this.x - this.spriteSheet.frameSize.x / 2,
-                        this.y - this.spriteSheet.frameSize.y / 2,
-                        this.spriteSheet.frameSize.x,
-                        this.spriteSheet.frameSize.y,
+                        this.currFrame * this.frameSize.walk.x,
+                        this.frameSize.walk.y,
+                        this.frameSize.walk.x,
+                        this.frameSize.walk.y,
+                        this.x - this.frameSize.walk.x / 2,
+                        this.y - this.frameSize.walk.y / 2,
+                        this.frameSize.walk.x,
+                        this.frameSize.walk.y,
                     )
                 } else {
                     context.drawImage(
-                        images.characters.dark.idle,
-                        this.currFrame * this.spriteSheet.frameSize.x,
-                        this.spriteSheet.frameSize.y,
-                        this.spriteSheet.frameSize.x,
-                        this.spriteSheet.frameSize.y,
-                        this.x - this.spriteSheet.frameSize.x / 2,
-                        this.y - this.spriteSheet.frameSize.y / 2,
-                        this.spriteSheet.frameSize.x,
-                        this.spriteSheet.frameSize.y,
+                        images.characters.dark.walk,
+                        this.currFrame * this.frameSize.walk.x,
+                        this.frameSize.walk.y,
+                        this.frameSize.walk.x,
+                        this.frameSize.walk.y,
+                        this.x - this.frameSize.walk.x / 2,
+                        this.y - this.frameSize.walk.y / 2,
+                        this.frameSize.walk.x,
+                        this.frameSize.walk.y,
                     )
                 }
-                break            
+                break
         }
 
         if (frame % 10 === 0) {
@@ -135,35 +174,31 @@ class Player {
         }
 
         if (keyPressed.right) {
-            this.x += this.d
+            this.x += this.v0
         }
 
         if (keyPressed.left) {
-            this.x -= this.d
+            this.x -= this.v0
         }
 
 
         if (this.jumping && keyPressed.up) {
             if (this.upside) {
-                this.y += this.d + 10
+                this.y += this.v0 + 10
             } else {
-                this.y -= this.d + 10
+                this.y -= this.v0 + 10
             }
-            //this.jumping = false
         }
 
         if (this.jumping && !keyPressed.up) {
             this.falling = true
-            //while (!(this.y + playerRadius >= canvas.height / 2)) {
-            //console.log("OLA")
             if (!this.upside) {
-                this.y += this.d
+                this.y += this.v0
                 this.y -= 0.2
             } else {
-                this.y -= this.d
+                this.y -= this.v0
                 this.y += 0.2
             }
-            // }
         }
 
         if (!this.upside) { //CIMA
@@ -189,5 +224,28 @@ class Player {
 
         }
 
+    }
+
+    platformsCollisions() {
+        players.forEach(player => {
+            platforms.forEach(platform => {
+                if (platform.x >= sceneLimits.left && platform.x <= sceneLimits.right) {
+                    // sprite dimensions differs according to animation walk or idle
+                    if (player.currAnimation === "walkRight" || player.currAnimation === "walkLeft") {
+                        // left
+                        if (player.x + player.frameSize.walk.x / 2 >= platform.x && player.y - player.frameSize.walk.y / 2 >= platform.y) {
+                            player.x = platform.x - player.frameSize.walk.x / 2
+                        }
+
+
+                    } else {
+                        // left
+                        if (player.x + player.frameSize.idle.x / 2 >= platform.x && player.y - player.frameSize.idle.y / 2 >= platform.y) {
+                            player.x = platform.x - player.frameSize.idle.x / 2
+                        }
+                    }
+                }
+            })
+        })
     }
 }
