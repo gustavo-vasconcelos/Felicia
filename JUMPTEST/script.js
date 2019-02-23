@@ -4,6 +4,10 @@ let context = null;
 const width = 800;
 const height = 600;
 
+//Sons
+var theme = "Theme"
+let clicks = 0
+
 
 let images = {
     characters: {
@@ -19,6 +23,7 @@ images.levels_background.one.src = "img/levels_background/one.png"
 
 //OnLoad
 window.onload = function () {
+
     canvas = document.getElementById("my_canvas");
     context = canvas.getContext("2d");
 
@@ -44,6 +49,9 @@ function game() {
         //Or That
         timer = window.setInterval(animate, 1000 / 60);
     }
+
+    //LOAD SOUNDS
+    createjs.Sound.registerSound("DARK.mp3", theme);
 
     window.addEventListener("keyup", keyUp)
     window.addEventListener("keydown", keyDown)
@@ -175,6 +183,12 @@ plataforms = []
 
 //Update, draw ...
 function animate() {
+
+    if (clicks == 1) {
+        createjs.Sound.play(theme);
+        clicks++
+    }
+
     if (keyPressed.space && !pause) {
         pause = true
     } else if (keyPressed.space && pause) {
@@ -204,7 +218,10 @@ function animate() {
             player.move()
         })
         if (sceneLimits.right <= 3998) {
-            context.translate(-2, 0)
+            if (!clicks == 0) {
+                context.translate(-2, 0)
+            }
+
             sceneLimits.left += 2
             sceneLimits.right += 2
         }
@@ -395,16 +412,20 @@ function keyDown(e) {
     switch (e.keyCode) {
         case 38:
             keyPressed.up = true
+            clicks++
             break
         case 37:
             keyPressed.left = true
+            clicks++
             break
         case 39:
             keyPressed.right = true
+            clicks++
             changePlayersAnimation("walkRight")
             break
         case 32:
             keyPressed.space = true
+            clicks++
             break
     }
 }
@@ -420,6 +441,7 @@ function keyUp(e) {
         case 39:
             keyPressed.right = false
             changePlayersAnimation("idleRight")
+            //startedGame = true
             break
         case 32:
             keyPressed.space = false
