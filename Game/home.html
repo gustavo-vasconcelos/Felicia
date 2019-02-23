@@ -27,44 +27,48 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg">
-        <a class="navbar-brand" href="#"><h2>NOT A NAME</h2></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Início<span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Equipa</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Arte</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
     <div class="container-fluid">
-        <h1 class="text-center display-2">FELICIA</h1>
+        <div id="title" class="row justify-content-md-center mt-3">
+            <img src="img/ui/title.png" height="100px">
+        </div>
+        <h3 class="text-center">Not a Name</h3>
 
         <!--Canvas-->
         <canvas id="my_canvas" class="mr-auto ml-auto">
             Your browser does not support canvas. Sorry!
         </canvas>
 
-        <div id="buttons">
-            <button onclick="zero()">0</button>
-            <button onclick="one()">1</button>
-            <button onclick="two()">2</button>
-            <button onclick="three()">3</button>
-            <button onclick="four()">MENU</button>
+        <div class="row justify-content-md-center mt-3">
+            <h4>Níveis: </h4>&nbsp;&nbsp;
+            <br>
+            <div id="buttons">
+                <button onclick="zero()">0</button>
+                <button onclick="one()">1</button>
+                <button onclick="two()">2</button>
+                <button onclick="three()">3</button>
+                <button onclick="four()">MENU</button>
+            </div>
+        </div>
+
+        <div id="bar" class="row justify-content-md-center mt-3">
+        </div>
+
+        <div id="art">
+            <h1 class="text-center">Arte</h1>
+            <div class="row justify-content-md-center">
+                <img src="img/levels_background/zero.png" alt="" height="350px" class="mt-4">
+                <img src="img/levels_background/one.png" alt="" height="350px" class="mt-4">
+                <img src="img/levels_background/two.png" alt="" height="350px" class="mt-4">
+                <img src="img/levels_background/three.png" alt="" height="350px" class="mt-4">
+                <img src="img/levels_background/boss.png" alt="" height="350px" class="mt-4">
+            </div>
+        </div>
+
+        <div id="bar" class="row justify-content-md-center mt-3">
         </div>
 
         <div id="footer" class="row justify-content-md-center">
-            <h5>Projeto desenvolvido por</h5>
+            <h4>Projeto desenvolvido por</h4>
             <p>
                 Adriano Portugal
                 <br>
