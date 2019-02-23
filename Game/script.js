@@ -25,6 +25,9 @@ let platforms = []
 let finalBoss = []
 let balls = []
 
+
+let Engine, Render, World, Bodies, engine, render
+
 //OnLoad
 window.onload = function () {
     canvas = document.getElementById("my_canvas");
@@ -35,28 +38,48 @@ window.onload = function () {
 
     context.clearRect(0, 0, width, height); //clears everything
 
-    game();
+
+
+    // module aliases
+    Engine = Matter.Engine
+    Render = Matter.Render
+    World = Matter.World
+    Bodies = Matter.Bodies
+
+    // create an engine
+    engine = Engine.create()
+
+    // create a renderer
+    render = Render.create({
+        element: canvas,
+        engine: engine
+    })
+
+    // create two boxes and a ground
+    var boxA = Bodies.rectangle(400, 200, 80, 80);
+    var boxB = Bodies.rectangle(450, 50, 80, 80);
+    var ground = Bodies.rectangle(400, 610, 810, 60, { isStatic: true });
+
+    // add all of the bodies to the world
+    World.add(engine.world, [boxA, boxB, ground]);
+
+    // run the engine
+    Engine.run(engine);
+
+    // run the renderer
+    Render.run(render);
+
+
+
+    game()
 }
 
 //Preload, mouse events
 function game() {
-
-    //Load images here
-    img = new Image();
-    img.onload = function () {
-
-        //Mouse events
-        //canvas.addEventListener("click", MouseClick);
-
-        //This
-        //Or That
-        timer = window.setInterval(animate, 1000 / 60);
-    }
-
     window.addEventListener("keyup", keyUp)
     window.addEventListener("keydown", keyDown)
 
-    players.push(new Player(playerRadius, canvas.height / 2 - playerRadius, false))
+    players.push(new Player(playerRadius, canvas.height / 2 - playerRadius - 1, false))
     players.push(new Player(playerRadius, canvas.height / 2 + playerRadius, true))
 
     //level, x, y, type, side
@@ -323,6 +346,8 @@ function animate() {
         frame++
     }
     window.requestAnimationFrame(animate)
+
+    Render.run(runner, engine)
 }
 
 
