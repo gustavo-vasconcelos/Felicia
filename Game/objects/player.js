@@ -82,7 +82,6 @@ class Player {
                         this.spriteSheet.frameSize.y,
                     )
                 }
-                
                 break
             case "walkLeft":
                 if (!this.upside) {
