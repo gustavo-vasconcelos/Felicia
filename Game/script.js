@@ -415,19 +415,19 @@ function animate() {
         }
 
 
-
-        if (currentLevel != 3) {
-            if (sceneLimits.right <= 3998) {
-                context.translate(-2, 0)
-                sceneLimits.left += 2
-                sceneLimits.right += 2
-            }
-        } else {
-            if (sceneLimits.right <= 3775) {
-                context.translate(-2, 0)
-                sceneLimits.left += 2
-                sceneLimits.right += 2
-            } /*else {
+        if (clicks != 0) {
+            if (currentLevel != 3) {
+                if (sceneLimits.right <= 3998) {
+                    context.translate(-2, 0)
+                    sceneLimits.left += 2
+                    sceneLimits.right += 2
+                }
+            } else {
+                if (sceneLimits.right <= 3775) {
+                    context.translate(-2, 0)
+                    sceneLimits.left += 2
+                    sceneLimits.right += 2
+                } /*else {
                 context.clearRect(sceneLimits.left, 0, sceneLimits.right, height); //clears everything
                 boss = images.levels_background.boss
                 context.drawImage(boss, sceneLimits.left, 100)
@@ -435,11 +435,12 @@ function animate() {
                 sceneLimits.left += 2
                 sceneLimits.right += 2
             }*/else {
-                //background = images.levels_background.boss
-                context.drawImage(images.levels_background.boss, sceneLimits.left, 100)
-                platforms.forEach(plataform => {
-                    plataform.draw()
-                })
+                    //background = images.levels_background.boss
+                    context.drawImage(images.levels_background.boss, sceneLimits.left, 100)
+                    platforms.forEach(plataform => {
+                        plataform.draw()
+                    })
+                }
             }
         }
         if (currentLevel == 3 && sceneLimits.right > 3500) {
@@ -721,25 +722,25 @@ function changePlayersAnimation(animation) {
 
 function one() {
 
-    localStorage.setItem("currentLevel",1)
+    localStorage.setItem("currentLevel", 1)
     location.reload()
 
 }
 function two() {
 
-    localStorage.setItem("currentLevel",2)
+    localStorage.setItem("currentLevel", 2)
     location.reload()
 
 }
 function three() {
 
-    localStorage.setItem("currentLevel",3)
+    localStorage.setItem("currentLevel", 3)
     location.reload()
 
 }
 function four() {
 
-    localStorage.setItem("currentLevel",-1)
+    localStorage.setItem("currentLevel", -1)
     location.reload()
 
 }
