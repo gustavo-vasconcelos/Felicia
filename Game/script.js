@@ -379,6 +379,12 @@ function animate() {
         if (currentLevel == 3) {
             createjs.Sound.play(boss);
         }
+        if (currentLevel == 0) {
+            createjs.Sound.play(firstLevel)
+        }
+        if (currentLevel == 1) {
+            createjs.Sound.play(theme);
+        }
         clicks++
     }
 
@@ -450,7 +456,7 @@ function animate() {
 
         if (clicks != 0) {
             if (currentLevel == 0) {
-                if (sceneLimits.right <= 1848) {
+                if (sceneLimits.right <= 1998) {
                     context.translate(-2, 0)
                     sceneLimits.left += 2
                     sceneLimits.right += 2
