@@ -362,6 +362,16 @@ function animate() {
                 context.clearRect(sceneLimits.left, 0, sceneLimits.right, height); //clears everything
                 boss = images.levels_background.boss
                 context.drawImage(boss, sceneLimits.left, 100)
+                context.translate(-2, 0)
+                sceneLimits.left += 2
+                sceneLimits.right += 2
+            }
+            else {
+                //background = images.levels_background.boss
+                context.drawImage(images.levels_background.boss, sceneLimits.left, 0)
+                platforms.forEach(plataform => {
+                    plataform.draw()
+                })
             }
         }
 
