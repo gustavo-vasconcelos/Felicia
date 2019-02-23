@@ -77,6 +77,7 @@ window.onload = function () {
 
     // module aliases
     Engine = Matter.Engine
+    Render = Matter.Render
     World = Matter.World
     Composites = Matter.Composites
     Composite = Matter.Composite
@@ -478,7 +479,6 @@ function animate() {
         context.lineWidth = 1;
         context.strokeStyle = '#000000';
         context.stroke();
-        ground.position.x = sceneLimits.left
 
         Matter.Events.on(engine, 'beforeUpdate ', (e) => {
             keyBlocked.down = false
