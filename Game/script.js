@@ -725,3 +725,21 @@ function one() {
     location.reload()
 
 }
+function two() {
+
+    localStorage.setItem("currentLevel",2)
+    location.reload()
+
+}
+function three() {
+
+    localStorage.setItem("currentLevel",3)
+    location.reload()
+
+}
+function four() {
+
+    localStorage.setItem("currentLevel",-1)
+    location.reload()
+
+}
