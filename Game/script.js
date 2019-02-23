@@ -474,6 +474,14 @@ class Plataforms {
         this.velocity = 1
         this.currFrame = 0
         this.count = 0
+        this.groundHeight = canvas.height / 2
+        this.spriteSheet = {
+            frameSize: {
+                x: 49,
+                y: 64
+            }
+        }
+        this.currAnimation = "idleRight"
     }
     draw() {
         /*if (this.type == 3) {
@@ -548,20 +556,8 @@ class Plataforms {
             context.drawImage(images.enemies.downside.three.downsidehazardspikeTwo, this.x, this.y, this.w, this.h)
         } else if (this.type == 5 && !this.upside) {
             context.drawImage(images.enemies.downside.five.downsidehazardflyer, 0 + this.currFrame, 0, this.w, this.h, this.x, this.y, this.w, this.h);
-
-
-
-            if (this.count >= 10) {
-                this.currFrame += 50
-                this.count = 0
-            }
-
-
-            if (this.currFrame > 100) {
-                this.currFrame = 0
-            }
-            this.count += 1
         }
+
         //Monsters upside
         if (this.type == 3 && this.upside) {
 
@@ -599,10 +595,81 @@ class Plataforms {
             context.drawImage(images.tiles.downside.bridge.downsidebridge, this.x, this.y, this.w, this.h)
         }
 
+    }
+    move() {
+
+        if (this.falling) {
+            keyPressed.up = false
+        }
+
+        if (keyPressed.up && !this.jumping) {
+            this.jumping = true
+            this.falling = false
+        }
+
+
+        if (this.count >= 10) {
+            this.currFrame += 50
+            this.count = 0
+        }
+
+
+        if (this.currFrame > 100) {
+            this.currFrame = 0
+        }
+        this.count += 1
+        if (this.jumping && keyPressed.up) {
+            if (this.upside) {
+                this.y += this.d + 10
+            } else {
+                this.y -= this.d + 10
+            }
+            //this.jumping = false
+        }
+        
+
 
         //context.fillRect(this.x, this.y, this.w, this.h);
 
 
+        if (this.jumping && !keyPressed.up) {
+            this.falling = true
+            //while (!(this.y + playerRadius >= canvas.height / 2)) {
+            //console.log("OLA")
+            if (!this.upside) {
+                this.y += this.d
+                this.y -= 0.2
+            } else {
+                this.y -= this.d
+                this.y += 0.2
+            }
+            // }
+        }
+
+        if (!this.upside) { //CIMA
+            if (this.y + playerRadius >= canvas.height / 2) {
+                this.y = canvas.height / 2 - playerRadius
+                this.jumping = false
+                this.falling = false
+            }
+            if (this.groundHeight - (this.y + playerRadius) >= 150) {
+                this.falling = true
+                //LIMITE
+            }
+        } else {
+            if (this.y - playerRadius <= canvas.height / 2) {
+                this.y = canvas.height / 2 + playerRadius
+                this.jumping = false
+                this.falling = false
+            }
+            if ((this.y - playerRadius) - this.groundHeight >= 150) {
+                this.falling = true
+                //LIMITE
+            }
+
+        }
+
+        //console.log(this.jumping)
     }
 }
 /*
