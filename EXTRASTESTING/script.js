@@ -5,6 +5,7 @@ const height = 600
 
 var clicks = 0
 let currentLevel = -1 //MENU
+let background = ""
 
 //OnLoad
 window.onload = function () {
@@ -45,6 +46,19 @@ function game() {
         //This
         //Or That
         timer = window.setInterval(animate, 1000 / 60);
+    }
+
+    if (currentLevel == 1) {
+        background = images.levels_background.one
+    }
+    if (currentLevel == 2) {
+        background = images.levels_background.two
+    }
+    if (currentLevel == 3) {
+        background = images.levels_background.three
+    }
+    if (currentLevel == 4) {
+        background = images.levels_background.boss
     }
 
     window.addEventListener("keyup", keyUp)
@@ -313,7 +327,7 @@ function menu() {
     //Meter Logo Aqui
 
     context.font = "70px Helvetica";
-    context.fillText("Start Game", canvas.width/2 - (context.measureText("Start Game").width/2), 3*(canvas.height/4));
+    context.fillText("Start Game", canvas.width / 2 - (context.measureText("Start Game").width / 2), 3 * (canvas.height / 4));
 
 }
 
@@ -330,8 +344,8 @@ function animate() {
         context.clearRect(sceneLimits.left, 0, sceneLimits.right, height); //clears everything
         // generateGrid(50, "gray")
 
-        context.drawImage(images.levels_background.one, 0, 0)
-        context.drawImage(images.levels_background.one, 2000, 0)
+        context.drawImage(background, 0, 0)
+        context.drawImage(background, 2000, 0)
 
         plataforms.forEach(plataform => {
             plataform.draw()
