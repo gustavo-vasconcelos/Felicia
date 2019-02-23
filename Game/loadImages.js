@@ -16,10 +16,14 @@ let images = {
         twoOne: new Image(),
         twoSecond: new Image(),
         three: new Image(),
-        boss: new Image()
+        boss: new Image(),
+        goodbye: new Image()
     },
     tiles: {
-
+        zero: {
+            tilerock: new Image(),
+            puddle: new Image()
+        },
         one: {
             upside: {
                 type: {
@@ -107,6 +111,9 @@ let images = {
 
     },
     enemies: {
+        zero: {
+            spikehazard: new Image()
+        },
         one: {
             upside: {
                 three: {
@@ -176,6 +183,13 @@ images.levels_background.twoOne.src = "img/levels_background/twoOne.png"
 images.levels_background.twoSecond.src = "img/levels_background/twoSecond.png"
 images.levels_background.three.src = "img/levels_background/three.png"
 images.levels_background.boss.src = "img/levels_background/boss.png"
+
+images.levels_background.goodbye.src = "img/levels_background/goodbye.png"
+
+images.tiles.zero.puddle.src = "img/tiles/zero/puddle.png"
+images.tiles.zero.tilerock.src = "img/tiles/zero/tilerock.png"
+
+images.enemies.zero.spikehazard.src = "img/enemies/zero/spikehazard.png"
 
 images.tiles.one.upside.type.one.variantOne.src = "img/tiles/one/upside/type/one/variantOne.png"
 images.tiles.one.upside.type.one.variantTwo.src = "img/tiles/one/upside/type/one/variantTwo.png"

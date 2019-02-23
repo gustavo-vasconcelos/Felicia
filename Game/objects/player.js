@@ -167,15 +167,12 @@ class Player {
     }
 
     move() {
+
         this.body.position.x = this.x
         this.body.position.y = this.y
         context.beginPath()
-        context.arc(this.body.position.x, this.body.position.y+10, 20, 0, 2 * Math.PI)
-        context.stroke()
-
-        
-
-        
+        context.arc(this.body.position.x, this.body.position.y, 20, 0, 2 * Math.PI)
+        context.stroke() 
 
         if (keyPressed.right && !keyBlocked.right) {
             this.x += this.v0
@@ -237,17 +234,7 @@ class Player {
 
         }
 
-        platforms.forEach( plat => {
-            if(this.x <= plat.x + 50 && this.x >= plat.x  && this.y + 10 + 20 >= plat.y && this.x - 20 <= plat.y + 50){
-                this.y = plat.y - 64 + 10
-            }            
-            if(this.y + 10 >= plat.y  && this.y + 10 <= plat.y + 50 && this.x + 20 >= plat.x  && this.x - 20 <= plat.x + 50){
-                this.x = plat.x - 64
-            }
-            
-            
-        })
-        
+      
     }
     /*
     isCollidingWithPlatform() {
