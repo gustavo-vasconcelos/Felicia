@@ -152,8 +152,6 @@ function game() {
     plataforms.push(new Plataforms(1, 3350, (canvas.height / 2), 3, false))
     plataforms.push(new Plataforms(1, 3850, (canvas.height / 2), 6, false))
 
-
-
     animate()
     //img.src = "";
 }
@@ -239,9 +237,11 @@ class Player {
         this.x = x
         this.y = y
         this.jumping = false
+        this.falling = false
         this.upside = upside
         this.d = 5
         this.currFrame = 0
+        this.groundHeight = canvas.height / 2
         this.spriteSheet = {
             frameSize: {
                 x: 49,
@@ -299,8 +299,14 @@ class Player {
     }
 
     move() {
+
+        if (this.falling) {
+            keyPressed.up = false
+        }
+
         if (keyPressed.up && !this.jumping) {
             this.jumping = true
+            this.falling = false
         }
 
         if (keyPressed.right) {
@@ -312,32 +318,52 @@ class Player {
         }
 
 
-        if (this.jumping) {
+        if (this.jumping && keyPressed.up) {
             if (this.upside) {
                 this.y += this.d + 10
             } else {
                 this.y -= this.d + 10
             }
-            this.jumping = false
+            //this.jumping = false
         }
 
-
-        if (!this.upside) {
-            this.y += this.d
-        } else {
-            this.y -= this.d
+        if (this.jumping && !keyPressed.up) {
+            this.falling = true
+            //while (!(this.y + playerRadius >= canvas.height / 2)) {
+            //console.log("OLA")
+            if (!this.upside) {
+                this.y += this.d
+                this.y -= 0.2
+            } else {
+                this.y -= this.d
+                this.y += 0.2
+            }
+            // }
         }
 
-        if (!this.upside) {
+        if (!this.upside) { //CIMA
             if (this.y + playerRadius >= canvas.height / 2) {
                 this.y = canvas.height / 2 - playerRadius
+                this.jumping = false
+                this.falling = false
+            }
+            if (this.groundHeight - (this.y + playerRadius) >= 150) {
+                this.falling = true
+                //LIMITE
             }
         } else {
             if (this.y - playerRadius <= canvas.height / 2) {
                 this.y = canvas.height / 2 + playerRadius
+                this.jumping = false
+                this.falling = false
             }
-        }
+            if ((this.y - playerRadius) - this.groundHeight >= 150) {
+                this.falling = true
+                //LIMITE
+            }
 
+        }
+        //console.log(this.jumping)
     }
 }
 
