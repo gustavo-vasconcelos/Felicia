@@ -19,7 +19,8 @@ class Player {
         }
         this.body = Bodies.rectangle(x, y, this.frameSize.walk.x, this.frameSize.walk.y, {
             inertia: Infinity,
-            label: "character"
+            label: "character",
+            friction: 0
         })
         console.log(this.body)
         World.add(engine.world, this.body)
@@ -180,7 +181,7 @@ class Player {
             this.x -= this.v0
         }
         
-        /*
+        
         if (this.falling) {
             keyPressed.up = false
         }
@@ -231,7 +232,7 @@ class Player {
             }
 
         }
-        */     
+        
     }
     /*
     isCollidingWithPlatform() {
