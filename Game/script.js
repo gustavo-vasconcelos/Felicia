@@ -721,3 +721,28 @@ function changePlayersAnimation(animation) {
     players[0].currAnimation = animation
     players[1].currAnimation = animation
 }
+
+function one() {
+
+    localStorage.setItem("currentLevel",1)
+    location.reload()
+
+}
+function two() {
+
+    localStorage.setItem("currentLevel",2)
+    location.reload()
+
+}
+function three() {
+
+    localStorage.setItem("currentLevel",3)
+    location.reload()
+
+}
+function four() {
+
+    localStorage.setItem("currentLevel",-1)
+    location.reload()
+
+}
