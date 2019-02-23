@@ -27,13 +27,6 @@ class Platform {
         this.currAnimation = "idleRight"
     }
     draw() {
-        /*if (this.type == 3) {
-            context.fillStyle = "red"
-        }
-        else {
-            context.fillStyle = "black"
-        }*/
-
         if (this.lvl == 1) {
             //plataforms upside
             if (this.type == 1 && this.upside) {
@@ -263,8 +256,6 @@ class Platform {
 
         }
 
-
-
+        context.strokeRect(this.x, this.y, this.w, this.h)
     }
-
 }
