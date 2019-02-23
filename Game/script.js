@@ -416,16 +416,15 @@ function animate() {
 
         if (currentLevel != 3) {
             if (sceneLimits.right <= 3998) {
-/*
                 context.translate(-2, 0)
                 sceneLimits.left += 2
-                sceneLimits.right += 2*/
+                sceneLimits.right += 2
             }
         } else {
             if (sceneLimits.right <= 3775) {
-                context.translate(-10, 0)
-                sceneLimits.left += 10
-                sceneLimits.right += 10
+                context.translate(-2, 0)
+                sceneLimits.left += 2
+                sceneLimits.right += 2
             } /*else {
                 context.clearRect(sceneLimits.left, 0, sceneLimits.right, height); //clears everything
                 boss = images.levels_background.boss
