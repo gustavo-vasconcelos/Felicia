@@ -293,9 +293,6 @@ class Player {
                 }
                 break
         }
-
-
-
     }
 
     move() {
