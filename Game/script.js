@@ -6,10 +6,12 @@ const height = 600;
 
 
 let images = {
-    lightCharacter: new Image()
+    characters: {
+        lightCharacter: new Image()
+    }
 }
 
-images.lightCharacter.src = "img/lightCharacter.png"
+images.characters.lightCharacter.src = "img/characters/lightCharacter.png"
 
 //OnLoad
 window.onload = function () {
@@ -114,39 +116,54 @@ let playerRadius = 64 / 2
 let gap = 10
 let players = []
 let keyPressed = {
-    up: false
+    up: false,
+    left: false,
+    right: false,
+    space: false
 }
 let sceneLimits = {
     left: 0,
     right: 800
 }
+let pause = false
+let frame = 0
 
 plataforms = []
 
 //Update, draw ...
 function animate() {
-    context.clearRect(sceneLimits.left, 0, sceneLimits.right, height); //clears everything
-    generateGrid(50, "gray")
-    window.requestAnimationFrame(animate);
+    if (keyPressed.space && !pause) {
+        pause = true
+    } else if (keyPressed.space && pause) {
+        pause = false
+    }
 
-    context.beginPath()
-    context.lineWidth = 5
-    context.strokeStyle = "orange"
-    context.moveTo(0, canvas.height / 2)
-    context.lineTo(sceneLimits.right, canvas.height / 2)
-    context.stroke()
+    if (!pause) {
+        context.clearRect(sceneLimits.left, 0, sceneLimits.right, height); //clears everything
+        generateGrid(50, "gray")
 
-    players.forEach(player => {
-        player.draw()
-        player.move()
-    })
-    plataforms.forEach(plataform => {
-        plataform.draw()
-    })
+        context.beginPath()
+        context.lineWidth = 5
+        context.strokeStyle = "orange"
+        context.moveTo(0, canvas.height / 2)
+        context.lineTo(sceneLimits.right, canvas.height / 2)
+        context.stroke()
 
-    context.translate(-1, 0)
-    sceneLimits.left += 1
-    sceneLimits.right += 1
+        plataforms.forEach(plataform => {
+            plataform.draw()
+        })
+
+        players.forEach(player => {
+            player.draw()
+            player.move()
+        })
+        /*
+        context.translate(-1, 0)
+        sceneLimits.left += 1
+        sceneLimits.right += 1*/
+        frame++
+    }
+    window.requestAnimationFrame(animate)
 }
 
 function generateGrid(delta, color) {
@@ -174,13 +191,61 @@ class Player {
         this.jumping = false
         this.upside = upside
         this.d = 5
+        this.currFrame = 0
+        this.spriteSheet = {
+            frameSize: {
+                x: 49,
+                y: 64
+            }
+        }
+        this.currAnimation = "idleRight"
     }
 
     draw() {
-        context.drawImage(images.lightCharacter, this.x, this.y, 64, 64)
-        context.beginPath()
-        context.arc(this.x, this.y, playerRadius, 0, 2 * Math.PI)
-        context.fill()
+        context.fillRect(
+            this.x - this.spriteSheet.frameSize.x / 2,
+            this.y - this.spriteSheet.frameSize.y / 2,
+            this.spriteSheet.frameSize.x - 10,
+            this.spriteSheet.frameSize.y
+        )
+
+        switch (this.currAnimation) {
+            case "idleRight":
+                context.drawImage(
+                    images.characters.lightCharacter,
+                    0,
+                    0,
+                    this.spriteSheet.frameSize.x,
+                    this.spriteSheet.frameSize.y,
+                    this.x - this.spriteSheet.frameSize.x / 2,
+                    this.y - this.spriteSheet.frameSize.y / 2,
+                    this.spriteSheet.frameSize.x,
+                    this.spriteSheet.frameSize.y,
+                )
+                break
+            case "walkRight":
+                context.drawImage(
+                    images.characters.lightCharacter,
+                    this.currFrame * this.spriteSheet.frameSize.x,
+                    this.spriteSheet.frameSize.y,
+                    this.spriteSheet.frameSize.x,
+                    this.spriteSheet.frameSize.y,
+                    this.x - this.spriteSheet.frameSize.x / 2,
+                    this.y - this.spriteSheet.frameSize.y / 2,
+                    this.spriteSheet.frameSize.x,
+                    this.spriteSheet.frameSize.y,
+                )
+                if (frame % 3 === 0) {
+                    this.currFrame++
+                }
+                if(this.currFrame >= 2) {
+                    this.currFrame = 0
+                }
+                break
+        }
+
+
+
     }
 
     move() {
@@ -260,6 +325,10 @@ function keyDown(e) {
             break
         case 39:
             keyPressed.right = true
+            changePlayersAnimation("walkRight")
+            break
+        case 32:
+            keyPressed.space = true
             break
     }
 }
@@ -274,6 +343,15 @@ function keyUp(e) {
             break
         case 39:
             keyPressed.right = false
+            changePlayersAnimation("idleRight")
+            break
+        case 32:
+            keyPressed.space = false
             break
     }
+}
+
+function changePlayersAnimation(animation) {
+    players[0].currAnimation = animation
+    players[1].currAnimation = animation
 }
