@@ -5,6 +5,12 @@ const width = 800;
 const height = 600;
 
 
+let images = {
+    lightCharacter: new Image()
+}
+
+images.lightCharacter.src = "img/lightCharacter.png"
+
 //OnLoad
 window.onload = function () {
     canvas = document.getElementById("my_canvas");
@@ -36,8 +42,8 @@ function game() {
     window.addEventListener("keyup", keyUp)
     window.addEventListener("keydown", keyDown)
 
-    players.push(new Player(playerRadius, canvas.height / 2 - playerRadius - gap, false))
-    players.push(new Player(playerRadius, canvas.height / 2 + playerRadius + gap, true))
+    players.push(new Player(playerRadius, canvas.height / 2 - playerRadius, false))
+    players.push(new Player(playerRadius, canvas.height / 2 + playerRadius, true))
     animate()
     //img.src = "";
 }
@@ -47,30 +53,50 @@ let players = []
 let keyPressed = {
     up: false
 }
+let sceneLimits = {
+    left: 0,
+    right: 800
+}
 
 //Update, draw ...
 function animate() {
-    context.clearRect(0, 0, width, height); //clears everything
+    context.clearRect(sceneLimits.left, 0, sceneLimits.right, height); //clears everything
+    generateGrid(50, "gray")
     window.requestAnimationFrame(animate);
 
     context.beginPath()
-    context.moveTo(0, canvas.height / 2)
-    context.lineTo(canvas.width, canvas.height / 2)
-    context.stroke()
     context.lineWidth = 5
+    context.strokeStyle = "orange"
+    context.moveTo(0, canvas.height / 2)
+    context.lineTo(sceneLimits.right, canvas.height / 2)
+    context.stroke()
 
     players.forEach(player => {
         player.draw()
         player.move()
     })
 
-
-
-
+    context.translate(-1, 0)
+    sceneLimits.left += 1
+    sceneLimits.right += 1
 }
 
-function generateGrid() {
+function generateGrid(delta, color) {
+    let quantity = sceneLimits.right / delta
+    context.beginPath()
+    context.lineWidth = 1
+    for (let i = 0; i < quantity * delta; i += delta) {
+        context.strokeStyle = color
+        context.moveTo(i, 0)
+        context.lineTo(i, canvas.height)
 
+        context.moveTo(0, i)
+        context.lineTo(sceneLimits.right, i)
+
+        context.strokeText(i, sceneLimits.right - delta, i, 50)
+        context.strokeText(i, i, canvas.height, 50)
+    }
+    context.stroke()
 }
 
 class Player {
@@ -79,10 +105,11 @@ class Player {
         this.y = y
         this.jumping = false
         this.upside = upside
-        this.dy = 5
+        this.d = 5
     }
 
     draw() {
+        context.drawImage(images.lightCharacter, this.x, this.y, 64, 64)
         context.beginPath()
         context.arc(this.x, this.y, playerRadius, 0, 2 * Math.PI)
         context.fill()
@@ -93,28 +120,38 @@ class Player {
             this.jumping = true
         }
 
+        if (keyPressed.right) {
+            this.x += this.d
+        }
+
+        if (keyPressed.left) {
+            this.x -= this.d
+        }
+
+
         if (this.jumping) {
             if (this.upside) {
-                this.y += this.dy + 10
+                this.y += this.d + 10
             } else {
-                this.y -= this.dy + 10
+                this.y -= this.d + 10
             }
             this.jumping = false
         }
 
+
         if (!this.upside) {
-            this.y += this.dy
+            this.y += this.d
         } else {
-            this.y -= this.dy
+            this.y -= this.d
         }
 
         if (!this.upside) {
-            if (this.y + playerRadius + gap >= canvas.height / 2) {
-                this.y = canvas.height / 2 - playerRadius - gap
+            if (this.y + playerRadius >= canvas.height / 2) {
+                this.y = canvas.height / 2 - playerRadius
             }
         } else {
-            if (this.y - playerRadius - gap <= canvas.height / 2) {
-                this.y = canvas.height / 2 + playerRadius + gap
+            if (this.y - playerRadius <= canvas.height / 2) {
+                this.y = canvas.height / 2 + playerRadius
             }
         }
 
