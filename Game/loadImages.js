@@ -10,6 +10,7 @@ let images = {
         }
     },
     levels_background: {
+        zero: new Image(),
         one: new Image(),
         two: new Image(),
         twoOne: new Image(),
@@ -168,6 +169,7 @@ images.characters.dark.idle.src = "img/characters/dark/idle.png"
 images.characters.dark.walk.src = "img/characters/dark/walk.png"
 
 //images.characters.lightCharacter.src = "img/characters/lightCharacter.png"
+images.levels_background.zero.src = "img/levels_background/zero.png"
 images.levels_background.one.src = "img/levels_background/one.png"
 images.levels_background.two.src = "img/levels_background/two.png"
 images.levels_background.twoOne.src = "img/levels_background/twoOne.png"

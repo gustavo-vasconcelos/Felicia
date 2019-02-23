@@ -73,6 +73,9 @@ window.onload = function () {
         background = images.levels_background.three
 
     }
+    if (currentLevel == 0) {
+        background = images.levels_background.zero
+    }
 
 
     // module aliases
@@ -250,7 +253,7 @@ function game() {
         platforms.push(new Platform(2, 1350, (canvas.height / 2) - 50, 1, true))
         platforms.push(new Platform(2, 1350, (canvas.height / 2) - 100, 1, true))
         platforms.push(new Platform(2, 1350, (canvas.height / 2) - 150, 1, true))
-        platforms.push(new Platform(2, 1700, (canvas.height / 2) - 100, 6, true)) //type 9
+        platforms.push(new Platform(2, 1700, (canvas.height / 2) - 100, 9, true)) //type 9
 
         //up second
         platforms.push(new Platform(2, 2800, (canvas.height / 2) - 150, 5, true))
@@ -260,7 +263,7 @@ function game() {
         platforms.push(new Platform(2, 3050, (canvas.height / 2) - 100, 5, true))
         platforms.push(new Platform(2, 3050, (canvas.height / 2) - 50, 5, true))
 
-        platforms.push(new Platform(2, 3400, (canvas.height / 2) - 100, 6, true)) //type 10
+        platforms.push(new Platform(2, 3400, (canvas.height / 2) - 100, 9, true)) //type 10
 
         //down
         platforms.push(new Platform(2, 550, (canvas.height / 2), 1, false))
@@ -277,16 +280,16 @@ function game() {
         platforms.push(new Platform(2, 1150, (canvas.height / 2) + 100, 5, false))
         platforms.push(new Platform(2, 1400, (canvas.height / 2), 3, false))
         platforms.push(new Platform(2, 1450, (canvas.height / 2), 1, false))
-        platforms.push(new Platform(2, 1700, (canvas.height / 2), 6, false))
+        platforms.push(new Platform(2, 1700, (canvas.height / 2), 9, false))
 
         //down second
-        platforms.push(new Platform(2, 4000, (canvas.height / 2) - 50, 1, true))
-        platforms.push(new Platform(2, 4050, (canvas.height / 2) - 50, 3, true))
-        platforms.push(new Platform(2, 4100, (canvas.height / 2) - 50, 3, true))
-        platforms.push(new Platform(2, 4150, (canvas.height / 2) - 50, 3, true))
-        platforms.push(new Platform(2, 4200, (canvas.height / 2) - 50, 1, true))
+        platforms.push(new Platform(2, 4000, (canvas.height / 2), 1, false))
+        platforms.push(new Platform(2, 4050, (canvas.height / 2), 3, false))
+        platforms.push(new Platform(2, 4100, (canvas.height / 2), 3, false))
+        platforms.push(new Platform(2, 4150, (canvas.height / 2), 3, false))
+        platforms.push(new Platform(2, 4200, (canvas.height / 2), 1, false))
 
-        platforms.push(new Platform(2, 4500, (canvas.height / 2) - 100, 6, true)) //type 10
+        platforms.push(new Platform(2, 4500, (canvas.height / 2), 9, false)) //type 10
     }
 
     //Level 3
@@ -374,6 +377,7 @@ function animate() {
         context.clearRect(sceneLimits.left, 0, sceneLimits.right, height); //clears everything
         context.drawImage(background, 0, 0)
         context.drawImage(background, 2000, 0)
+        context.drawImage(background, 4000, 0)
 
         platforms.forEach(plataform => {
             plataform.draw()
@@ -416,30 +420,37 @@ function animate() {
 
 
         if (clicks != 0) {
-            if (currentLevel != 3) {
+            if (currentLevel == 0) {
                 if (sceneLimits.right <= 3998) {
                     context.translate(-2, 0)
                     sceneLimits.left += 2
                     sceneLimits.right += 2
                 }
-            } else {
+            }
+            if (currentLevel == 1) {
+                if (sceneLimits.right <= 3998) {
+                    context.translate(-2, 0)
+                    sceneLimits.left += 2
+                    sceneLimits.right += 2
+                }
+            } if (currentLevel == 3) {
                 if (sceneLimits.right <= 3775) {
                     context.translate(-2, 0)
                     sceneLimits.left += 2
                     sceneLimits.right += 2
-                } /*else {
-                context.clearRect(sceneLimits.left, 0, sceneLimits.right, height); //clears everything
-                boss = images.levels_background.boss
-                context.drawImage(boss, sceneLimits.left, 100)
-                context.translate(-2, 0)
-                sceneLimits.left += 2
-                sceneLimits.right += 2
-            }*/else {
+                } else {
                     //background = images.levels_background.boss
                     context.drawImage(images.levels_background.boss, sceneLimits.left, 100)
                     platforms.forEach(plataform => {
                         plataform.draw()
                     })
+                }
+            }
+            if (currentLevel == 2) {
+                if (sceneLimits.right <= 4698) {
+                    context.translate(-2, 0)
+                    sceneLimits.left += 2
+                    sceneLimits.right += 2
                 }
             }
         }
@@ -741,6 +752,12 @@ function three() {
 function four() {
 
     localStorage.setItem("currentLevel", -1)
+    location.reload()
+
+}
+function zero() {
+
+    localStorage.setItem("currentLevel", 0)
     location.reload()
 
 }
