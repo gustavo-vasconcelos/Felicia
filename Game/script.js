@@ -29,9 +29,6 @@ let platforms = []
 let finalBoss = []
 let balls = []
 
-
-let Engine, Render, World, Bodies, engine, render
-
 //OnLoad
 window.onload = function () {
 
@@ -384,8 +381,6 @@ function animate() {
         frame++
     }
     window.requestAnimationFrame(animate)
-
-    Render.run(runner, engine)
 }
 
 function menu() {
