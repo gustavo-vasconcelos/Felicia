@@ -456,7 +456,7 @@ function animate() {
 
         if (clicks != 0) {
             if (currentLevel == 0) {
-                if (sceneLimits.right <= 1848) {
+                if (sceneLimits.right <= 1998) {
                     context.translate(-2, 0)
                     sceneLimits.left += 2
                     sceneLimits.right += 2
