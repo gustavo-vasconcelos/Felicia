@@ -24,7 +24,11 @@ class Platform {
                 y: 64
             }
         }
-        this.currAnimation = "idleRight"
+        this.body = Bodies.rectangle(x + this.w / 2, y + this.h / 2, this.w, this.h, {
+            isStatic: true,
+            label: "platform"
+        })
+        World.add(engine.world, this.body)
     }
     draw() {
         if (this.lvl == 1) {
@@ -137,12 +141,6 @@ class Platform {
             if (this.type == 4 && !this.upside) {
                 context.drawImage(images.tiles.one.downside.bridge.downsidebridge, this.x, this.y, this.w, this.h)
             }
-
-            context.beginPath()
-            context.moveTo(this.x, this.y)
-            context.lineTo(this.x, 0)
-            context.stroke()
-
         }
 
         if (this.lvl == 2) {
@@ -255,7 +253,5 @@ class Platform {
 
 
         }
-
-        context.strokeRect(this.x, this.y, this.w, this.h)
     }
 }

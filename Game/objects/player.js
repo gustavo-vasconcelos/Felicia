@@ -7,7 +7,6 @@ class Player {
         this.falling = false
         this.v0 = 5
         this.currFrame = 0
-
         this.frameSize = {
             idle: {
                 x: 38,
@@ -18,11 +17,18 @@ class Player {
                 y: 64
             }
         }
+        this.body = Bodies.rectangle(x, y, this.frameSize.walk.x, this.frameSize.walk.y, {
+            inertia: Infinity,
+            label: "character"
+        })
+        console.log(this.body)
+        World.add(engine.world, this.body)
         this.groundHeight = this.y + this.frameSize.idle.y / 2
         this.currAnimation = "idleRight"
     }
 
     draw() {
+        /*
         if (this.currAnimation === "walkRight" || this.currAnimation === "walkLeft") {
             context.fillRect(
                 this.x - this.frameSize.walk.x / 2,
@@ -37,7 +43,7 @@ class Player {
                 this.frameSize.idle.x,
                 this.frameSize.idle.y
             )
-        }
+        }*/
 
 
         switch (this.currAnimation) {
@@ -49,8 +55,8 @@ class Player {
                         0,
                         this.frameSize.idle.x,
                         this.frameSize.idle.y,
-                        this.x - this.frameSize.idle.x / 2,
-                        this.y - this.frameSize.idle.y / 2,
+                        this.body.position.x - this.frameSize.idle.x / 2,
+                        this.body.position.y - this.frameSize.idle.y / 2,
                         this.frameSize.idle.x,
                         this.frameSize.idle.y,
                     )
@@ -61,8 +67,8 @@ class Player {
                         0,
                         this.frameSize.idle.x,
                         this.frameSize.idle.y,
-                        this.x - this.frameSize.idle.x / 2,
-                        this.y - this.frameSize.idle.y / 2,
+                        this.body.position.x - this.frameSize.idle.x / 2,
+                        this.body.position.y - this.frameSize.idle.y / 2,
                         this.frameSize.idle.x,
                         this.frameSize.idle.y,
                     )
@@ -76,8 +82,8 @@ class Player {
                         this.frameSize.idle.y,
                         this.frameSize.idle.x,
                         this.frameSize.idle.y,
-                        this.x - this.frameSize.idle.x / 2,
-                        this.y - this.frameSize.idle.y / 2,
+                        this.body.position.x - this.frameSize.idle.x / 2,
+                        this.body.position.y - this.frameSize.idle.y / 2,
                         this.frameSize.idle.x,
                         this.frameSize.idle.y,
                     )
@@ -88,8 +94,8 @@ class Player {
                         this.frameSize.idle.y,
                         this.frameSize.idle.x,
                         this.frameSize.idle.y,
-                        this.x - this.frameSize.idle.x / 2,
-                        this.y - this.frameSize.idle.y / 2,
+                        this.body.position.x - this.frameSize.idle.x / 2,
+                        this.body.position.y - this.frameSize.idle.y / 2,
                         this.frameSize.idle.x,
                         this.frameSize.idle.y,
                     )
@@ -103,8 +109,8 @@ class Player {
                         0,
                         this.frameSize.walk.x,
                         this.frameSize.walk.y,
-                        this.x - this.frameSize.walk.x / 2,
-                        this.y - this.frameSize.walk.y / 2,
+                        this.body.position.x - this.frameSize.walk.x / 2,
+                        this.body.position.y - this.frameSize.walk.y / 2,
                         this.frameSize.walk.x,
                         this.frameSize.walk.y,
                     )
@@ -115,8 +121,8 @@ class Player {
                         0,
                         this.frameSize.walk.x,
                         this.frameSize.walk.y,
-                        this.x - this.frameSize.walk.x / 2,
-                        this.y - this.frameSize.walk.y / 2,
+                        this.body.position.x - this.frameSize.walk.x / 2,
+                        this.body.position.y - this.frameSize.walk.y / 2,
                         this.frameSize.walk.x,
                         this.frameSize.walk.y,
                     )
@@ -130,8 +136,8 @@ class Player {
                         this.frameSize.walk.y,
                         this.frameSize.walk.x,
                         this.frameSize.walk.y,
-                        this.x - this.frameSize.walk.x / 2,
-                        this.y - this.frameSize.walk.y / 2,
+                        this.body.position.x - this.frameSize.walk.x / 2,
+                        this.body.position.y - this.frameSize.walk.y / 2,
                         this.frameSize.walk.x,
                         this.frameSize.walk.y,
                     )
@@ -142,8 +148,8 @@ class Player {
                         this.frameSize.walk.y,
                         this.frameSize.walk.x,
                         this.frameSize.walk.y,
-                        this.x - this.frameSize.walk.x / 2,
-                        this.y - this.frameSize.walk.y / 2,
+                        this.body.position.x - this.frameSize.walk.x / 2,
+                        this.body.position.y - this.frameSize.walk.y / 2,
                         this.frameSize.walk.x,
                         this.frameSize.walk.y,
                     )
@@ -157,31 +163,33 @@ class Player {
         if (this.currFrame > 3) {
             this.currFrame = 0
         }
-
-
-
     }
 
     move() {
+        this.body.position.x = this.x
+        this.body.position.y = this.y
+        context.beginPath()
+        context.arc(this.body.position.x, this.body.position.y, 20, 0, 2 * Math.PI)
+        context.stroke()
 
+        if (keyPressed.right && !keyBlocked.right) {
+            this.x += this.v0
+        }
+
+        if (keyPressed.left && !keyBlocked.left) {
+            this.x -= this.v0
+        }
+        
+        /*
         if (this.falling) {
             keyPressed.up = false
         }
 
-        if (keyPressed.up && !this.jumping) {
+        if (keyPressed.up && !this.jumping && !keyBlocked.up) {
             this.jumping = true
             this.falling = false
         }
-
-        if (keyPressed.right) {
-            this.x += this.v0
-        }
-
-        if (keyPressed.left) {
-            this.x -= this.v0
-        }
-
-
+        
         if (this.jumping && keyPressed.up) {
             if (this.upside) {
                 this.y += this.v0 + 10
@@ -223,9 +231,9 @@ class Player {
             }
 
         }
-
+        */     
     }
-
+    /*
     isCollidingWithPlatform() {
         platforms.forEach(platform => {
             if (this.currAnimation === "idleRight" || this.currAnimation === "idleLeft") {
@@ -268,7 +276,7 @@ class Player {
         })
 
 
-    }
+    }*/
 
     platformsCollisions() {
         players.forEach(player => {
