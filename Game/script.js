@@ -495,6 +495,17 @@ function animate() {
                     pair.bodyA.label === "platform" && pair.bodyB.label === "character" ||
                     pair.bodyA.label === "character" && pair.bodyB.label === "platform"
                 ) {
+                    if(pair.bodyA === "platform") {
+                        let type = platforms.find(platform => platform.id === pair.bodyA.id).type
+                        if(type === 3 || type === 5) {
+                            console.log("MORREU")
+                        }
+                    } else if(pair.bodyB === "platform") {
+                        let type = platforms.find(platform => platform.id === pair.bodyA.id).type
+                        if(type === 3 || type === 5) {
+                            console.log("MORREU")
+                        }
+                    }
                     let normal = pair.collision.normal
                     if (normal.x === -1) {
                         keyBlocked.right = true

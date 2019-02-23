@@ -28,6 +28,7 @@ class Platform {
             isStatic: true,
             label: "platform"
         })
+        this.id = this.body.id
         World.add(engine.world, this.body)
     }
     draw() {
