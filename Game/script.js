@@ -29,9 +29,6 @@ let platforms = []
 let finalBoss = []
 let balls = []
 
-
-let Engine, Render, World, Bodies, engine, render
-
 //OnLoad
 window.onload = function () {
     canvas = document.getElementById("my_canvas");
@@ -42,7 +39,6 @@ window.onload = function () {
 
     context.clearRect(0, 0, width, height); //clears everything
 
-<<<<<<< HEAD
     if (localStorage.getItem('currentLevel') != null) {
         currentLevel = localStorage.getItem('currentLevel')
     }
@@ -59,38 +55,6 @@ window.onload = function () {
         game();
     }
 
-}
-=======
->>>>>>> 3d2974f1b429a78ce0969d1d841da420a9c246b5
-
-
-    // module aliases
-    Engine = Matter.Engine
-    Render = Matter.Render
-    World = Matter.World
-    Bodies = Matter.Bodies
-
-    // create an engine
-    engine = Engine.create()
-
-    // create a renderer
-    render = Render.create({
-        element: canvas,
-        engine: engine
-    })
-
-    // create two boxes and a ground
-    var boxA = Bodies.rectangle(400, 200, 80, 80);
-    var boxB = Bodies.rectangle(450, 50, 80, 80);
-    var ground = Bodies.rectangle(400, 610, 810, 60, { isStatic: true });
-
-    // add all of the bodies to the world
-    World.add(engine.world, [boxA, boxB, ground]);
-
-    // run the engine
-    Engine.run(engine);
-
-<<<<<<< HEAD
     if (currentLevel == 1) {
         background = images.levels_background.one
     }
@@ -105,18 +69,11 @@ window.onload = function () {
     }
 
 
-=======
-    // run the renderer
-    Render.run(render);
-
-
-
     game()
 }
 
 //Preload, mouse events
 function game() {
->>>>>>> 3d2974f1b429a78ce0969d1d841da420a9c246b5
     window.addEventListener("keyup", keyUp)
     window.addEventListener("keydown", keyDown)
 
@@ -384,8 +341,6 @@ function animate() {
         frame++
     }
     window.requestAnimationFrame(animate)
-
-    Render.run(runner, engine)
 }
 
 function menu() {
