@@ -8,7 +8,6 @@ class Player {
         this.v0 = 5
         this.currFrame = 0
 
-        this.groundHeight = canvas.height / 2
         this.frameSize = {
             idle: {
                 x: 38,
@@ -19,13 +18,14 @@ class Player {
                 y: 64
             }
         }
+        this.groundHeight = this.y + this.frameSize.idle.y / 2
         this.currAnimation = "idleRight"
     }
 
     draw() {
         context.fillRect(
             this.x - this.frameSize.x / 2,
-            this.y - this.frameSize.y / 2,
+            this.yu - this.frameSize.y / 2,
             this.frameSize.x - 10,
             this.frameSize.y
         )
@@ -226,23 +226,79 @@ class Player {
 
     }
 
+    isCollidingWithPlatform() {
+        platforms.forEach(platform => {
+            if (!(
+                this.x + this.frameSize.idle.x < platform.x ||
+                this.x > platform.x + platform.w ||
+                this.y + this.frameSize.idle.y / 2 + rectA.h < rectB.y ||
+                rectA.y > rectB.y + rectB.h
+                )
+            ) {
+
+            }
+        })
+
+
+    }
+
     platformsCollisions() {
         players.forEach(player => {
             platforms.forEach(platform => {
                 if (platform.x >= sceneLimits.left && platform.x <= sceneLimits.right) {
                     // sprite dimensions differs according to animation walk or idle
                     if (player.currAnimation === "walkRight" || player.currAnimation === "walkLeft") {
-                        // left
-                        if (player.x + player.frameSize.walk.x / 2 >= platform.x && player.y - player.frameSize.walk.y / 2 >= platform.y) {
-                            player.x = platform.x - player.frameSize.walk.x / 2
-                        }
 
+                        if (!player.upside && platform.type !== 3 && platform.type !== 5) {
+                            // left
+
+                            if (
+                                player.x + player.frameSize.walk.x / 2 >= platform.x &&
+                                player.y - player.frameSize.walk.y / 2 >= platform.y &&
+                                player.x + player.frameSize.walk.x / 2 < platform.x + platform.w
+                            ) {
+                                player.x = platform.x - player.frameSize.walk.x / 2
+                            }
+
+                            /*
+                            // top
+                            if(
+                                player.y - player.frameSize.walk.y / 2 <= platform.y + 2 &&
+                                player.y - player.frameSize.walk.y / 2 >= platform.y - 2 &&
+                                player.x + player.frameSize.walk.x / 2 >= platform.x
+                                //player.x + player.frameSize.walk.x / 2 <= platform.x + platform.w
+                            ) {
+                                console.log("CIMA")
+                                player.y = platform.y - player.frameSize.walk.y / 2
+                                player.groundHeight = player.y
+                            }*/
+
+                        }
 
                     } else {
-                        // left
-                        if (player.x + player.frameSize.idle.x / 2 >= platform.x && player.y - player.frameSize.idle.y / 2 >= platform.y) {
-                            player.x = platform.x - player.frameSize.idle.x / 2
+                        if (!player.upside && platform.type !== 3 && platform.type !== 5) {
+                            // left
+
+                            if (
+                                player.x + player.frameSize.idle.x / 2 >= platform.x &&
+                                player.y - player.frameSize.idle.y / 2 >= platform.y &&
+                                player.x + player.frameSize.idle.x / 2 < platform.x + platform.w
+                            ) {
+                                player.x = platform.x - player.frameSize.idle.x / 2
+                                console.log("yes idle")
+                            }
+                            /*
+                             // top
+                             if(
+                                player.y - player.frameSize.idle.y / 2 >= platform.y &&
+                                player.x + player.frameSize.idle.x / 2 >= platform.x &&
+                                player.x + player.frameSize.idle.x / 2 <= platform.x + platform.w
+                            ) {
+                                player.y = platform.y - player.frameSize.idle.y / 2
+                            }*/
                         }
+
+
                     }
                 }
             })

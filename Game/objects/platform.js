@@ -147,6 +147,10 @@ class Platform {
             context.drawImage(images.tiles.one.downside.bridge.downsidebridge, this.x, this.y, this.w, this.h)
         }
 
+        context.beginPath()
+        context.moveTo(this.x, this.y)
+        context.lineTo(this.x, 0)
+        context.stroke()
     }
 
 }
