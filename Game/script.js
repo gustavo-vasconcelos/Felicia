@@ -8,10 +8,14 @@ const height = 600;
 let images = {
     characters: {
         lightCharacter: new Image()
+    },
+    levels_background: {
+        one: new Image()
     }
 }
 
 images.characters.lightCharacter.src = "img/characters/lightCharacter.png"
+images.levels_background.one.src = "img/levels_background/one.png"
 
 //OnLoad
 window.onload = function () {
@@ -60,7 +64,7 @@ function game() {
     plataforms.push(new Plataforms(1, 650, (canvas.height / 2) - 50, 3, true))
     plataforms.push(new Plataforms(1, 700, (canvas.height / 2) - 50, 3, true))
     plataforms.push(new Plataforms(1, 750, (canvas.height / 2) - 50, 1, true))
-    plataforms.push(new Plataforms(1, 800, (canvas.height / 2) - 50, 1, true))    
+    plataforms.push(new Plataforms(1, 800, (canvas.height / 2) - 50, 1, true))
     plataforms.push(new Plataforms(1, 750, (canvas.height / 2) - 100, 1, true))
     plataforms.push(new Plataforms(1, 800, (canvas.height / 2) - 100, 1, true))
     plataforms.push(new Plataforms(1, 750, (canvas.height / 2) - 150, 1, true))
@@ -95,9 +99,9 @@ function game() {
     plataforms.push(new Plataforms(1, 3000, (canvas.height / 2) - 50, 3, true))
     plataforms.push(new Plataforms(1, 3350, (canvas.height / 2) - 50, 1, true))
     plataforms.push(new Plataforms(1, 3350, (canvas.height / 2) - 100, 1, true))
-    plataforms.push(new Plataforms(1, 3600, (canvas.height / 2) - 50, 6, true))
-    
-    
+    plataforms.push(new Plataforms(1, 3850, (canvas.height / 2) - 50, 6, true))
+
+
 
     //Downside
     plataforms.push(new Plataforms(1, 400, (canvas.height / 2), 1, false))
@@ -108,45 +112,45 @@ function game() {
     plataforms.push(new Plataforms(1, 550, (canvas.height / 2) + 50, 2, false))
     plataforms.push(new Plataforms(1, 600, (canvas.height / 2) + 50, 2, false))
     plataforms.push(new Plataforms(1, 550, (canvas.height / 2) + 100, 2, false))
-    plataforms.push(new Plataforms(1, 600, (canvas.height / 2) + 100, 2, false))    
+    plataforms.push(new Plataforms(1, 600, (canvas.height / 2) + 100, 2, false))
     plataforms.push(new Plataforms(1, 750, (canvas.height / 2), 1, false))
-    plataforms.push(new Plataforms(1, 750, (canvas.height / 2)+50, 1, false))
+    plataforms.push(new Plataforms(1, 750, (canvas.height / 2) + 50, 1, false))
     plataforms.push(new Plataforms(1, 800, (canvas.height / 2), 1, false))
-    plataforms.push(new Plataforms(1, 800, (canvas.height / 2)+50, 1, false))
-    plataforms.push(new Plataforms(1, 750, (canvas.height / 2)+100, 1, false))
-    plataforms.push(new Plataforms(1, 800, (canvas.height / 2)+100, 1, false))    
-    plataforms.push(new Plataforms(1, 650, (canvas.height / 2) , 3, false))
-    plataforms.push(new Plataforms(1, 700, (canvas.height / 2) , 3, false))
-    plataforms.push(new Plataforms(1, 850, (canvas.height / 2) , 3, false))
-    plataforms.push(new Plataforms(1, 900, (canvas.height / 2) , 3, false))
-    plataforms.push(new Plataforms(1, 950, (canvas.height / 2) , 1, false))
+    plataforms.push(new Plataforms(1, 800, (canvas.height / 2) + 50, 1, false))
+    plataforms.push(new Plataforms(1, 750, (canvas.height / 2) + 100, 1, false))
+    plataforms.push(new Plataforms(1, 800, (canvas.height / 2) + 100, 1, false))
+    plataforms.push(new Plataforms(1, 650, (canvas.height / 2), 3, false))
+    plataforms.push(new Plataforms(1, 700, (canvas.height / 2), 3, false))
+    plataforms.push(new Plataforms(1, 850, (canvas.height / 2), 3, false))
+    plataforms.push(new Plataforms(1, 900, (canvas.height / 2), 3, false))
+    plataforms.push(new Plataforms(1, 950, (canvas.height / 2), 1, false))
     plataforms.push(new Plataforms(1, 950, (canvas.height / 2) + 50, 1, false))
     plataforms.push(new Plataforms(1, 950, (canvas.height / 2) + 100, 1, false))
-    plataforms.push(new Plataforms(1, 1000, (canvas.height / 2) , 1, false))
+    plataforms.push(new Plataforms(1, 1000, (canvas.height / 2), 1, false))
     plataforms.push(new Plataforms(1, 1000, (canvas.height / 2) + 50, 1, false))
-    plataforms.push(new Plataforms(1, 1050, (canvas.height / 2) , 1, false))
-    plataforms.push(new Plataforms(1, 1400, (canvas.height / 2) , 3, false))
-    plataforms.push(new Plataforms(1, 1450, (canvas.height / 2) , 3, false))
-    plataforms.push(new Plataforms(1, 1650, (canvas.height / 2) , 1, false))
-    plataforms.push(new Plataforms(1, 1700, (canvas.height / 2) , 1, false))
-    plataforms.push(new Plataforms(1, 1700, (canvas.height / 2) +50, 1, false))
-    plataforms.push(new Plataforms(1, 1750, (canvas.height / 2) +50, 4, false))
-    plataforms.push(new Plataforms(1, 1800, (canvas.height / 2) +50, 4, false))
-    plataforms.push(new Plataforms(1, 1850, (canvas.height / 2) +50, 4, false))
-    plataforms.push(new Plataforms(1, 1800, (canvas.height / 2) +100, 3, false))
-    plataforms.push(new Plataforms(1, 1900, (canvas.height / 2) +50, 1, false))
-    plataforms.push(new Plataforms(1, 1900, (canvas.height / 2) , 1, false))
-    plataforms.push(new Plataforms(1, 2300, (canvas.height / 2) , 1, false))
-    plataforms.push(new Plataforms(1, 2350, (canvas.height / 2) , 3, false))
-    plataforms.push(new Plataforms(1, 2400, (canvas.height / 2) , 3, false))
-    plataforms.push(new Plataforms(1, 2450, (canvas.height / 2) , 1, false))
-    plataforms.push(new Plataforms(1, 2700, (canvas.height / 2) , 1, false))
-    plataforms.push(new Plataforms(1, 2750, (canvas.height / 2) , 1, false))
-    plataforms.push(new Plataforms(1, 2800, (canvas.height / 2) +   50, 5, false))
-    plataforms.push(new Plataforms(1, 3100, (canvas.height / 2) +   100, 5, false))
-    plataforms.push(new Plataforms(1, 3300, (canvas.height / 2) , 3, false))
-    plataforms.push(new Plataforms(1, 3350, (canvas.height / 2) , 3, false))
-    plataforms.push(new Plataforms(1, 3600, (canvas.height / 2) , 6, false))
+    plataforms.push(new Plataforms(1, 1050, (canvas.height / 2), 1, false))
+    plataforms.push(new Plataforms(1, 1400, (canvas.height / 2), 3, false))
+    plataforms.push(new Plataforms(1, 1450, (canvas.height / 2), 3, false))
+    plataforms.push(new Plataforms(1, 1650, (canvas.height / 2), 1, false))
+    plataforms.push(new Plataforms(1, 1700, (canvas.height / 2), 1, false))
+    plataforms.push(new Plataforms(1, 1700, (canvas.height / 2) + 50, 1, false))
+    plataforms.push(new Plataforms(1, 1750, (canvas.height / 2) + 50, 4, false))
+    plataforms.push(new Plataforms(1, 1800, (canvas.height / 2) + 50, 4, false))
+    plataforms.push(new Plataforms(1, 1850, (canvas.height / 2) + 50, 4, false))
+    plataforms.push(new Plataforms(1, 1800, (canvas.height / 2) + 100, 3, false))
+    plataforms.push(new Plataforms(1, 1900, (canvas.height / 2) + 50, 1, false))
+    plataforms.push(new Plataforms(1, 1900, (canvas.height / 2), 1, false))
+    plataforms.push(new Plataforms(1, 2300, (canvas.height / 2), 1, false))
+    plataforms.push(new Plataforms(1, 2350, (canvas.height / 2), 3, false))
+    plataforms.push(new Plataforms(1, 2400, (canvas.height / 2), 3, false))
+    plataforms.push(new Plataforms(1, 2450, (canvas.height / 2), 1, false))
+    plataforms.push(new Plataforms(1, 2700, (canvas.height / 2), 1, false))
+    plataforms.push(new Plataforms(1, 2750, (canvas.height / 2), 1, false))
+    plataforms.push(new Plataforms(1, 2800, (canvas.height / 2) + 50, 5, false))
+    plataforms.push(new Plataforms(1, 3100, (canvas.height / 2) + 100, 5, false))
+    plataforms.push(new Plataforms(1, 3300, (canvas.height / 2), 3, false))
+    plataforms.push(new Plataforms(1, 3350, (canvas.height / 2), 3, false))
+    plataforms.push(new Plataforms(1, 3850, (canvas.height / 2), 6, false))
 
 
 
@@ -181,7 +185,10 @@ function animate() {
 
     if (!pause) {
         context.clearRect(sceneLimits.left, 0, sceneLimits.right, height); //clears everything
-        generateGrid(50, "gray")
+        // generateGrid(50, "gray")
+
+        context.drawImage(images.levels_background.one, 0, 0)
+        context.drawImage(images.levels_background.one, 2000, 0)
 
         context.beginPath()
         context.lineWidth = 5
@@ -198,10 +205,12 @@ function animate() {
             player.draw()
             player.move()
         })
-        /*
-        context.translate(-1, 0)
-        sceneLimits.left += 1
-        sceneLimits.right += 1*/
+        if (sceneLimits.right <= 3998) {
+            context.translate(-2, 0)
+            sceneLimits.left += 2
+            sceneLimits.right += 2
+        }
+
         frame++
     }
     window.requestAnimationFrame(animate)
@@ -279,7 +288,7 @@ class Player {
                 if (frame % 3 === 0) {
                     this.currFrame++
                 }
-                if(this.currFrame >= 2) {
+                if (this.currFrame >= 2) {
                     this.currFrame = 0
                 }
                 break
