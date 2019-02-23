@@ -20,12 +20,17 @@ h1 {
     font-weight: 800;
 }
 
-h4 {
-    margin-bottom: 30px;
-}
-
 h5 {
     margin: 15px 0px;
+}
+
+a {
+    text-decoration: none;
+}
+
+nav {
+    font-size: 22px;
+    margin: 10px 50px;
 }
 
 #footer {
