@@ -11,7 +11,7 @@ canvas {
 body {
     color: white;
     background-image: linear-gradient(to right, white, rgb(129, 240, 255) 20%, rgb(25, 94, 104), black);
-    font-family: 'Catamaran', sans-serif;
+    font-family: 'Catamaran', sans-serif !important;
 }
 
 h1 {

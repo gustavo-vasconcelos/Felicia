@@ -58,7 +58,7 @@ window.onload = function () {
     } else {
         localStorage.setItem('currentLevel', currentLevel)
     }
-    
+
     if (currentLevel == 1) {
 
         background = images.levels_background.one
@@ -95,7 +95,9 @@ window.onload = function () {
     // create two boxes and a ground
     var boxA = Bodies.rectangle(400, 200, 80, 80);
     var boxB = Bodies.rectangle(450, 50, 80, 80);
-    var ground = Bodies.rectangle(400, 610, 810, 60, { isStatic: true });
+    var ground = Bodies.rectangle(400, 610, 810, 60, {
+        isStatic: true
+    });
 
     // add all of the bodies to the world
     World.add(engine.world, [boxA, boxB, ground]);
@@ -107,9 +109,9 @@ window.onload = function () {
     Render.run(render);
 
 
-    
+
     engine = Engine.create();
-    //engine.world.gravity.scale = 0; //turn off gravity (it's added back in later)
+    engine.world.gravity.scale = 0; //turn off gravity (it's added back in later)
 
     ground = Bodies.rectangle(0, canvas.height / 2, 4800, 1)
     World.add(engine.world, ground);
@@ -382,8 +384,8 @@ function animate() {
             player.move()
         })
 
-        
-        
+
+
         if (kamehamehaa) {
             let x = 0
             let y = 0
@@ -391,49 +393,51 @@ function animate() {
             let velIn = 0
             let acc = 0
             let ang = 0
-            
-            if(balls.length<10){            
-            
-            x = 3362
-            y = 275
-            r = 15
-            velIn = 1
-            acc = 0.1
-            ang = Math.random() * 110
-            ang += 90
-            ang -= 55
-            
-            balls.push(new BurstAttack(x, y, velIn, r, acc, ang))
-            }           
+
+            if (balls.length < 10) {
+
+                x = 3362
+                y = 275
+                r = 15
+                velIn = 1
+                acc = 0.1
+                ang = Math.random() * 110
+                ang += 90
+                ang -= 55
+
+                balls.push(new BurstAttack(x, y, velIn, r, acc, ang))
+            }
 
 
             kamehamehaa = false
 
-            
+
         }
 
-        
+
 
         if (currentLevel != 3) {
             if (sceneLimits.right <= 3998) {
-/*
+
                 context.translate(-2, 0)
                 sceneLimits.left += 2
-                sceneLimits.right += 2*/
+                sceneLimits.right += 2
             }
         } else {
             if (sceneLimits.right <= 3775) {
                 context.translate(-10, 0)
                 sceneLimits.left += 10
                 sceneLimits.right += 10
-            } /*else {
-                context.clearRect(sceneLimits.left, 0, sceneLimits.right, height); //clears everything
-                boss = images.levels_background.boss
-                context.drawImage(boss, sceneLimits.left, 100)
-                context.translate(-2, 0)
-                sceneLimits.left += 2
-                sceneLimits.right += 2
-            }*/else {
+            }
+            /*else {
+                           context.clearRect(sceneLimits.left, 0, sceneLimits.right, height); //clears everything
+                           boss = images.levels_background.boss
+                           context.drawImage(boss, sceneLimits.left, 100)
+                           context.translate(-2, 0)
+                           sceneLimits.left += 2
+                           sceneLimits.right += 2
+                       }*/
+            else {
                 //background = images.levels_background.boss
                 context.drawImage(images.levels_background.boss, sceneLimits.left, 100)
                 platforms.forEach(plataform => {
@@ -441,27 +445,27 @@ function animate() {
                 })
             }
         }
-        if (currentLevel == 3 && sceneLimits.right > 3500){
+        if (currentLevel == 3 && sceneLimits.right > 3500) {
 
             finalBoss.forEach(boss => {
                 boss.draw()
                 boss.attack(atk2)
             })
         }
-        
+
 
         balls.forEach(ball => {
             ball.update()
             ball.draw(atk2)
         })
-        
+
 
         for (let i = 0; i < balls.length; i++) {
             if (balls[i].active == false) {
-               balls.splice(i, 1)
+                balls.splice(i, 1)
             }
         }
-        
+
         frame++
 
 
@@ -538,7 +542,7 @@ class FinalBoss {
         this.h = 200
         this.life = 5
         this.ableToAttack = true
-        
+
         this.random = 0
         this.count = 0
         this.atk = false
@@ -549,24 +553,24 @@ class FinalBoss {
     draw() {
         this.count++
         context.drawImage(images.boss.bossidle, this.frame * this.w, 0, this.w, this.h, this.x, this.y, this.w, this.h)
-        if(this.count % 5 == 0){
+        if (this.count % 5 == 0) {
             this.frame++
             this.count = 0
         }
-        
-        
+
+
         if (this.frame > 4) {
             this.frame = 0
         }
 
-        
+
     }
 
     attack(atk2) {
         if (this.time = 0) {
             this.ableToAttack = true
-            this.random = Math.random()*3
-            
+            this.random = Math.random() * 3
+
         }
         if (this.ableToAttack = true) {
             switch (this.random) {
@@ -574,10 +578,10 @@ class FinalBoss {
                     kamehamehaa = true
                     this.ableToAttack = false
                     break
-                    
+
                 case 1:
                     this.atk = true
-                    
+
                     this.ableToAttack = false
                     break
                 case 2:
@@ -589,7 +593,7 @@ class FinalBoss {
         this.time++
         if (this.time > 1000) {
             this.time = 0
-            
+
         }
 
 
@@ -597,18 +601,17 @@ class FinalBoss {
     die() {
         if (this.life < 1) {
             return true
-        }
-        else {
+        } else {
             return false
         }
     }
-    time(){
-        if(this.atk==true){
+    time() {
+        if (this.atk == true) {
             this.time++
         }
-        if(this.time > 300){
-            this.atk=false
-            this.time=0
+        if (this.time > 300) {
+            this.atk = false
+            this.time = 0
         }
     }
 
@@ -627,28 +630,28 @@ class BurstAttack {
         this.active = true
         this.frame = 0
 
-        
+
     }
     draw(atk2) {
-        context.drawImage(images.boss.bosssphere1, this.frame * (this.r*2), 0, this.r*2, this.r*2, this.x, this.y, this.r*2, this.r*2 )
+        context.drawImage(images.boss.bosssphere1, this.frame * (this.r * 2), 0, this.r * 2, this.r * 2, this.x, this.y, this.r * 2, this.r * 2)
         this.frame++
-        
+
         if (this.frame > 3) {
             this.frame = 0
         }
-        if(atk2 == 2){
+        if (atk2 == 2) {
 
-        context.drawImage(images.boss.bosssphere1, this.frame * (this.r*2), 0, this.r*2, this.r*2, 3262, 300, this.r*2, this.r*2)
-        context.drawImage(images.boss.bosssphere1, this.frame * (this.r*2), 0, this.r*2, this.r*2, 3462, 300, this.r*2, this.r*2)
+            context.drawImage(images.boss.bosssphere1, this.frame * (this.r * 2), 0, this.r * 2, this.r * 2, 3262, 300, this.r * 2, this.r * 2)
+            context.drawImage(images.boss.bosssphere1, this.frame * (this.r * 2), 0, this.r * 2, this.r * 2, 3462, 300, this.r * 2, this.r * 2)
 
-        context.drawImage(images.boss.bosssphere1, this.frame * (this.r*2), 0, this.r*2, this.r*2, 3162, 200, this.r*2, this.r*2)
-        context.drawImage(images.boss.bosssphere1, this.frame * (this.r*2), 0, this.r*2, this.r*2, 3562, 200, this.r*2, this.r*2)
+            context.drawImage(images.boss.bosssphere1, this.frame * (this.r * 2), 0, this.r * 2, this.r * 2, 3162, 200, this.r * 2, this.r * 2)
+            context.drawImage(images.boss.bosssphere1, this.frame * (this.r * 2), 0, this.r * 2, this.r * 2, 3562, 200, this.r * 2, this.r * 2)
         }
-        
+
     }
     update() {
         this.x += this.vX;
-        
+
         this.y += this.vY;
         if (this.y > 500) {
             this.active = false
@@ -710,7 +713,7 @@ function keyUp(e) {
         case 32:
             if (keyPressed.space)
                 keyPressed.space = false
-          break
+            break
     }
 }
 
