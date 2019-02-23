@@ -238,7 +238,7 @@ class Plataforms {
         this.velocity = 1
     }
     move() {
-        if (!pause)
+        
             this.x -= this.velocity
     }
     draw() {
@@ -253,7 +253,7 @@ class Plataforms {
 
 
     }
-
+}
 
 
 function keyDown(e) {
