@@ -59,7 +59,7 @@ function game() {
     plataforms.push(new Plataforms(1, 700, (canvas.height / 2) - 50, 3, true))
     plataforms.push(new Plataforms(1, 750, (canvas.height / 2) - 50, 1, true))
     plataforms.push(new Plataforms(1, 800, (canvas.height / 2) - 50, 1, true))
-    
+
     plataforms.push(new Plataforms(1, 750, (canvas.height / 2) - 100, 1, true))
     plataforms.push(new Plataforms(1, 800, (canvas.height / 2) - 100, 1, true))
     plataforms.push(new Plataforms(1, 750, (canvas.height / 2) - 150, 1, true))
@@ -87,23 +87,23 @@ function game() {
     plataforms.push(new Plataforms(1, 550, (canvas.height / 2) + 50, 2, false))
     plataforms.push(new Plataforms(1, 600, (canvas.height / 2) + 50, 2, false))
     plataforms.push(new Plataforms(1, 550, (canvas.height / 2) + 100, 2, false))
-    plataforms.push(new Plataforms(1, 600, (canvas.height / 2) + 100, 2, false))    
+    plataforms.push(new Plataforms(1, 600, (canvas.height / 2) + 100, 2, false))
     plataforms.push(new Plataforms(1, 750, (canvas.height / 2), 1, false))
-    plataforms.push(new Plataforms(1, 750, (canvas.height / 2)+50, 1, false))
+    plataforms.push(new Plataforms(1, 750, (canvas.height / 2) + 50, 1, false))
     plataforms.push(new Plataforms(1, 800, (canvas.height / 2), 1, false))
-    plataforms.push(new Plataforms(1, 800, (canvas.height / 2)+50, 1, false))
-    plataforms.push(new Plataforms(1, 750, (canvas.height / 2)+100, 1, false))
-    plataforms.push(new Plataforms(1, 800, (canvas.height / 2)+100, 1, false))    
-    plataforms.push(new Plataforms(1, 650, (canvas.height / 2) , 3, true))
-    plataforms.push(new Plataforms(1, 700, (canvas.height / 2) , 3, true))
-    plataforms.push(new Plataforms(1, 850, (canvas.height / 2) , 3, true))
-    plataforms.push(new Plataforms(1, 900, (canvas.height / 2) , 3, true))
-    plataforms.push(new Plataforms(1, 950, (canvas.height / 2) , 1, true))
+    plataforms.push(new Plataforms(1, 800, (canvas.height / 2) + 50, 1, false))
+    plataforms.push(new Plataforms(1, 750, (canvas.height / 2) + 100, 1, false))
+    plataforms.push(new Plataforms(1, 800, (canvas.height / 2) + 100, 1, false))
+    plataforms.push(new Plataforms(1, 650, (canvas.height / 2), 3, true))
+    plataforms.push(new Plataforms(1, 700, (canvas.height / 2), 3, true))
+    plataforms.push(new Plataforms(1, 850, (canvas.height / 2), 3, true))
+    plataforms.push(new Plataforms(1, 900, (canvas.height / 2), 3, true))
+    plataforms.push(new Plataforms(1, 950, (canvas.height / 2), 1, true))
     plataforms.push(new Plataforms(1, 950, (canvas.height / 2) + 50, 1, true))
     plataforms.push(new Plataforms(1, 950, (canvas.height / 2) + 100, 1, true))
-    plataforms.push(new Plataforms(1, 1000, (canvas.height / 2) , 1, true))
+    plataforms.push(new Plataforms(1, 1000, (canvas.height / 2), 1, true))
     plataforms.push(new Plataforms(1, 1000, (canvas.height / 2) + 50, 1, true))
-    plataforms.push(new Plataforms(1, 1050, (canvas.height / 2) , 1, true))
+    plataforms.push(new Plataforms(1, 1050, (canvas.height / 2), 1, true))
 
 
 
@@ -141,9 +141,7 @@ function animate() {
         player.move()
     })
     plataforms.forEach(plataform => {
-        plataform.move()
         plataform.draw()
-
     })
 
     context.translate(-1, 0)
@@ -229,7 +227,7 @@ class Player {
 }
 
 class Plataforms {
-    constructor(lvl, x, y, type,upSide) {
+    constructor(lvl, x, y, type, upSide) {
         this.lvl = lvl
         this.x = x
         this.y = y
@@ -237,18 +235,14 @@ class Plataforms {
         this.upSide = upSide
         this.velocity = 1
     }
-    move() {
-        
-            this.x -= this.velocity
-    }
     draw() {
-        if(this.type == 3){
+        if (this.type == 3) {
             context.fillStyle = "red"
         }
-        else{
+        else {
             context.fillStyle = "black"
         }
-        
+
         context.fillRect(this.x, this.y, 50, 50);
 
 
