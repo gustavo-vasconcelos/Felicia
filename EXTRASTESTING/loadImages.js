@@ -9,7 +9,10 @@ let images = {
         }
     },
     levels_background: {
-        one: new Image()
+        one: new Image(),
+        two: new Image(),
+        twoSecond: new Image(),
+        three: new Image()
     },
     tiles: {
         upside: {
@@ -78,6 +81,9 @@ images.characters.light.walk.src = "img/characters/light/walk.png"
 images.characters.dark.idle.src = "img/characters/dark/idle.png"
 //images.characters.lightCharacter.src = "img/characters/lightCharacter.png"
 images.levels_background.one.src = "img/levels_background/one.png"
+images.levels_background.two.src = "img/levels_background/two.png"
+images.levels_background.twoSecond.src = "img/levels_background/twoSecond.png"
+images.levels_background.three.src = "img/levels_background/three.png"
 
 images.tiles.upside.type.one.variantOne.src = "img/tiles/upside/type/one/variantOne.png"
 images.tiles.upside.type.one.variantTwo.src = "img/tiles/upside/type/one/variantTwo.png"
