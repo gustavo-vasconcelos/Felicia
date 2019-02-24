@@ -186,6 +186,10 @@ class Player {
             if (platform.type == 3 || platform.type == 5) {
                 continue;
             }
+            // Skip cute ending things? i dont know what these are
+            if (platform.type == 6 || platform.type == 9) {
+                continue;
+            }
             // do position check against AABB of platform
             if (collision_aabb_aabb(this.getAABBOffset(offset), platform.getAABB()) == true) {
                 collides = true;
