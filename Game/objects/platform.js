@@ -280,13 +280,75 @@ class Platform {
 
         if (this.lvl == 3) {
 
+            if (this.type == 1 && this.upside) {
+
+                switch (this.rand) {
+                    case 1:
+                        context.drawImage(images.tiles.three.upside.type.one.variantOne, this.x, this.y, this.w, this.h)
+                        break
+                    case 2:
+                        context.drawImage(images.tiles.three.upside.type.one.variantTwo, this.x, this.y, this.w, this.h)
+                        break
+                    case 3:
+                        context.drawImage(images.tiles.three.upside.type.one.variantThree, this.x, this.y, this.w, this.h)
+                        break
+                }
+            }
+            if (this.type == 1 && !this.upside) {
+
+                switch (this.rand) {
+                    case 1:
+                        context.drawImage(images.tiles.three.downside.type.one.variantOne, this.x, this.y, this.w, this.h)
+                        break
+                    case 2:
+                        context.drawImage(images.tiles.three.downside.type.one.variantTwo, this.x, this.y, this.w, this.h)
+                        break
+                    case 3:
+                        context.drawImage(images.tiles.three.downside.type.one.variantThree, this.x, this.y, this.w, this.h)
+                        break
+                }
+            }
+
+            if (this.type == 3 && !this.upside){
+                context.drawImage(images.enemies.three.downside.three.downsidespikered, this.x, this.y, this.w, this.h)
+            }
             
-            if (this.type == 4 && !this.upside) {
-                context.drawImage(images.tiles.two.downside.bridge.downsidebridge, this.x, this.y, this.w, this.h)
+            
+            
+            if (this.type == 5 && this.upside) {
+
+
+                context.drawImage(images.enemies.three.upside.five.upsidespinner2, 0 + this.currFrame, 0, this.w, this.h, this.x, this.y, this.w, this.h);
+
+                if (frame % 10 === 0) {
+                    this.currFrame += 50
+                }
+
+
+                if (this.currFrame > 150) {
+                    this.currFrame = 0
+                }
             }
+
+            if (this.type == 5 && !this.upside) {
+
+
+                context.drawImage(images.enemies.three.downside.five.downsidespinner2, 0 + this.currFrame, 0, this.w, this.h, this.x, this.y, this.w, this.h);
+
+                if (frame % 10 === 0) {
+                    this.currFrame += 50
+                }
+
+
+                if (this.currFrame > 150) {
+                    this.currFrame = 0
+                }
+            }
+
             if (this.type == 4 && this.upside) {
-                context.drawImage(images.tiles.two.upside.bridge.upsidebridge, this.x, this.y, this.w, this.h)
+                context.drawImage(images.tiles.three.upside.bridge.upsidebridge, this.x, this.y, this.w, this.h)
             }
+            
 
 
         }
