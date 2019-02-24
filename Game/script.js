@@ -14,6 +14,7 @@ var theme = "Theme";
 var boss = "Boss";
 var firstLevel = "First Level";
 var secondLevel = "Second Level";
+var soundDestroy = "Sound Destroy";
 
 let playerRadius = 64 / 2
 let gap = 10
@@ -64,7 +65,8 @@ window.onload = function () {
     createjs.Sound.registerSound("sounds/ORIGINALTHEME_1.mp3", theme);
     createjs.Sound.registerSound("sounds/DARKFEMALECHOIR.mp3", boss);
     createjs.Sound.registerSound("sounds/DARK.mp3", firstLevel);
-    createjs.Sound.registerSound("sounds/LEVEL3.mp3", secondLevel)
+    createjs.Sound.registerSound("sounds/LEVEL3.mp3", secondLevel);
+    createjs.Sound.registerSound("sounds/destroy.wav", soundDestroy);
 
     context.clearRect(0, 0, width, height); //clears everything
 
@@ -441,6 +443,7 @@ function animate() {
 
                 if (playerAtk[0].x + 16 >= plataform.x && playerAtk[0].x - 16 <= plataform.x + 50 && playerAtk[0].y + 16 >= plataform.y && playerAtk[0].y - 16 <= plataform.y + 50) {
                     if (plataform.type == 3 || plataform.type == 5) {
+                        createjs.Sound.play(soundDestroy)
                         platforms.splice(i, 1)
                         playerAtk.splice(0, 1)
                     }
