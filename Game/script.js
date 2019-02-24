@@ -45,6 +45,7 @@ let keyBlocked = {
 }
 let playerAtk = []
 
+
 let Engine, World, Composites, Composite, Bodies, engine
 
 
@@ -127,7 +128,7 @@ window.onload = function () {
     // run the renderer
     Render.run(render);
 
-
+    
 
     engine = Engine.create();
     engine.world.gravity.scale = 0; //turn off gravity (it's added back in later)
@@ -157,7 +158,7 @@ function game() {
         platforms.push(new Platform(0, 1250, (canvas.height / 2) - 50, 1, true))
         platforms.push(new Platform(0, 1300, (canvas.height / 2) - 50, 1, true))
         platforms.push(new Platform(0, 1350, (canvas.height / 2) - 50, 3, true))
-        platforms.push(new Platform(0, 1500, (canvas.height / 2) - 100, 2, true))
+        platforms.push(new Platform(0, 1500, (canvas.height / 2) - 100, 1, true))
         platforms.push(new Platform(0, 1850, (canvas.height / 2) - 100, 6, true))
     }
 
@@ -375,6 +376,7 @@ function game() {
         platforms.push(new Platform(3, 3500, (canvas.height / 2) + 150, 1, true))
     }
 
+    
     animate()
 
 }
@@ -433,6 +435,8 @@ function animate() {
             }
 
         })
+  
+
 
         players.forEach(player => {
             player.draw()
@@ -563,6 +567,11 @@ function animate() {
                         playerAtk.splice(0, 1)
 
                     }
+                }
+                if(boss.die){
+                    currentLevel++
+                    localStorage.setItem("currentLevel",currentLevel)
+                    restartGame()
                 }
 
             })
