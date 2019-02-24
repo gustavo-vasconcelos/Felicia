@@ -25,7 +25,7 @@ class Player {
             label: "character",
             friction: 0
         })
-        console.log(this.body)
+        
         World.add(engine.world, this.body)
         this.groundHeight = this.y + this.frameSize.idle.y / 2
         this.currAnimation = "idleRight"

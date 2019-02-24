@@ -88,6 +88,9 @@ window.onload = function () {
     if (currentLevel == 0) {
         background = images.levels_background.zero
     }
+    if (currentLevel == -1) {
+        background = images.levels_background.menu
+    }
 
 
     // module aliases
@@ -433,7 +436,6 @@ function animate() {
             player.draw()
             player.move()
 
-            //ESTOU AQUI
             if (currentLevel == 0) {
 
                 if (player.x >= 1850) {
@@ -458,6 +460,7 @@ function animate() {
                 if (player.x >= 1700 && player.x <= 1702) {
                     
                     joinCharacters(1703)
+                    //JOIN CHARACTERS
 
                 }
 
@@ -466,6 +469,7 @@ function animate() {
                     currentLevel++
                     localStorage.setItem("currentLevel",currentLevel)
                     restartGame()
+
                 }
             }
 
