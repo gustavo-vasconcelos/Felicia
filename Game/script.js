@@ -563,6 +563,10 @@ function animate() {
                     platforms.forEach(plataform => {
                         plataform.draw()
                     })
+                    players[1].x = 3700
+                    players.forEach(pl => {
+                        pl.draw()
+                    })
                 }
             }
             if (currentLevel == 2) {
@@ -578,6 +582,7 @@ function animate() {
             finalBoss.forEach(boss => {
                 boss.draw()
                 boss.attack(atk2)
+                console.log(boss.life)
 
                 if (playerAtk.length != 0) {
 
@@ -588,7 +593,8 @@ function animate() {
 
                     }
                 }
-                if(boss.die){
+                
+                if(boss.life < 1){
                     currentLevel++
                     localStorage.setItem("currentLevel",currentLevel)
                     restartGame()
@@ -797,13 +803,6 @@ class FinalBoss {
         }
 
 
-    }
-    die() {
-        if (this.life < 1) {
-            return true
-        } else {
-            return false
-        }
     }
     time() {
         if (this.atk == true) {
