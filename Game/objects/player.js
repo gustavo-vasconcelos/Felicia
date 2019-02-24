@@ -166,23 +166,46 @@ class Player {
         }
     }
 
+    getAABB() {
+        return {x: this.x - this.frameSize.walk.x/2, y: this.y - this.frameSize.walk.y/2, w: this.frameSize.walk.x, h: this.frameSize.walk.y};
+    }
+    getAABBOffset(offset) {
+        return {x: this.x + offset.x - this.frameSize.walk.x/2, y: this.y + offset.y - this.frameSize.walk.y/2, w: this.frameSize.walk.x, h: this.frameSize.walk.y};
+    }
+    getCollisionAt(offset) {
+        var collides = false;
+        for (let i = 0; i < platforms.length; i += 1) {
+            var platform = platforms[i];
+            // do position check against AABB of platform
+            if (collision_aabb_aabb(this.getAABBOffset(offset), platform.getAABB()) == true) {
+                collides = true;
+                break;
+            }
+        }
+        return collides;
+    }
+
     move() {
 
         this.body.position.x = this.x
         this.body.position.y = this.y
         context.beginPath()
         context.arc(this.body.position.x, this.body.position.y, 20, 0, 2 * Math.PI)
-        context.stroke() 
+        context.stroke()
 
         if (keyPressed.right && !keyBlocked.right) {
-            this.x += this.v0
+            if (!this.getCollisionAt({x: +this.v0, y: 0.0})) {
+                this.x += this.v0
+            }
         }
 
         if (keyPressed.left && !keyBlocked.left) {
-            this.x -= this.v0
+            if (!this.getCollisionAt({x: -this.v0, y: 0.0})) {
+                this.x -= this.v0
+            }
         }
-        
-        
+
+
         if (this.falling) {
             keyPressed.up = false
         }
@@ -191,7 +214,8 @@ class Player {
             this.jumping = true
             this.falling = false
         }
-        
+
+        // jumping speed
         if (this.jumping && keyPressed.up) {
             if (this.upside) {
                 this.y  += this.v0 + 10
@@ -200,41 +224,73 @@ class Player {
             }
         }
 
+        // falling speed
         if (this.jumping && !keyPressed.up) {
             this.falling = true
             if (!this.upside) {
-                this.y  += this.v0
-                this.y  -= 0.2
+                if (!this.getCollisionAt({x: 0.0, y: this.v0-0.2})) {
+                    this.y  += this.v0
+                    this.y  -= 0.2
+                }
+                else {
+                    this.jumping = false
+                    this.falling = false
+                }
             } else {
-                this.y  -= this.v0
-                this.y  += 0.2
+                if (!this.getCollisionAt({x: 0.0, y: -this.v0+0.2})) {
+                    this.y  -= this.v0
+                    this.y  += 0.2
+                }
+                else {
+                    this.jumping = false
+                    this.falling = false
+                }
             }
         }
 
+        // jump stop motion check:
         if (!this.upside) { //CIMA
-            if (this.y  + playerRadius >= canvas.height / 2) {
-                this.y  = canvas.height / 2 - playerRadius
-                this.jumping = false
-                this.falling = false
-            }
             if (this.groundHeight - (this.y  + playerRadius) >= 150) {
                 this.falling = true
                 //LIMITE
             }
         } else {
-            if (this.y  - playerRadius <= canvas.height / 2 - 1) {
-                this.y  = canvas.height / 2 + playerRadius - 1
-                this.jumping = false
-                this.falling = false
-            }
             if ((this.y  - playerRadius) - this.groundHeight >= 150) {
                 this.falling = true
                 //LIMITE
             }
-
         }
 
-      
+        // ground check:
+        if (this.jumping && this.falling) { // no longer "rising"
+            if (!this.upside) { //CIMA
+                if (this.y  + playerRadius >= canvas.height / 2) { // terre check
+                    this.y  = canvas.height / 2 - playerRadius
+                    this.jumping = false
+                    this.falling = false
+                }
+                // do a collision check at direction of gravity to find ground
+                if (this.getCollisionAt({x: 0.0, y: -2.0})) {
+                    this.jumping = false
+                    this.falling = false
+                }
+            } else {
+                if (this.y  - playerRadius <= canvas.height / 2 - 1) { // terre check
+                    this.y  = canvas.height / 2 + playerRadius - 1
+                    this.jumping = false
+                    this.falling = false
+                }
+                // do a collision check at direction of gravity to find ground
+                if (this.getCollisionAt({x: 0.0, y: +2.0})) {
+                    this.jumping = false
+                    this.falling = false
+                }
+            }
+        }
+
+        // update body (kinematic nonsense)
+        this.body.position.x = this.x;
+        this.body.position.y = this.y;
     }
     /*
     isCollidingWithPlatform() {
@@ -315,11 +371,11 @@ class Player {
                             }*/
             /*
                                     }
-            
+
                                 } else {
                                     if (!player.upside && platform.type !== 3 && platform.type !== 5) {
                                         // left
-            
+
                                         if (
                                             player.x + player.frameSize.idle.x / 2 >= platform.x &&
                                             player.y - player.frameSize.idle.y / 2 >= platform.y &&
