@@ -639,6 +639,8 @@ function animate() {
 function menu() {
 
     //Meter Logo Aqui
+    menu = images.levels_background.menu
+    context.drawImage(menu,0,0)
 
     context.font = "30px Helvetica";
     context.fillText("Click on the screen to continue", canvas.width / 2 - (context.measureText("Click on the screen to continue").width / 2), 3 * (canvas.height / 4));

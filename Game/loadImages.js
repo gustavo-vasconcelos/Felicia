@@ -17,7 +17,8 @@ let images = {
         twoSecond: new Image(),
         three: new Image(),
         boss: new Image(),
-        goodbye: new Image()
+        goodbye: new Image(),
+        menu: new Image()
     },
     tiles: {
         zero: {
@@ -185,6 +186,7 @@ images.levels_background.three.src = "img/levels_background/three.png"
 images.levels_background.boss.src = "img/levels_background/boss.png"
 
 images.levels_background.goodbye.src = "img/levels_background/goodbye.png"
+images.levels_background.menu.src = "img/levels_background/menu.png"
 
 images.tiles.zero.puddle.src = "img/tiles/zero/puddle.png"
 images.tiles.zero.tilerock.src = "img/tiles/zero/tilerock.png"
