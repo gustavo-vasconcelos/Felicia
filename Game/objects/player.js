@@ -199,10 +199,44 @@ class Player {
     getAABBOffset(offset) {
         return {x: this.x + offset.x - this.frameSize.walk.x/2, y: this.y + offset.y - this.frameSize.walk.y/2, w: this.frameSize.walk.x, h: this.frameSize.walk.y};
     }
+
+    // returns true if colliding with platforms
     getCollisionAt(offset) {
+        if (offset == null) {
+            offset = {x: 0.0, y: 0.0}
+        }
         var collides = false;
         for (let i = 0; i < platforms.length; i += 1) {
             var platform = platforms[i];
+            // Skip monsters
+            if (platform.type == 3 || platform.type == 5) {
+                continue;
+            }
+            // Skip cute ending things? i dont know what these are
+            if (platform.type == 6 || platform.type == 9) {
+                continue;
+            }
+            // do position check against AABB of platform
+            if (collision_aabb_aabb(this.getAABBOffset(offset), platform.getAABB()) == true) {
+                collides = true;
+                break;
+            }
+        }
+        return collides;
+    }
+
+    // returns true if colliding with monsters
+    getMonstersAt(offset) {
+        if (offset == null) {
+            offset = {x: 0.0, y: 0.0}
+        }
+        var collides = false;
+        for (let i = 0; i < platforms.length; i += 1) {
+            var platform = platforms[i];
+            // Skip monsters
+            if (platform.type != 3 && platform.type != 5) {
+                continue;
+            }
             // do position check against AABB of platform
             if (collision_aabb_aabb(this.getAABBOffset(offset), platform.getAABB()) == true) {
                 collides = true;
