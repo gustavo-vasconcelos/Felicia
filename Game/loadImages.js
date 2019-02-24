@@ -218,6 +218,7 @@ images.enemies.three.downside.five.downsidespinner2.src = "img/enemies/three/dow
 images.tiles.three.upside.type.one.variantThree.src= "img/tiles/three/upside/type/one/variantThree.png"
 images.tiles.three.upside.type.one.variantTwo.src= "img/tiles/three/upside/type/one/variantTwo.png"
 images.tiles.three.upside.type.one.variantOne.src= "img/tiles/three/upside/type/one/variantOne.png"
+images.tiles.three.upside.bridge.upsidebridge.src= "img/tiles/three/upside/bridge/upsidebridgered.png"
 
 images.tiles.three.downside.type.one.variantThree.src= "img/tiles/three/downside/type/one/variantThree.png"
 images.tiles.three.downside.type.one.variantTwo.src= "img/tiles/three/downside/type/one/variantTwo.png"
