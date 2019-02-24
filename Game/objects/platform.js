@@ -31,6 +31,11 @@ class Platform {
         this.id = this.body.id
         World.add(engine.world, this.body)
     }
+
+    getAABB() {
+        return {x: this.x, y: this.y, w: this.w, h: this.h};
+    }
+
     draw() {
         if (this.lvl == 0) {
             if (this.type == 1) {
