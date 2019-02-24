@@ -7,6 +7,7 @@ class Player {
         this.upside = upside
         this.falling = false
         this.v0 = 5
+        this.inverted = false
         this.currFrame = 0
         this.dashAssister = 0
         this.lastTimeLooking = 0
@@ -25,18 +26,18 @@ class Player {
             label: "character",
             friction: 0
         })
-        
+
         World.add(engine.world, this.body)
         this.groundHeight = this.y + this.frameSize.idle.y / 2
         this.currAnimation = "idleRight"
     }
-    
+
     draw() {
-        if((dashing && this.upside) || this.dashAssister>=1){
-            if(this.lastX < this.x){
+        if ((dashing && this.upside) || this.dashAssister >= 1) {
+            if (this.lastX < this.x) {
                 this.dashAssister--
             }
-            else{
+            else {
                 this.dashAssister++
             }
 
@@ -46,13 +47,13 @@ class Player {
                 0,
                 this.frameSize.idle.x,
                 this.frameSize.idle.y,
-                this.body.position.x - this.frameSize.idle.x / 2 - this.dashAssister*20,
+                this.body.position.x - this.frameSize.idle.x / 2 - this.dashAssister * 20,
                 this.body.position.y - this.frameSize.idle.y / 2,
                 this.frameSize.idle.x,
                 this.frameSize.idle.y,
             )
-            if(this.dashAssister >= 10 || this.dashAssister <= 9){
-                this.dashAssister=0
+            if (this.dashAssister >= 10 || this.dashAssister <= 9) {
+                this.dashAssister = 0
             }
         }
 
@@ -74,7 +75,9 @@ class Player {
         }*/
 
 
+
         switch (this.currAnimation) {
+
             case "idleRight":
                 if (!this.upside) {
                     context.drawImage(
@@ -185,6 +188,7 @@ class Player {
                 break
         }
 
+
         if (frame % 10 === 0) {
             this.currFrame++
         }
@@ -194,16 +198,16 @@ class Player {
     }
 
     getAABB() {
-        return {x: this.x - this.frameSize.walk.x/2, y: this.y - this.frameSize.walk.y/2, w: this.frameSize.walk.x, h: this.frameSize.walk.y};
+        return { x: this.x - this.frameSize.walk.x / 2, y: this.y - this.frameSize.walk.y / 2, w: this.frameSize.walk.x, h: this.frameSize.walk.y };
     }
     getAABBOffset(offset) {
-        return {x: this.x + offset.x - this.frameSize.walk.x/2, y: this.y + offset.y - this.frameSize.walk.y/2, w: this.frameSize.walk.x, h: this.frameSize.walk.y};
+        return { x: this.x + offset.x - this.frameSize.walk.x / 2, y: this.y + offset.y - this.frameSize.walk.y / 2, w: this.frameSize.walk.x, h: this.frameSize.walk.y };
     }
 
     // returns true if colliding with platforms
     getCollisionAt(offset) {
         if (offset == null) {
-            offset = {x: 0.0, y: 0.0}
+            offset = { x: 0.0, y: 0.0 }
         }
         var collides = false;
         for (let i = 0; i < platforms.length; i += 1) {
@@ -232,7 +236,7 @@ class Player {
     // returns true if colliding with monsters
     getMonstersAt(offset) {
         if (offset == null) {
-            offset = {x: 0.0, y: 0.0}
+            offset = { x: 0.0, y: 0.0 }
         }
         var collides = false;
         for (let i = 0; i < platforms.length; i += 1) {
@@ -255,30 +259,42 @@ class Player {
         this.body.position.x = this.x
         this.body.position.y = this.y
 
-        if(dashing && this.upside){
-            if(this.lastX < this.x){
+        if (dashing && this.upside) {
+            if (this.lastX < this.x) {
                 this.x -= 200
-                dashing= false
+                dashing = false
             }
-            else{
+            else {
                 this.x += 200
-                dashing= false
+                dashing = false
             }
         }
+
         
 
-
-        if (keyPressed.right && !keyBlocked.right) {
-            if (!this.getCollisionAt({x: +this.v0, y: 0.0})) {
-                this.x += this.v0
+            if (keyPressed.right && !keyBlocked.right) {
+                if (!this.getCollisionAt({ x: +this.v0, y: 0.0 })) {
+                    
+                    if (this.inverted) {
+                        this.x -= this.v0  
+                    }
+                    else {
+                        this.x += this.v0
+                    }
+                }
             }
-        }
 
-        if (keyPressed.left && !keyBlocked.left) {
-            if (!this.getCollisionAt({x: -this.v0, y: 0.0})) {
-                this.x -= this.v0
+            if (keyPressed.left && !keyBlocked.left) {
+                if (!this.getCollisionAt({ x: -this.v0, y: 0.0 })) {
+                    if (this.inverted) {
+                        this.x += this.v0  
+                    }
+                    else {
+                        this.x -= this.v0
+                    }
+                }
             }
-        }
+        
 
 
         if (this.falling) {
@@ -294,9 +310,9 @@ class Player {
         // jumping speed
         if (this.jumping && keyPressed.up) {
             if (this.upside) {
-                this.y  += this.v0 + 10
+                this.y += this.v0 + 10
             } else {
-                this.y  -= this.v0 + 10
+                this.y -= this.v0 + 10
             }
         }
 
@@ -304,24 +320,24 @@ class Player {
         if (this.jumping && !keyPressed.up) {
             this.falling = true
             if (!this.upside) {
-                if (!this.getCollisionAt({x: 0.0, y: this.v0-0.2})) {
-                    this.y  += this.v0
-                    this.y  -= 0.2
+                if (!this.getCollisionAt({ x: 0.0, y: this.v0 - 0.2 })) {
+                    this.y += this.v0
+                    this.y -= 0.2
                 }
                 else {
                     // move contact position (GOOD OLD GAME MAKER & UNITY STYLE)
-                    while (!this.getCollisionAt({x: 0.0, y: +1.0})) {
+                    while (!this.getCollisionAt({ x: 0.0, y: +1.0 })) {
                         this.y += +1.0
                     }
                 }
             } else {
-                if (!this.getCollisionAt({x: 0.0, y: -this.v0+0.2})) {
-                    this.y  -= this.v0
-                    this.y  += 0.2
+                if (!this.getCollisionAt({ x: 0.0, y: -this.v0 + 0.2 })) {
+                    this.y -= this.v0
+                    this.y += 0.2
                 }
                 else {
                     // move contact position (GOOD OLD GAME MAKER & UNITY STYLE)
-                    while (!this.getCollisionAt({x: 0.0, y: -1.0})) {
+                    while (!this.getCollisionAt({ x: 0.0, y: -1.0 })) {
                         this.y += -1.0
                     }
                 }
@@ -330,12 +346,12 @@ class Player {
 
         // jump stop motion check:
         if (!this.upside) { //CIMA
-            if (this.jumpStartY - (this.y  + playerRadius) >= 150) {
+            if (this.jumpStartY - (this.y + playerRadius) >= 150) {
                 this.falling = true
                 //LIMITE
             }
         } else {
-            if ((this.y  - playerRadius) - this.jumpStartY >= 150) {
+            if ((this.y - playerRadius) - this.jumpStartY >= 150) {
                 this.falling = true
                 //LIMITE
             }
@@ -344,7 +360,7 @@ class Player {
         // ground check:
         if (!this.upside) { //CIMA
             // do a collision check at direction of gravity to find ground
-            if (this.getCollisionAt({x: 0.0, y: +2.0})) {
+            if (this.getCollisionAt({ x: 0.0, y: +2.0 })) {
                 if (this.jumping && this.falling) { // no longer "rising"
                     this.jumping = false
                     this.falling = false
@@ -357,14 +373,14 @@ class Player {
                 }
             }
             // base terre check
-            if (this.y  + playerRadius >= canvas.height / 2) { // terre check
-                this.y  = canvas.height / 2 - playerRadius
+            if (this.y + playerRadius >= canvas.height / 2) { // terre check
+                this.y = canvas.height / 2 - playerRadius
                 this.jumping = false
                 this.falling = false
             }
         } else {
             // do a collision check at direction of gravity to find ground
-            if (this.getCollisionAt({x: 0.0, y: -2.0})) {
+            if (this.getCollisionAt({ x: 0.0, y: -2.0 })) {
                 if (this.jumping && this.falling) { // no longer "rising"
                     this.jumping = false
                     this.falling = false
@@ -377,8 +393,8 @@ class Player {
                 }
             }
             // base terre check
-            if (this.y  - playerRadius <= canvas.height / 2 - 1) { // terre check
-                this.y  = canvas.height / 2 + playerRadius - 1
+            if (this.y - playerRadius <= canvas.height / 2 - 1) { // terre check
+                this.y = canvas.height / 2 + playerRadius - 1
                 this.jumping = false
                 this.falling = false
             }
@@ -432,70 +448,70 @@ class Player {
 
 
     }*/
-    
+
     //platformsCollisions() {
-      //  players.forEach(player => {
-        //    player.isCollidingWithPlatform()
-            /*
-            platforms.forEach(platform => {
-                if (platform.x >= sceneLimits.left && platform.x <= sceneLimits.right) {
-                    // sprite dimensions differs according to animation walk or idle
-                    if (player.currAnimation === "walkRight" || player.currAnimation === "walkLeft") {
+    //  players.forEach(player => {
+    //    player.isCollidingWithPlatform()
+    /*
+    platforms.forEach(platform => {
+        if (platform.x >= sceneLimits.left && platform.x <= sceneLimits.right) {
+            // sprite dimensions differs according to animation walk or idle
+            if (player.currAnimation === "walkRight" || player.currAnimation === "walkLeft") {
 
-                        if (!player.upside && platform.type !== 3 && platform.type !== 5) {
-                            // left
+                if (!player.upside && platform.type !== 3 && platform.type !== 5) {
+                    // left
 
-                            if (
-                                player.x + player.frameSize.walk.x / 2 >= platform.x &&
-                                player.y - player.frameSize.walk.y / 2 >= platform.y &&
-                                player.x + player.frameSize.walk.x / 2 < platform.x + platform.w
-                            ) {
-                                player.x = platform.x - player.frameSize.walk.x / 2
+                    if (
+                        player.x + player.frameSize.walk.x / 2 >= platform.x &&
+                        player.y - player.frameSize.walk.y / 2 >= platform.y &&
+                        player.x + player.frameSize.walk.x / 2 < platform.x + platform.w
+                    ) {
+                        player.x = platform.x - player.frameSize.walk.x / 2
+                    }
+
+                    /*
+                    // top
+                    if(
+                        player.y - player.frameSize.walk.y / 2 <= platform.y + 2 &&
+                        player.y - player.frameSize.walk.y / 2 >= platform.y - 2 &&
+                        player.x + player.frameSize.walk.x / 2 >= platform.x
+                        //player.x + player.frameSize.walk.x / 2 <= platform.x + platform.w
+                    ) {
+                        console.log("CIMA")
+                        player.y = platform.y - player.frameSize.walk.y / 2
+                        player.groundHeight = player.y
+                    }*/
+    /*
                             }
 
-                            /*
-                            // top
-                            if(
-                                player.y - player.frameSize.walk.y / 2 <= platform.y + 2 &&
-                                player.y - player.frameSize.walk.y / 2 >= platform.y - 2 &&
-                                player.x + player.frameSize.walk.x / 2 >= platform.x
-                                //player.x + player.frameSize.walk.x / 2 <= platform.x + platform.w
-                            ) {
-                                console.log("CIMA")
-                                player.y = platform.y - player.frameSize.walk.y / 2
-                                player.groundHeight = player.y
-                            }*/
-            /*
-                                    }
+                        } else {
+                            if (!player.upside && platform.type !== 3 && platform.type !== 5) {
+                                // left
 
-                                } else {
-                                    if (!player.upside && platform.type !== 3 && platform.type !== 5) {
-                                        // left
-
-                                        if (
-                                            player.x + player.frameSize.idle.x / 2 >= platform.x &&
-                                            player.y - player.frameSize.idle.y / 2 >= platform.y &&
-                                            player.x + player.frameSize.idle.x / 2 < platform.x + platform.w
-                                        ) {
-                                            player.x = platform.x - player.frameSize.idle.x / 2
-                                            console.log("yes idle")
-                                        }
-                                        /*
-                                         // top
-                                         if(
-                                            player.y - player.frameSize.idle.y / 2 >= platform.y &&
-                                            player.x + player.frameSize.idle.x / 2 >= platform.x &&
-                                            player.x + player.frameSize.idle.x / 2 <= platform.x + platform.w
-                                        ) {
-                                            player.y = platform.y - player.frameSize.idle.y / 2
-                                        }*/
-            /*
-        }
+                                if (
+                                    player.x + player.frameSize.idle.x / 2 >= platform.x &&
+                                    player.y - player.frameSize.idle.y / 2 >= platform.y &&
+                                    player.x + player.frameSize.idle.x / 2 < platform.x + platform.w
+                                ) {
+                                    player.x = platform.x - player.frameSize.idle.x / 2
+                                    console.log("yes idle")
+                                }
+                                /*
+                                 // top
+                                 if(
+                                    player.y - player.frameSize.idle.y / 2 >= platform.y &&
+                                    player.x + player.frameSize.idle.x / 2 >= platform.x &&
+                                    player.x + player.frameSize.idle.x / 2 <= platform.x + platform.w
+                                ) {
+                                    player.y = platform.y - player.frameSize.idle.y / 2
+                                }*/
+    /*
+}
 
 
-    }
+}
 }
 })*/
-  /*      })
-    }*/
+    /*      })
+      }*/
 }
