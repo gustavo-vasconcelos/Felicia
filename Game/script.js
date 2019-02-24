@@ -30,7 +30,6 @@ let sceneLimits = {
     left: 0,
     right: 800
 }
-let pause = false
 let frame = 0
 let platforms = []
 let finalBoss = []
@@ -420,280 +419,223 @@ function animate() {
     }
 
 
-    if (keyPressed.space && !pause) {
-        pause = true
-    } else if (keyPressed.space && pause) {
-        pause = false
+
+    context.clearRect(sceneLimits.left, 0, sceneLimits.right, height); //clears everything
+
+    if (currentLevel != -1) {
+        context.drawImage(background, 0, 0)
+        context.drawImage(background, 2000, 0)
+        context.drawImage(background, 4000, 0)
     }
 
-    if (!pause) {
-        context.clearRect(sceneLimits.left, 0, sceneLimits.right, height); //clears everything
 
-        if (currentLevel != -1) {
-            context.drawImage(background, 0, 0)
-            context.drawImage(background, 2000, 0)
-            context.drawImage(background, 4000, 0)
+    platforms.forEach((plataform, i) => {
+        plataform.draw()
+        if (playerAtk.length != 0) {
+
+            if (playerAtk[0].x + 16 >= plataform.x && playerAtk[0].x - 16 <= plataform.x + 50 && playerAtk[0].y + 16 >= plataform.y && playerAtk[0].y - 16 <= plataform.y + 50) {
+                if (plataform.type == 3 || plataform.type == 5) {
+                    createjs.Sound.play(soundDestroy)
+                    platforms.splice(i, 1)
+                    playerAtk.splice(0, 1)
+                }
+            }
+        }
+
+    })
+
+
+
+    players.forEach(player => {
+        player.draw()
+        player.move()
+
+        if (currentLevel == 0) {
+
+            if (player.x >= 1850) {
+
+                currentLevel++
+                localStorage.setItem("currentLevel", currentLevel)
+                restartGame()
+            }
+
+
+
+        }
+
+        if (currentLevel == 1) {
+
+            if (player.x >= 3850) {
+
+                currentLevel++
+                localStorage.setItem("currentLevel", currentLevel)
+                restartGame()
+            }
+        }
+        if (currentLevel == 2) {
+
+            if (player.x >= 1700 && player.x <= 1702) {
+
+                joinCharacters(1703, 0)
+                //JOIN CHARACTERS
+
+            }
+
+            if (player.x >= 3398 && player.x <= 3404) {
+                console.log(player.x)
+                joinCharacters(3403, 1)
+            }
+
+            if (player.x >= 4500) {
+
+                currentLevel++
+                localStorage.setItem("currentLevel", currentLevel)
+                restartGame()
+
+            }
+        }
+
+    })
+
+
+
+    if (kamehamehaa) {
+        let x = 0
+        let y = 0
+        let r = 0
+        let velIn = 0
+        let acc = 0
+        let ang = 0
+
+        if (balls.length < 12) {
+
+            x = 3362
+            y = 275
+            r = 15
+            velIn = 1
+            acc = 0.1
+            ang = Math.random() * 150
+            ang += 90
+            ang -= 75
+
+            balls.push(new BurstAttack(x, y, velIn, r, acc, ang))
         }
 
 
-        platforms.forEach((plataform, i) => {
-            plataform.draw()
+        kamehamehaa = false
+
+
+    }
+
+
+    if (clicks != 0) {
+        if (currentLevel == 0) {
+            if (sceneLimits.right <= 1998) {
+                context.translate(-0.5, 0)
+                sceneLimits.left += 0.5
+                sceneLimits.right += 0.5
+            } else {
+                /*
+                localStorage.setItem("currentLevel",currentLevel++)
+                location.reload()
+                */
+            }
+        }
+        if (currentLevel == 1) {
+            if (sceneLimits.right <= 3998) {
+                context.translate(-0.5, 0)
+                sceneLimits.left += 0.5
+                sceneLimits.right += 0.5
+            }
+        }
+        if (currentLevel == 3) {
+
+            if (sceneLimits.right <= 3775) {
+                context.translate(-0.5, 0)
+                sceneLimits.left += 0.5
+                sceneLimits.right += 0.5
+            } else {
+                //background = images.levels_background.boss
+                context.drawImage(images.levels_background.boss, sceneLimits.left, 100)
+                //console.log("OLA")
+                platforms.forEach(plataform => {
+                    plataform.draw()
+                })
+                players[0].x = 3000
+                players[1].x = 3700
+
+                players[1].inverted = true
+                players.forEach(pl => {
+                    pl.draw()
+                    pl.move()
+                    console.log(pl.inverted)
+                })
+            }
+        }
+        if (currentLevel == 2) {
+            if (sceneLimits.right <= 4698) {
+                context.translate(-1, 0)
+                sceneLimits.left += 1
+                sceneLimits.right += 1
+            }
+        }
+
+        if (sceneLimits.left + players[0].frameSize.idle.x / 2 >= players[0].x || sceneLimits.left + players[1].frameSize.idle.x / 2 >= players[1].x) {
+            restartGame()
+        }
+    }
+    if (currentLevel == 3 && sceneLimits.right > 3500) {
+
+        finalBoss.forEach(boss => {
+            boss.draw()
+            boss.attack()
+            //boss.drawHpBar()
+
             if (playerAtk.length != 0) {
 
-                if (playerAtk[0].x + 16 >= plataform.x && playerAtk[0].x - 16 <= plataform.x + 50 && playerAtk[0].y + 16 >= plataform.y && playerAtk[0].y - 16 <= plataform.y + 50) {
-                    if (plataform.type == 3 || plataform.type == 5) {
-                        createjs.Sound.play(soundDestroy)
-                        platforms.splice(i, 1)
-                        playerAtk.splice(0, 1)
-                    }
+                if (playerAtk[0].x + 16 >= boss.x && playerAtk[0].x - 16 <= boss.x + 200 && playerAtk[0].y + 16 >= boss.y && playerAtk[0].y - 16 <= boss.y + 200) {
+
+                    boss.life -= 1
+                    playerAtk.splice(0, 1)
+
                 }
+            }
+
+            if (boss.life < 1) {
+                currentLevel++
+                localStorage.setItem("currentLevel", currentLevel)
+                restartGame()
             }
 
         })
-
-
-
-        players.forEach(player => {
-            player.draw()
-            player.move()
-
-            if (currentLevel == 0) {
-
-                if (player.x >= 1850) {
-
-                    currentLevel++
-                    localStorage.setItem("currentLevel", currentLevel)
-                    restartGame()
-                }
-
-
-
-            }
-
-            if (currentLevel == 1) {
-
-                if (player.x >= 3850) {
-
-                    currentLevel++
-                    localStorage.setItem("currentLevel", currentLevel)
-                    restartGame()
-                }
-            }
-            if (currentLevel == 2) {
-
-                if (player.x >= 1700 && player.x <= 1702) {
-
-                    joinCharacters(1703, 0)
-                    //JOIN CHARACTERS
-
-                }
-
-                if (player.x >= 3398 && player.x <= 3404) {
-                    console.log(player.x)
-                    joinCharacters(3403, 1)
-                }
-
-                if (player.x >= 4500) {
-
-                    currentLevel++
-                    localStorage.setItem("currentLevel", currentLevel)
-                    restartGame()
-
-                }
-            }
-
-        })
-
-
-
-        if (kamehamehaa) {
-            let x = 0
-            let y = 0
-            let r = 0
-            let velIn = 0
-            let acc = 0
-            let ang = 0
-
-            if (balls.length < 12) {
-
-                x = 3362
-                y = 275
-                r = 15
-                velIn = 1
-                acc = 0.1
-                ang = Math.random() * 150
-                ang += 90
-                ang -= 75
-
-                balls.push(new BurstAttack(x, y, velIn, r, acc, ang))
-            }
-
-
-            kamehamehaa = false
-
-
-        }
-
-
-        if (clicks != 0) {
-            if (currentLevel == 0) {
-                if (sceneLimits.right <= 1998) {
-                    context.translate(-0.5, 0)
-                    sceneLimits.left += 0.5
-                    sceneLimits.right += 0.5
-                } else {
-                    /*
-                    localStorage.setItem("currentLevel",currentLevel++)
-                    location.reload()
-                    */
-                }
-            }
-            if (currentLevel == 1) {
-                if (sceneLimits.right <= 3998) {
-                    context.translate(-0.5, 0)
-                    sceneLimits.left += 0.5
-                    sceneLimits.right += 0.5
-                }
-            }
-            if (currentLevel == 3) {
-
-                if (sceneLimits.right <= 3775) {
-                    context.translate(-0.5, 0)
-                    sceneLimits.left += 0.5
-                    sceneLimits.right += 0.5
-                } else {
-                    //background = images.levels_background.boss
-                    context.drawImage(images.levels_background.boss, sceneLimits.left, 100)
-                    //console.log("OLA")
-                    platforms.forEach(plataform => {
-                        plataform.draw()
-                    })
-                    players[0].x = 3000
-                    players[1].x = 3700
-
-                    players[1].inverted = true
-                    players.forEach(pl => {
-                        pl.draw()
-                        pl.move()
-                        console.log(pl.inverted)
-                    })
-                }
-            }
-            if (currentLevel == 2) {
-                if (sceneLimits.right <= 4698) {
-                    context.translate(-1, 0)
-                    sceneLimits.left += 1
-                    sceneLimits.right += 1
-                }
-            }
-        }
-        if (currentLevel == 3 && sceneLimits.right > 3500) {
-
-            finalBoss.forEach(boss => {
-                boss.draw()
-                boss.attack(atk2)
-
-                if (playerAtk.length != 0) {
-
-                    if (playerAtk[0].x + 16 >= boss.x && playerAtk[0].x - 16 <= boss.x + 200 && playerAtk[0].y + 16 >= boss.y && playerAtk[0].y - 16 <= boss.y + 200) {
-
-                        boss.life -= 1
-                        playerAtk.splice(0, 1)
-
-                    }
-                }
-
-                if (boss.life < 1) {
-                    currentLevel++
-                    localStorage.setItem("currentLevel", currentLevel)
-                    restartGame()
-                }
-
-            })
-        }
-
-
-
-        balls.forEach(ball => {
-            ball.update()
-            ball.draw(atk2)
-
-
-
-
-
-        })
-
-        playerAtk.forEach(atk => {
-            atk.update()
-            atk.draw()
-
-        })
-
-
-        for (let i = 0; i < balls.length; i++) {
-            if (balls[i].active == false) {
-                balls.splice(i, 1)
-            }
-        }
-
-        frame++
-
-        /*
-        Engine.update(engine, 16);
-        var bodies = Composite.allBodies(engine.world);
-        context.beginPath();
-        for (var i = 0; i < bodies.length; i += 1) {
-            var vertices = bodies[i].vertices;
-            context.moveTo(vertices[0].x, vertices[0].y);
-            for (var j = 1; j < vertices.length; j += 1) {
-                context.lineTo(vertices[j].x, vertices[j].y);
-            }
-            context.lineTo(vertices[0].x, vertices[0].y);
-        }
-        context.lineWidth = 1;
-        context.strokeStyle = '#000000';
-        context.stroke();
-
-        Matter.Events.on(engine, 'beforeUpdate ', (e) => {
-            keyBlocked.down = false
-            keyBlocked.right = false
-            keyBlocked.left = false
-            keyBlocked.up = false
-        });
-
-        Matter.Events.on(engine, "collisionActive", (e) => {
-            e.pairs.forEach(pair => {
-                if (
-                    pair.bodyA.label === "platform" && pair.bodyB.label === "character" ||
-                    pair.bodyA.label === "character" && pair.bodyB.label === "platform"
-                ) {
-                    if(pair.bodyA === "platform") {
-                        let type = platforms.find(platform => platform.id === pair.bodyA.id).type
-                        if(type === 3 || type === 5) {
-                            console.log("MORREU")
-                        }
-                    } else if(pair.bodyB === "platform") {
-                        let type = platforms.find(platform => platform.id === pair.bodyA.id).type
-                        if(type === 3 || type === 5) {
-                            console.log("MORREU")
-                        }
-                    }
-                    let normal = pair.collision.normal
-                    if (normal.x === -1) {
-                        keyBlocked.right = true
-                    }
-                    if (normal.x === 1) {
-                        keyBlocked.left = true
-                    }
-                    if (normal.y === 1) {
-                        keyBlocked.up = true
-                    }
-                }
-            })
-        })*/
-
     }
+
+
+
+    balls.forEach(ball => {
+        ball.update()
+        ball.draw(atk2)
+
+
+
+
+
+    })
+
+    playerAtk.forEach(atk => {
+        atk.update()
+        atk.draw()
+
+    })
+
+
+    for (let i = 0; i < balls.length; i++) {
+        if (balls[i].active == false) {
+            balls.splice(i, 1)
+        }
+    }
+
+    frame++
     window.requestAnimationFrame(animate)
 }
 
@@ -718,20 +660,8 @@ function menu() {
 }
 
 function restartGame() {
-    /*
-    context.translate(sceneLimits.left / 2,0)
-    players.forEach(pl => {
-        pl.x = playerRadius
-    })*/
 
     location.reload();
-
-    /*context.rect(0,0,800,600)
-    context.translate(2,0)
-    sceneLimits.left = 0
-    sceneLimits.right = 0
-    players = []
-    game()*/
 }
 
 
@@ -745,12 +675,7 @@ class Atk {
         context.drawImage(images.boss.shoot, 0, 0, 32, 32, this.x, this.y, 32, 32)
     }
     update() {
-        let animation = players[0].currAnimation === "walkRight" || players[0].currAnimation === "idleRight"
-        if (animation) {
-            this.x += 6
-        } else {
-            this.x -= 6
-        }
+        this.x += 6
         if (Math.abs(this.x - this.x1) > 350) {
             playerAtk.splice(0, 1)
         }
@@ -791,7 +716,11 @@ class FinalBoss {
 
     }
 
-    attack(atk2) {
+    drawHpBar() {
+        context.fillRect(this.x - 400, 10, this.x + 400, 10)
+    }
+
+    attack() {
         if (this.time = 0) {
             this.ableToAttack = true
             this.random = Math.random() * 3
@@ -850,7 +779,7 @@ class BurstAttack {
         this.randAttack = Math.round(Math.random())
 
     }
-    draw(atk2) {
+    draw() {
         if (this.randAttack === 0) {
             context.drawImage(images.boss.bosssphere1, this.frame * (this.r * 2), 0, this.r * 2, this.r * 2, this.x, this.y, this.r * 2, this.r * 2)
         } else {
