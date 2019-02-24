@@ -536,9 +536,9 @@ function animate() {
         if (clicks != 0) {
             if (currentLevel == 0) {
                 if (sceneLimits.right <= 1998) {
-                    context.translate(-1, 0)
-                    sceneLimits.left += 1
-                    sceneLimits.right += 1
+                    context.translate(-0.5, 0)
+                    sceneLimits.left += 0.5
+                    sceneLimits.right += 0.5
                 }
                 else {
                     /*
@@ -549,16 +549,16 @@ function animate() {
             }
             if (currentLevel == 1) {
                 if (sceneLimits.right <= 3998) {
-                    context.translate(-1, 0)
-                    sceneLimits.left += 1
-                    sceneLimits.right += 1
+                    context.translate(-0.5, 0)
+                    sceneLimits.left += 0.5
+                    sceneLimits.right += 0.5
                 }
             } if (currentLevel == 3) {
 
                 if (sceneLimits.right <= 3775) {
-                    context.translate(-1, 0)
-                    sceneLimits.left += 1
-                    sceneLimits.right += 1
+                    context.translate(-0.5, 0)
+                    sceneLimits.left += 0.5
+                    sceneLimits.right += 0.5
                 } else {
                     //background = images.levels_background.boss
                     context.drawImage(images.levels_background.boss, sceneLimits.left, 100)
@@ -568,8 +568,12 @@ function animate() {
                     })
                     players[0].x = 3000
                     players[1].x = 3700
+
+                    players[1].inverted = true
                     players.forEach(pl => {
                         pl.draw()
+                        pl.move()
+                        console.log(pl.inverted)
                     })
                 }
             }
@@ -586,7 +590,6 @@ function animate() {
             finalBoss.forEach(boss => {
                 boss.draw()
                 boss.attack(atk2)
-                console.log(boss.life)
 
                 if (playerAtk.length != 0) {
 
