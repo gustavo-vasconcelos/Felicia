@@ -2,6 +2,7 @@ class Player {
     constructor(x, y, upside) {
         this.x = x
         this.y = y
+        this.jumpStartY = y
         this.jumping = false
         this.upside = upside
         this.falling = false
@@ -213,6 +214,7 @@ class Player {
         if (keyPressed.up && !this.jumping && !keyBlocked.up) {
             this.jumping = true
             this.falling = false
+            this.jumpStartY = this.y
         }
 
         // jumping speed
@@ -233,8 +235,10 @@ class Player {
                     this.y  -= 0.2
                 }
                 else {
-                    this.jumping = false
-                    this.falling = false
+                    // move contact position (GOOD OLD GAME MAKER & UNITY STYLE)
+                    while (!this.getCollisionAt({x: 0.0, y: +1.0})) {
+                        this.y += +1.0
+                    }
                 }
             } else {
                 if (!this.getCollisionAt({x: 0.0, y: -this.v0+0.2})) {
@@ -242,49 +246,67 @@ class Player {
                     this.y  += 0.2
                 }
                 else {
-                    this.jumping = false
-                    this.falling = false
+                    // move contact position (GOOD OLD GAME MAKER & UNITY STYLE)
+                    while (!this.getCollisionAt({x: 0.0, y: -1.0})) {
+                        this.y += -1.0
+                    }
                 }
             }
         }
 
         // jump stop motion check:
         if (!this.upside) { //CIMA
-            if (this.groundHeight - (this.y  + playerRadius) >= 150) {
+            if (this.jumpStartY - (this.y  + playerRadius) >= 150) {
                 this.falling = true
                 //LIMITE
             }
         } else {
-            if ((this.y  - playerRadius) - this.groundHeight >= 150) {
+            if ((this.y  - playerRadius) - this.jumpStartY >= 150) {
                 this.falling = true
                 //LIMITE
             }
         }
 
         // ground check:
-        if (this.jumping && this.falling) { // no longer "rising"
-            if (!this.upside) { //CIMA
-                if (this.y  + playerRadius >= canvas.height / 2) { // terre check
-                    this.y  = canvas.height / 2 - playerRadius
+        if (!this.upside) { //CIMA
+            // do a collision check at direction of gravity to find ground
+            if (this.getCollisionAt({x: 0.0, y: +2.0})) {
+                if (this.jumping && this.falling) { // no longer "rising"
                     this.jumping = false
                     this.falling = false
                 }
-                // do a collision check at direction of gravity to find ground
-                if (this.getCollisionAt({x: 0.0, y: -2.0})) {
+            }
+            else { // no more terre, time to fall
+                if (!this.jumping && !this.falling) {
+                    this.jumping = true
+                    this.falling = true
+                }
+            }
+            // base terre check
+            if (this.y  + playerRadius >= canvas.height / 2) { // terre check
+                this.y  = canvas.height / 2 - playerRadius
+                this.jumping = false
+                this.falling = false
+            }
+        } else {
+            // do a collision check at direction of gravity to find ground
+            if (this.getCollisionAt({x: 0.0, y: -2.0})) {
+                if (this.jumping && this.falling) { // no longer "rising"
                     this.jumping = false
                     this.falling = false
                 }
-            } else {
-                if (this.y  - playerRadius <= canvas.height / 2 - 1) { // terre check
-                    this.y  = canvas.height / 2 + playerRadius - 1
-                    this.jumping = false
-                    this.falling = false
+            }
+            else { // no more terre, time to fall
+                if (!this.jumping && !this.falling) {
+                    this.jumping = true
+                    this.falling = true
                 }
-                // do a collision check at direction of gravity to find ground
-                if (this.getCollisionAt({x: 0.0, y: +2.0})) {
-                    this.jumping = false
-                    this.falling = false
-                }
+            }
+            // base terre check
+            if (this.y  - playerRadius <= canvas.height / 2 - 1) { // terre check
+                this.y  = canvas.height / 2 + playerRadius - 1
+                this.jumping = false
+                this.falling = false
             }
         }
 
