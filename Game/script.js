@@ -95,6 +95,9 @@ window.onload = function () {
         //background = images.levels_background.menu
         menu()
     }
+    if (currentLevel == 4) {
+        background = images.levels_background.goodbye
+    }
 
 
     // module aliases
@@ -548,6 +551,7 @@ function animate() {
                     sceneLimits.right += 1
                 }
             } if (currentLevel == 3) {
+
                 if (sceneLimits.right <= 3775) {
                     context.translate(-1, 0)
                     sceneLimits.left += 1
@@ -555,6 +559,7 @@ function animate() {
                 } else {
                     //background = images.levels_background.boss
                     context.drawImage(images.levels_background.boss, sceneLimits.left, 100)
+                    //console.log("OLA")
                     platforms.forEach(plataform => {
                         plataform.draw()
                     })
