@@ -254,9 +254,6 @@ class Player {
 
         this.body.position.x = this.x
         this.body.position.y = this.y
-        context.beginPath()
-        context.arc(this.body.position.x, this.body.position.y, 20, 0, 2 * Math.PI)
-        context.stroke()
 
         if(dashing && this.upside){
             if(this.lastX < this.x){
