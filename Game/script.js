@@ -88,6 +88,9 @@ window.onload = function () {
     if (currentLevel == 0) {
         background = images.levels_background.zero
     }
+    if (currentLevel == -1) {
+        background = images.levels_background.menu
+    }
 
 
     // module aliases
@@ -415,7 +418,6 @@ function animate() {
             context.drawImage(background, 2000, 0)
         }
 
-        console.log(playerAtk[0])
         platforms.forEach((plataform,i) => {
             plataform.draw()
             if(playerAtk.length != 0){
@@ -434,7 +436,42 @@ function animate() {
             player.draw()
             player.move()
 
-            
+            if (currentLevel == 0) {
+
+                if (player.x >= 1850) {
+                    
+                    currentLevel++
+                    localStorage.setItem("currentLevel",currentLevel)
+                    restartGame()
+                }
+            }
+
+            if (currentLevel == 1) {
+
+                if (player.x >= 3850) {
+                    
+                    currentLevel++
+                    localStorage.setItem("currentLevel",currentLevel)
+                    restartGame()
+                }
+            }
+            if (currentLevel == 2) {
+
+                if (player.x >= 1700 && player.x <= 1702) {
+                    
+                    joinCharacters(1703)
+                    //JOIN CHARACTERS
+
+                }
+
+                if (player.x >= 4500) {
+                    
+                    currentLevel++
+                    localStorage.setItem("currentLevel",currentLevel)
+                    restartGame()
+
+                }
+            }
 
         })
 
@@ -472,9 +509,9 @@ function animate() {
         if (clicks != 0) {
             if (currentLevel == 0) {
                 if (sceneLimits.right <= 1998 ) {
-                    context.translate(-2, 0)
-                    sceneLimits.left += 2
-                    sceneLimits.right += 2
+                    context.translate(-1, 0)
+                    sceneLimits.left += 1
+                    sceneLimits.right += 1
                 }
                 else {
                     /*
@@ -485,15 +522,15 @@ function animate() {
             }
             if (currentLevel == 1) {
                 if (sceneLimits.right <= 3998) {
-                    context.translate(-2, 0)
-                    sceneLimits.left += 2
-                    sceneLimits.right += 2
+                    context.translate(-1, 0)
+                    sceneLimits.left += 1
+                    sceneLimits.right += 1
                 }
             } if (currentLevel == 3) {
                 if (sceneLimits.right <= 3775) {
-                    context.translate(-2, 0)
-                    sceneLimits.left += 2
-                    sceneLimits.right += 2
+                    context.translate(-1, 0)
+                    sceneLimits.left += 1
+                    sceneLimits.right += 1
                 } else {
                     //background = images.levels_background.boss
                     context.drawImage(images.levels_background.boss, sceneLimits.left, 100)
@@ -504,9 +541,9 @@ function animate() {
             }
             if (currentLevel == 2) {
                 if (sceneLimits.right <= 4698) {
-                    context.translate(-2, 0)
-                    sceneLimits.left += 2
-                    sceneLimits.right += 2
+                    context.translate(-1, 0)
+                    sceneLimits.left += 1
+                    sceneLimits.right += 1
                 }
             }
         }
@@ -846,11 +883,20 @@ function keyUp(e) {
     }
 }
 
+function joinCharacters(x) {
+
+    players = []
+
+    players.push(new Player(x, canvas.height / 2 - playerRadius - 1, false))
+
+}
+
 function changePlayersAnimation(animation) {
     players[0].currAnimation = animation
     players[1].currAnimation = animation
 }
 
+//BUTTON FUNCTIONS
 function one() {
 
     localStorage.setItem("currentLevel", 1)
