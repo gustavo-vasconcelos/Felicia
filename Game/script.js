@@ -14,8 +14,6 @@ var theme = "Theme";
 var boss = "Boss";
 var firstLevel = "First Level";
 
-var flag = 0
-
 let playerRadius = 64 / 2
 let gap = 10
 let players = []
@@ -37,6 +35,7 @@ let finalBoss = []
 let balls = []
 let kamehamehaa = false
 let atk2 = 0
+let dashing = false
 let timer = 0
 let ground
 let keyBlocked = {
@@ -44,6 +43,7 @@ let keyBlocked = {
     left: false,
     up: false
 }
+let playerAtk = []
 
 let Engine, World, Composites, Composite, Bodies, engine
 
@@ -89,15 +89,6 @@ window.onload = function () {
         background = images.levels_background.zero
     }
 
-    if (currentLevel == 4) {
-        background = images.levels_background.goodbye
-    }
-
-    if (currentLevel == -1) {
-
-        menu()
-    }
-
 
     // module aliases
     Engine = Matter.Engine
@@ -139,12 +130,7 @@ window.onload = function () {
 
     ground = Bodies.rectangle(0, canvas.height / 2, 4800, 1)
     World.add(engine.world, ground);
-
-    if (currentLevel != -1) {
-        game()
-    }
-
-
+    game()
 }
 
 //Preload, mouse events
@@ -152,25 +138,17 @@ function game() {
     window.addEventListener("keyup", keyUp)
     window.addEventListener("keydown", keyDown)
 
-    if (currentLevel != 0 && currentLevel != 4) {
-        players.push(new Player(playerRadius, canvas.height / 2 - playerRadius - 1, false))
-        //players[0].body.label = "lightCharacter"
-        players.push(new Player(playerRadius, canvas.height / 2 + playerRadius, true))
-        //players[1].body.label = "darkCharacter"
-    }
-    if (currentLevel == 0) {
-        players.push(new Player(playerRadius, canvas.height / 2 - playerRadius - 1, false))
-    }
-
-
-
+    players.push(new Player(playerRadius, canvas.height / 2 - playerRadius - 1, false))
+    //players[0].body.label = "lightCharacter"
+    players.push(new Player(playerRadius, canvas.height / 2 + playerRadius, true))
+    //players[1].body.label = "darkCharacter"
 
     if (currentLevel == 0) {
         platforms.push(new Platform(0, 1200, (canvas.height / 2) - 50, 1, true))
         platforms.push(new Platform(0, 1250, (canvas.height / 2) - 50, 1, true))
         platforms.push(new Platform(0, 1300, (canvas.height / 2) - 50, 1, true))
         platforms.push(new Platform(0, 1350, (canvas.height / 2) - 50, 3, true))
-        platforms.push(new Platform(0, 1500, (canvas.height / 2) - 100, 1, true))
+        platforms.push(new Platform(0, 1500, (canvas.height / 2) - 100, 2, true))
         platforms.push(new Platform(0, 1850, (canvas.height / 2) - 100, 6, true))
     }
 
@@ -287,7 +265,7 @@ function game() {
         platforms.push(new Platform(2, 1350, (canvas.height / 2) - 50, 1, true))
         platforms.push(new Platform(2, 1350, (canvas.height / 2) - 100, 1, true))
         platforms.push(new Platform(2, 1350, (canvas.height / 2) - 150, 1, true))
-        platforms.push(new Platform(2, 1700, (canvas.height / 2) - 100, 9, true)) //type 9
+        platforms.push(new Platform(2, 1700, (canvas.height / 2) - 50, 9, true)) //type 9
 
         //up second
         platforms.push(new Platform(2, 2800, (canvas.height / 2) - 150, 5, true))
@@ -388,9 +366,7 @@ function game() {
         platforms.push(new Platform(3, 3500, (canvas.height / 2) + 150, 1, true))
     }
 
-
     animate()
-
 
 }
 
@@ -428,7 +404,7 @@ function animate() {
     if (!pause) {
         context.clearRect(sceneLimits.left, 0, sceneLimits.right, height); //clears everything
 
-        if (currentLevel != 0) {
+        if (currentLevel != -1) {
             context.drawImage(background, 0, 0)
             context.drawImage(background, 2000, 0)
             context.drawImage(background, 4000, 0)
@@ -439,35 +415,27 @@ function animate() {
             context.drawImage(background, 2000, 0)
         }
 
-
-        platforms.forEach(plataform => {
+        console.log(playerAtk[0])
+        platforms.forEach((plataform,i) => {
             plataform.draw()
+            if(playerAtk.length != 0){
+
+                if(playerAtk[0].x +16 >= plataform.x && playerAtk[0].x -16 <= plataform.x +50 && playerAtk[0].y +16 >= plataform.y && playerAtk[0].y -16 <= plataform.y +50 ){
+                    if(plataform.type == 3 || plataform.type == 5){
+                        platforms.splice(i,1)
+                        playerAtk.splice(0,1)
+                    }
+                }
+            }
+            
         })
 
         players.forEach(player => {
             player.draw()
             player.move()
-            if (currentLevel == 0) {
-                if (player.x >= 1850) {
-                    currentLevel++
-                    localStorage.setItem("currentLevel", currentLevel)
-                    restartGame()
-                }
-            }
-            if (currentLevel == 1) {
-                if (player.x >= 3850) {
-                    currentLevel++
-                    localStorage.setItem("currentLevel", currentLevel)
-                    restartGame()
-                }
-            }
-            if (currentLevel == 2) {
-                if (player.x >= 4500) {
-                    currentLevel++
-                    localStorage.setItem("currentLevel", currentLevel)
-                    restartGame()
-                }
-            }
+
+            
+
         })
 
 
@@ -503,7 +471,7 @@ function animate() {
 
         if (clicks != 0) {
             if (currentLevel == 0) {
-                if (sceneLimits.right <= 1998) {
+                if (sceneLimits.right <= 1998 ) {
                     context.translate(-2, 0)
                     sceneLimits.left += 2
                     sceneLimits.right += 2
@@ -532,16 +500,6 @@ function animate() {
                     platforms.forEach(plataform => {
                         plataform.draw()
                     })
-                    //ESTOU AQUI
-                    if (flag == 0) {
-                        players = []
-                        players.push(new Player(3000, 700, true))
-
-                        players.push(new Player(3700, 700, true))
-                        flag++
-                    }
-
-
                 }
             }
             if (currentLevel == 2) {
@@ -557,16 +515,31 @@ function animate() {
             finalBoss.forEach(boss => {
                 boss.draw()
                 boss.attack(atk2)
-                if (boss.die()) {
-                    gameWon()
+
+                if(playerAtk.length != 0){
+
+                    if(playerAtk[0].x +16 >= boss.x && playerAtk[0].x -16 <= boss.x +200 && playerAtk[0].y +16 >= boss.y && playerAtk[0].y -16 <= boss.y +200 ){
+                        
+                        boss.life -= 1
+                        playerAtk.splice(0,1)
+                        
+                    }
                 }
+
             })
         }
+
 
 
         balls.forEach(ball => {
             ball.update()
             ball.draw(atk2)
+        })
+
+        playerAtk.forEach(atk =>{
+            atk.update()
+            atk.draw()
+
         })
 
 
@@ -578,7 +551,7 @@ function animate() {
 
         frame++
 
-
+        /*
         Engine.update(engine, 16);
         var bodies = Composite.allBodies(engine.world);
         context.beginPath();
@@ -600,21 +573,21 @@ function animate() {
             keyBlocked.left = false
             keyBlocked.up = false
         });
-        /*
+
         Matter.Events.on(engine, "collisionActive", (e) => {
             e.pairs.forEach(pair => {
                 if (
                     pair.bodyA.label === "platform" && pair.bodyB.label === "character" ||
                     pair.bodyA.label === "character" && pair.bodyB.label === "platform"
                 ) {
-                    if (pair.bodyA === "platform") {
+                    if(pair.bodyA === "platform") {
                         let type = platforms.find(platform => platform.id === pair.bodyA.id).type
-                        if (type === 3 || type === 5) {
+                        if(type === 3 || type === 5) {
                             console.log("MORREU")
                         }
-                    } else if (pair.bodyB === "platform") {
+                    } else if(pair.bodyB === "platform") {
                         let type = platforms.find(platform => platform.id === pair.bodyA.id).type
-                        if (type === 3 || type === 5) {
+                        if(type === 3 || type === 5) {
                             console.log("MORREU")
                         }
                     }
@@ -639,16 +612,10 @@ function animate() {
 function menu() {
 
     //Meter Logo Aqui
-    menu = images.levels_background.menu
-    context.drawImage(menu,0,0)
 
-    context.font = "30px Helvetica";
-    context.fillText("Click on the screen to continue", canvas.width / 2 - (context.measureText("Click on the screen to continue").width / 2), 3 * (canvas.height / 4));
+    context.font = "70px Helvetica";
+    context.fillText("Start Game", canvas.width / 2 - (context.measureText("Start Game").width / 2), 3 * (canvas.height / 4));
 
-    canvas.addEventListener("click", function () {
-        localStorage.setItem("currentLevel", 0)
-        restartGame()
-    })
 }
 
 function restartGame() {
@@ -660,11 +627,22 @@ function restartGame() {
     location.reload();
 }
 
-function gameWon() {
 
-
-    localStorage.setItem("currentLevel", 4)
-    location.reload()
+class Atk {
+    constructor(x,y){
+        this.x = x
+        this.y = y
+        this.x1 = x
+    }
+    draw(){
+        context.drawImage(images.boss.shoot, 0, 0, 32, 32, this.x, this.y, 32, 32) 
+    }
+    update(){
+        this.x+=6
+        if(Math.abs(this.x-this.x1)>350){
+            playerAtk.splice(0,1)
+        }
+    }
 
 }
 
@@ -800,6 +778,16 @@ class BurstAttack {
 
 }
 
+function playerAttack(){
+    if(playerAtk.length<1){
+        playerAtk.push(new Atk(players[0].x,players[0].y-15))
+    }
+    
+}
+function dash(){
+    dashing = true
+}
+
 function keyDown(e) {
     switch (e.keyCode) {
         case 38:
@@ -826,8 +814,11 @@ function keyDown(e) {
         case 82:
             restartGame()
             break
-        case 71:
-            gameWon()
+        case 83:
+            playerAttack()
+            break
+        case 68:
+            dash()
             break
     }
 }

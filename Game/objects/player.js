@@ -7,6 +7,8 @@ class Player {
         this.falling = false
         this.v0 = 5
         this.currFrame = 0
+        this.dashAssister = 0
+        this.lastTimeLooking = 0
         this.frameSize = {
             idle: {
                 x: 38,
@@ -27,8 +29,32 @@ class Player {
         this.groundHeight = this.y + this.frameSize.idle.y / 2
         this.currAnimation = "idleRight"
     }
-
+    
     draw() {
+        if((dashing && this.upside) || this.dashAssister>=1){
+            if(this.lastX < this.x){
+                this.dashAssister--
+            }
+            else{
+                this.dashAssister++
+            }
+
+            context.drawImage(
+                images.characters.dark.idle,
+                this.currFrame * this.frameSize.idle.x,
+                0,
+                this.frameSize.idle.x,
+                this.frameSize.idle.y,
+                this.body.position.x - this.frameSize.idle.x / 2 - this.dashAssister*20,
+                this.body.position.y - this.frameSize.idle.y / 2,
+                this.frameSize.idle.x,
+                this.frameSize.idle.y,
+            )
+            if(this.dashAssister >= 10 || this.dashAssister <= 9){
+                this.dashAssister=0
+            }
+        }
+
         /*
         if (this.currAnimation === "walkRight" || this.currAnimation === "walkLeft") {
             context.fillRect(
@@ -174,6 +200,19 @@ class Player {
         context.arc(this.body.position.x, this.body.position.y, 20, 0, 2 * Math.PI)
         context.stroke() 
 
+        if(dashing && this.upside){
+            if(this.lastX < this.x){
+                this.x -= 200
+                dashing= false
+            }
+            else{
+                this.x += 200
+                dashing= false
+            }
+        }
+        
+
+
         if (keyPressed.right && !keyBlocked.right) {
             this.x += this.v0
         }
@@ -202,13 +241,13 @@ class Player {
 
         if (this.jumping && !keyPressed.up) {
             this.falling = true
-            if (!this.upside) {
-                this.y  += this.v0
-                this.y  -= 0.2
-            } else {
-                this.y  -= this.v0
-                this.y  += 0.2
-            }
+        }
+        if (!this.upside) {
+            this.y  += this.v0
+            this.y  -= 0.2
+        } else {
+            this.y  -= this.v0
+            this.y  += 0.2
         }
 
         if (!this.upside) { //CIMA
@@ -234,6 +273,34 @@ class Player {
 
         }
 
+        //lvl0
+        if(currentLevel==0){
+            if(players[0].x +20> 1200 && players[0].x +20 < 1220 && players[0].y + 32 > (canvas.height / 2) - 50 && players[0].y +32< (canvas.height / 2) ){
+                players[0].x = 1200 -20 
+            }
+            if(players[0].y + 32 > (canvas.height / 2) -50 -1 && players[0].y + 32 < (canvas.height / 2) -30 && players[0].x + 20 > 1200 && players[0].x - 20 < 1350){
+                players[0].y = (canvas.height / 2) -50 -32 -1
+                this.falling = false
+                this.jumping = false
+            }
+        }
+        if(currentLevel==1){
+            if(players[0].x +20> 400 && players[0].x +20 < 420 && players[0].y + 32 > (canvas.height / 2) - 50 && players[0].y +32< (canvas.height / 2) ){
+                players[0].x = 400 -20 
+            }
+            if(players[0].x +20> 550 && players[0].x +20 < 570 && players[0].y + 32 > (canvas.height / 2) - 150 && players[0].y +32< (canvas.height / 2) ){
+                players[0].x = 550 -20 
+            }
+
+            if(players[0].y + 32 > (canvas.height / 2) -50 -1 && players[0].y + 32 < (canvas.height / 2) -30 && players[0].x + 20 > 400 && players[0].x - 20 < 550){
+                players[0].y = (canvas.height / 2) -50 -32 -1
+                this.falling = false
+                this.jumping = false
+            }
+
+        }
+        this.lastY = this.y
+        this.lastX = this.x
       
     }
     /*
@@ -280,10 +347,10 @@ class Player {
 
 
     }*/
-
-    platformsCollisions() {
-        players.forEach(player => {
-            player.isCollidingWithPlatform()
+    
+    //platformsCollisions() {
+      //  players.forEach(player => {
+        //    player.isCollidingWithPlatform()
             /*
             platforms.forEach(platform => {
                 if (platform.x >= sceneLimits.left && platform.x <= sceneLimits.right) {
@@ -344,6 +411,6 @@ class Player {
     }
 }
 })*/
-        })
-    }
+     //   })
+   // }
 }
