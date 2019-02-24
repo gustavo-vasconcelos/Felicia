@@ -36,8 +36,13 @@ h1 {
     display: block;
 }
 
-#footer h5 {
+#footer h3 {
     margin: 10px 0px;
+}
+
+#footer p {
+    font-weight: 300;
+    margin: 5px;
 }
 
 #bar {
