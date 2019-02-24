@@ -133,7 +133,7 @@ window.onload = function () {
     // run the renderer
     Render.run(render);
 
-    
+
 
     engine = Engine.create();
     engine.world.gravity.scale = 0; //turn off gravity (it's added back in later)
@@ -158,8 +158,7 @@ function game() {
         //players[0].body.label = "lightCharacter"
         players.push(new Player(playerRadius, canvas.height / 2 + playerRadius, true))
         //players[1].body.label = "darkCharacter"
-    }
-    else {
+    } else {
         players.push(new Player(playerRadius, canvas.height / 2 - playerRadius - 1, false))
     }
 
@@ -388,7 +387,7 @@ function game() {
         platforms.push(new Platform(3, 3500, (canvas.height / 2) + 150, 1, true))
     }
 
-    
+
     animate()
 
 }
@@ -448,7 +447,7 @@ function animate() {
             }
 
         })
-  
+
 
 
         players.forEach(player => {
@@ -463,7 +462,7 @@ function animate() {
                     localStorage.setItem("currentLevel", currentLevel)
                     restartGame()
                 }
-                
+
 
 
             }
@@ -539,8 +538,7 @@ function animate() {
                     context.translate(-0.5, 0)
                     sceneLimits.left += 0.5
                     sceneLimits.right += 0.5
-                }
-                else {
+                } else {
                     /*
                     localStorage.setItem("currentLevel",currentLevel++)
                     location.reload()
@@ -553,7 +551,8 @@ function animate() {
                     sceneLimits.left += 0.5
                     sceneLimits.right += 0.5
                 }
-            } if (currentLevel == 3) {
+            }
+            if (currentLevel == 3) {
 
                 if (sceneLimits.right <= 3775) {
                     context.translate(-0.5, 0)
@@ -600,10 +599,10 @@ function animate() {
 
                     }
                 }
-                
-                if(boss.life < 1){
+
+                if (boss.life < 1) {
                     currentLevel++
-                    localStorage.setItem("currentLevel",currentLevel)
+                    localStorage.setItem("currentLevel", currentLevel)
                     restartGame()
                 }
 
@@ -615,8 +614,8 @@ function animate() {
         balls.forEach(ball => {
             ball.update()
             ball.draw(atk2)
-            
-        
+
+
 
 
 
@@ -743,7 +742,12 @@ class Atk {
         context.drawImage(images.boss.shoot, 0, 0, 32, 32, this.x, this.y, 32, 32)
     }
     update() {
-        this.x += 6
+        let animation = players[0].currAnimation === "walkRight" || players[0].currAnimation === "idleRight"
+        if (animation) {
+            this.x += 6
+        } else {
+            this.x -= 6
+        }
         if (Math.abs(this.x - this.x1) > 350) {
             playerAtk.splice(0, 1)
         }
@@ -840,31 +844,33 @@ class BurstAttack {
         this.acc = acc;
         this.active = true
         this.frame = 0
-
+        this.randAttack = Math.round(Math.random())
 
     }
     draw(atk2) {
-        context.drawImage(images.boss.bosssphere1, this.frame * (this.r * 2), 0, this.r * 2, this.r * 2, this.x, this.y, this.r * 2, this.r * 2)
+        if (this.randAttack === 0) {
+            context.drawImage(images.boss.bosssphere1, this.frame * (this.r * 2), 0, this.r * 2, this.r * 2, this.x, this.y, this.r * 2, this.r * 2)
+        } else {
+            context.drawImage(images.boss.bosssphere2, this.frame * (this.r * 2), 0, this.r * 2, this.r * 2, this.x, this.y, this.r * 2, this.r * 2)
+        }
         this.frame++
 
         if (this.frame > 3) {
             this.frame = 0
         }
-        if (atk2 == 2) {
 
-            context.drawImage(images.boss.bosssphere1, this.frame * (this.r * 2), 0, this.r * 2, this.r * 2, 3262, 300, this.r * 2, this.r * 2)
-            context.drawImage(images.boss.bosssphere1, this.frame * (this.r * 2), 0, this.r * 2, this.r * 2, 3462, 300, this.r * 2, this.r * 2)
+        context.drawImage(images.boss.bosssphere1, this.frame * (this.r * 2), 0, this.r * 2, this.r * 2, 3262, 300, this.r * 2, this.r * 2)
+        context.drawImage(images.boss.bosssphere1, this.frame * (this.r * 2), 0, this.r * 2, this.r * 2, 3462, 300, this.r * 2, this.r * 2)
 
-            context.drawImage(images.boss.bosssphere1, this.frame * (this.r * 2), 0, this.r * 2, this.r * 2, 3162, 200, this.r * 2, this.r * 2)
-            context.drawImage(images.boss.bosssphere1, this.frame * (this.r * 2), 0, this.r * 2, this.r * 2, 3562, 200, this.r * 2, this.r * 2)
-        }
+        context.drawImage(images.boss.bosssphere1, this.frame * (this.r * 2), 0, this.r * 2, this.r * 2, 3162, 200, this.r * 2, this.r * 2)
+        context.drawImage(images.boss.bosssphere1, this.frame * (this.r * 2), 0, this.r * 2, this.r * 2, 3562, 200, this.r * 2, this.r * 2)
 
     }
     update() {
         this.x += this.vX;
 
         this.y += this.vY;
-        if (this.y > 500 || this.x < 3000 || this.x >3800) {
+        if (this.y > 500 || this.x < 3000 || this.x > 3800) {
             this.active = false
         }
 
@@ -882,6 +888,7 @@ function playerAttack() {
     }
 
 }
+
 function dash() {
     dashing = true
 }
@@ -980,24 +987,28 @@ function one() {
     location.reload()
 
 }
+
 function two() {
 
     localStorage.setItem("currentLevel", 2)
     location.reload()
 
 }
+
 function three() {
 
     localStorage.setItem("currentLevel", 3)
     location.reload()
 
 }
+
 function four() {
 
     localStorage.setItem("currentLevel", -1)
     location.reload()
 
 }
+
 function zero() {
 
     localStorage.setItem("currentLevel", 0)
