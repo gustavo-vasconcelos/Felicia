@@ -276,5 +276,19 @@ class Platform {
 
 
         }
+
+
+        if (this.lvl == 3) {
+
+            
+            if (this.type == 4 && !this.upside) {
+                context.drawImage(images.tiles.two.downside.bridge.downsidebridge, this.x, this.y, this.w, this.h)
+            }
+            if (this.type == 4 && this.upside) {
+                context.drawImage(images.tiles.two.upside.bridge.upsidebridge, this.x, this.y, this.w, this.h)
+            }
+
+
+        }
     }
 }
