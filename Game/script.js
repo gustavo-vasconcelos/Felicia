@@ -13,6 +13,7 @@ let background = ""
 var theme = "Theme";
 var boss = "Boss";
 var firstLevel = "First Level";
+var secondLevel = "Second Level";
 
 let playerRadius = 64 / 2
 let gap = 10
@@ -62,6 +63,7 @@ window.onload = function () {
     createjs.Sound.registerSound("sounds/ORIGINALTHEME_1.mp3", theme);
     createjs.Sound.registerSound("sounds/DARKFEMALECHOIR.mp3", boss);
     createjs.Sound.registerSound("sounds/DARK.mp3", firstLevel);
+    createjs.Sound.registerSound("sounds/LEVEL3.mp3", secondLevel)
 
     context.clearRect(0, 0, width, height); //clears everything
 
@@ -147,10 +149,17 @@ function game() {
     window.addEventListener("keyup", keyUp)
     window.addEventListener("keydown", keyDown)
 
-    players.push(new Player(playerRadius, canvas.height / 2 - playerRadius - 1, false))
-    //players[0].body.label = "lightCharacter"
-    players.push(new Player(playerRadius, canvas.height / 2 + playerRadius, true))
-    //players[1].body.label = "darkCharacter"
+    if (currentLevel != 0) {
+        players.push(new Player(playerRadius, canvas.height / 2 - playerRadius - 1, false))
+        //players[0].body.label = "lightCharacter"
+        players.push(new Player(playerRadius, canvas.height / 2 + playerRadius, true))
+        //players[1].body.label = "darkCharacter"
+    }
+    else {
+        players.push(new Player(playerRadius, canvas.height / 2 - playerRadius - 1, false))
+    }
+
+
 
     if (currentLevel == 0) {
         platforms.push(new Platform(0, 1200, (canvas.height / 2) - 50, 1, true))
@@ -386,7 +395,7 @@ function animate() {
     //console.log(players[1].y)
     if (clicks == 1) {
         if (currentLevel == 2) {
-            createjs.Sound.play(theme);
+            createjs.Sound.play(secondLevel);
         }
         if (currentLevel == 3) {
             createjs.Sound.play(boss);
@@ -462,9 +471,14 @@ function animate() {
 
                 if (player.x >= 1700 && player.x <= 1702) {
 
-                    joinCharacters(1703)
+                    joinCharacters(1703, 0)
                     //JOIN CHARACTERS
 
+                }
+
+                if (player.x >= 3398 && player.x <= 3404) {
+                    console.log(player.x)
+                    joinCharacters(3403, 1)
                 }
 
                 if (player.x >= 4500) {
@@ -655,12 +669,12 @@ function menu() {
 
     menu = images.levels_background.menu
     context.drawImage(menu, 0, 0)
-    
+
 
     context.font = "30px Helvetica";
     context.fillStyle = "white"
     context.fillText("Click on the screen to continue", canvas.width / 2 - (context.measureText("Click on the screen to continue").width / 2), 3 * (canvas.height / 4));
-    
+
 
     canvas.addEventListener("click", function () {
         localStorage.setItem("currentLevel", 0)
@@ -677,7 +691,7 @@ function restartGame() {
     })*/
 
     location.reload();
-    
+
     /*context.rect(0,0,800,600)
     context.translate(2,0)
     sceneLimits.left = 0
@@ -915,11 +929,17 @@ function keyUp(e) {
     }
 }
 
-function joinCharacters(x) {
+function joinCharacters(x, side) {
 
     players = []
 
-    players.push(new Player(x, canvas.height / 2 - playerRadius - 1, false))
+    if (side == 0) {
+        players.push(new Player(x, canvas.height / 2 - playerRadius - 1, false))
+    }
+    if (side == 1) {
+        players.push(new Player(x, canvas.height / 2 - playerRadius - 1, true))
+    }
+
 
 }
 
