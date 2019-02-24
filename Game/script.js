@@ -383,6 +383,7 @@ function game() {
 //Update, draw ...
 function animate() {
 
+    //console.log(players[1].y)
     if (clicks == 1) {
         if (currentLevel == 2) {
             createjs.Sound.play(theme);
@@ -846,6 +847,13 @@ function dash() {
     dashing = true
 }
 
+function fly() {
+    if (currentLevel == 2) {
+        players[0].x = 4430
+        players[1].x = 4430
+    }
+}
+
 function keyDown(e) {
     switch (e.keyCode) {
         case 38:
@@ -877,6 +885,9 @@ function keyDown(e) {
             break
         case 68:
             dash()
+            break
+        case 70:
+            fly()
             break
     }
 }
