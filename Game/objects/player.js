@@ -210,7 +210,11 @@ class Player {
             var platform = platforms[i];
             // Skip monsters
             if (platform.type == 3 || platform.type == 5) {
-                continue;
+                if (collision_aabb_aabb(this.getAABBOffset(offset), platform.getAABB()) == true) {
+                    restartGame()
+                    console.log("cl")
+                    break;
+                }
             }
             // Skip cute ending things? i dont know what these are
             if (platform.type == 6 || platform.type == 9) {
