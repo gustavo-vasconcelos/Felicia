@@ -612,15 +612,8 @@ function animate() {
         balls.forEach(ball => {
             ball.update()
             ball.draw(atk2)
-            /*
-            if (balls.length != 0) {
-
-                if (ball.x + 15 >= players[0].x && ball.x - 15 <= players[0].x + 64 && ball.y + 15>= players[0].y && ball.y - 15 <= players[0].y + 64) {
-
-                    restartGame()
-
-                }
-            }*/
+            
+        
 
 
 
