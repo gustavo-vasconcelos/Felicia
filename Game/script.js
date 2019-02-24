@@ -93,6 +93,11 @@ window.onload = function () {
         background = images.levels_background.goodbye
     }
 
+    if (currentLevel == -1) {
+
+        menu()
+    }
+
 
     // module aliases
     Engine = Matter.Engine
@@ -135,8 +140,10 @@ window.onload = function () {
     ground = Bodies.rectangle(0, canvas.height / 2, 4800, 1)
     World.add(engine.world, ground);
 
+    if (currentLevel != -1) {
+        game()
+    }
 
-    game()
 
 }
 
@@ -151,7 +158,7 @@ function game() {
         players.push(new Player(playerRadius, canvas.height / 2 + playerRadius, true))
         //players[1].body.label = "darkCharacter"
     }
-    if (currentLevel == 0){
+    if (currentLevel == 0) {
         players.push(new Player(playerRadius, canvas.height / 2 - playerRadius - 1, false))
     }
 
@@ -632,10 +639,16 @@ function animate() {
 function menu() {
 
     //Meter Logo Aqui
+    menu = images.levels_background.menu
+    context.drawImage(menu,0,0)
 
-    context.font = "70px Helvetica";
-    context.fillText("Start Game", canvas.width / 2 - (context.measureText("Start Game").width / 2), 3 * (canvas.height / 4));
+    context.font = "30px Helvetica";
+    context.fillText("Click on the screen to continue", canvas.width / 2 - (context.measureText("Click on the screen to continue").width / 2), 3 * (canvas.height / 4));
 
+    canvas.addEventListener("click", function () {
+        localStorage.setItem("currentLevel", 0)
+        restartGame()
+    })
 }
 
 function restartGame() {
