@@ -108,6 +108,33 @@ let images = {
                 }
             },
             portal: new Image(),
+        },
+        three: {
+            upside: {
+                type: {
+                    one: {
+                        variantOne: new Image(),
+                        variantTwo: new Image(),
+                        variantThree: new Image()
+                    },
+                },
+                bridge: {
+                    upsidebridge: new Image()
+                }
+            },
+            downside: {
+                type: {
+                    one: {
+                        variantOne: new Image(),
+                        variantTwo: new Image(),
+                        variantThree: new Image()
+                    },
+                },
+                bridge: {
+                    downsidebridge: new Image()
+                }
+            },
+            portal: new Image(),
         }
 
     },
@@ -156,6 +183,22 @@ let images = {
                 }
             }
 
+        },
+        three: {
+            upside: {
+                five: {
+                    upsidehazardflyer: new Image(),
+                }
+            },
+            downside: {
+                three: {
+                    downsidehazardspike: new Image(),
+                    
+                },
+                five: {
+                    downsidehazardflyer: new Image(),
+                }
+            }
         }
 
     },
@@ -163,12 +206,26 @@ let images = {
         bossidle: new Image(),
         bosssphere1: new Image(),
         bosssphere2: new Image(),
+        shoot: new Image()
     }
 }
+
+images.enemies.three.upside.five.upsidehazardflyer.src = "images/enemies/three/upside/five/upsidehazardflyer.png"
+images.enemies.three.downside.three.downsidehazardspike.src = "images/enemies/three/donwside/three/downsidehazardspike.png"
+images.enemies.three.downside.five.downsidehazardflyer.src = "images/enemies/three/donwside/five/downsidehazardflyer.png"
+images.tiles.three.upside.type.one.variantThree.src= "images/tiles/three/upside/type/one/variantThree.png"
+images.tiles.three.upside.type.one.variantTwo.src= "images/tiles/three/upside/type/one/variantTwo.png"
+images.tiles.three.upside.type.one.variantOne.src= "images/tiles/three/upside/type/one/variantOne.png"
+images.tiles.three.upside.bridge.upsidebridge.src= "images/tiles/three/upside/bridge/upsidebridge:.png"
+images.tiles.three.downside.type.one.variantThree.src= "images/tiles/three/upside/type/one/variantThree.png"
+images.tiles.three.downside.type.one.variantTwo.src= "images/tiles/three/downside/type/one/variantTwo.png"
+images.tiles.three.downside.type.one.variantOne.src= "images/tiles/three/downside/type/one/variantOne.png"
+images.tiles.three.downside.bridge.downsidebridge.src= "images/tiles/three/downside/bridge/downsidebridge:.png"
 
 images.boss.bossidle.src = "img/boss/bossidle.png"
 images.boss.bosssphere1.src = "img/boss/bosssphere1.png"
 images.boss.bosssphere2.src = "img/boss/bosssphere2.png"
+images.boss.shoot.src = "img/boss/shoot.png"
 
 
 images.characters.light.idle.src = "img/characters/light/idle.png"
