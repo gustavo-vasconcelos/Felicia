@@ -89,7 +89,8 @@ window.onload = function () {
         background = images.levels_background.zero
     }
     if (currentLevel == -1) {
-        background = images.levels_background.menu
+        //background = images.levels_background.menu
+        menu()
     }
 
 
@@ -133,11 +134,16 @@ window.onload = function () {
 
     ground = Bodies.rectangle(0, canvas.height / 2, 4800, 1)
     World.add(engine.world, ground);
-    game()
+
+    if (currentLevel != -1) {
+        game()
+    }
+
 }
 
 //Preload, mouse events
 function game() {
+
     window.addEventListener("keyup", keyUp)
     window.addEventListener("keydown", keyDown)
 
@@ -412,24 +418,20 @@ function animate() {
             context.drawImage(background, 2000, 0)
             context.drawImage(background, 4000, 0)
         }
-        else {
-            context.drawImage(background, 0, 0)
-            context.drawImage(background, 1000, 0)
-            context.drawImage(background, 2000, 0)
-        }
 
-        platforms.forEach((plataform,i) => {
+
+        platforms.forEach((plataform, i) => {
             plataform.draw()
-            if(playerAtk.length != 0){
+            if (playerAtk.length != 0) {
 
-                if(playerAtk[0].x +16 >= plataform.x && playerAtk[0].x -16 <= plataform.x +50 && playerAtk[0].y +16 >= plataform.y && playerAtk[0].y -16 <= plataform.y +50 ){
-                    if(plataform.type == 3 || plataform.type == 5){
-                        platforms.splice(i,1)
-                        playerAtk.splice(0,1)
+                if (playerAtk[0].x + 16 >= plataform.x && playerAtk[0].x - 16 <= plataform.x + 50 && playerAtk[0].y + 16 >= plataform.y && playerAtk[0].y - 16 <= plataform.y + 50) {
+                    if (plataform.type == 3 || plataform.type == 5) {
+                        platforms.splice(i, 1)
+                        playerAtk.splice(0, 1)
                     }
                 }
             }
-            
+
         })
 
         players.forEach(player => {
@@ -439,9 +441,9 @@ function animate() {
             if (currentLevel == 0) {
 
                 if (player.x >= 1850) {
-                    
+
                     currentLevel++
-                    localStorage.setItem("currentLevel",currentLevel)
+                    localStorage.setItem("currentLevel", currentLevel)
                     restartGame()
                 }
             }
@@ -449,25 +451,25 @@ function animate() {
             if (currentLevel == 1) {
 
                 if (player.x >= 3850) {
-                    
+
                     currentLevel++
-                    localStorage.setItem("currentLevel",currentLevel)
+                    localStorage.setItem("currentLevel", currentLevel)
                     restartGame()
                 }
             }
             if (currentLevel == 2) {
 
                 if (player.x >= 1700 && player.x <= 1702) {
-                    
+
                     joinCharacters(1703)
                     //JOIN CHARACTERS
 
                 }
 
                 if (player.x >= 4500) {
-                    
+
                     currentLevel++
-                    localStorage.setItem("currentLevel",currentLevel)
+                    localStorage.setItem("currentLevel", currentLevel)
                     restartGame()
 
                 }
@@ -508,7 +510,7 @@ function animate() {
 
         if (clicks != 0) {
             if (currentLevel == 0) {
-                if (sceneLimits.right <= 1998 ) {
+                if (sceneLimits.right <= 1998) {
                     context.translate(-1, 0)
                     sceneLimits.left += 1
                     sceneLimits.right += 1
@@ -553,13 +555,13 @@ function animate() {
                 boss.draw()
                 boss.attack(atk2)
 
-                if(playerAtk.length != 0){
+                if (playerAtk.length != 0) {
 
-                    if(playerAtk[0].x +16 >= boss.x && playerAtk[0].x -16 <= boss.x +200 && playerAtk[0].y +16 >= boss.y && playerAtk[0].y -16 <= boss.y +200 ){
-                        
+                    if (playerAtk[0].x + 16 >= boss.x && playerAtk[0].x - 16 <= boss.x + 200 && playerAtk[0].y + 16 >= boss.y && playerAtk[0].y - 16 <= boss.y + 200) {
+
                         boss.life -= 1
-                        playerAtk.splice(0,1)
-                        
+                        playerAtk.splice(0, 1)
+
                     }
                 }
 
@@ -573,7 +575,7 @@ function animate() {
             ball.draw(atk2)
         })
 
-        playerAtk.forEach(atk =>{
+        playerAtk.forEach(atk => {
             atk.update()
             atk.draw()
 
@@ -650,8 +652,19 @@ function menu() {
 
     //Meter Logo Aqui
 
-    context.font = "70px Helvetica";
-    context.fillText("Start Game", canvas.width / 2 - (context.measureText("Start Game").width / 2), 3 * (canvas.height / 4));
+    menu = images.levels_background.menu
+    context.drawImage(menu, 0, 0)
+    
+
+    context.font = "30px Helvetica";
+    context.fillStyle = "white"
+    context.fillText("Click on the screen to continue", canvas.width / 2 - (context.measureText("Click on the screen to continue").width / 2), 3 * (canvas.height / 4));
+    
+
+    canvas.addEventListener("click", function () {
+        localStorage.setItem("currentLevel", 0)
+        restartGame()
+    })
 
 }
 
@@ -661,23 +674,31 @@ function restartGame() {
     players.forEach(pl => {
         pl.x = playerRadius
     })*/
+
     location.reload();
+    
+    /*context.rect(0,0,800,600)
+    context.translate(2,0)
+    sceneLimits.left = 0
+    sceneLimits.right = 0
+    players = []
+    game()*/
 }
 
 
 class Atk {
-    constructor(x,y){
+    constructor(x, y) {
         this.x = x
         this.y = y
         this.x1 = x
     }
-    draw(){
-        context.drawImage(images.boss.shoot, 0, 0, 32, 32, this.x, this.y, 32, 32) 
+    draw() {
+        context.drawImage(images.boss.shoot, 0, 0, 32, 32, this.x, this.y, 32, 32)
     }
-    update(){
-        this.x+=6
-        if(Math.abs(this.x-this.x1)>350){
-            playerAtk.splice(0,1)
+    update() {
+        this.x += 6
+        if (Math.abs(this.x - this.x1) > 350) {
+            playerAtk.splice(0, 1)
         }
     }
 
@@ -815,13 +836,13 @@ class BurstAttack {
 
 }
 
-function playerAttack(){
-    if(playerAtk.length<1){
-        playerAtk.push(new Atk(players[0].x,players[0].y-15))
+function playerAttack() {
+    if (playerAtk.length < 1) {
+        playerAtk.push(new Atk(players[0].x, players[0].y - 15))
     }
-    
+
 }
-function dash(){
+function dash() {
     dashing = true
 }
 
