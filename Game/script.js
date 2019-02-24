@@ -463,6 +463,9 @@ function animate() {
                     localStorage.setItem("currentLevel", currentLevel)
                     restartGame()
                 }
+                
+
+
             }
 
             if (currentLevel == 1) {
@@ -509,16 +512,16 @@ function animate() {
             let acc = 0
             let ang = 0
 
-            if (balls.length < 10) {
+            if (balls.length < 12) {
 
                 x = 3362
                 y = 275
                 r = 15
                 velIn = 1
                 acc = 0.1
-                ang = Math.random() * 110
+                ang = Math.random() * 150
                 ang += 90
-                ang -= 55
+                ang -= 75
 
                 balls.push(new BurstAttack(x, y, velIn, r, acc, ang))
             }
@@ -563,6 +566,7 @@ function animate() {
                     platforms.forEach(plataform => {
                         plataform.draw()
                     })
+                    players[0].x = 3000
                     players[1].x = 3700
                     players.forEach(pl => {
                         pl.draw()
@@ -608,6 +612,18 @@ function animate() {
         balls.forEach(ball => {
             ball.update()
             ball.draw(atk2)
+            /*
+            if (balls.length != 0) {
+
+                if (ball.x + 15 >= players[0].x && ball.x - 15 <= players[0].x + 64 && ball.y + 15>= players[0].y && ball.y - 15 <= players[0].y + 64) {
+
+                    restartGame()
+
+                }
+            }*/
+
+
+
         })
 
         playerAtk.forEach(atk => {
@@ -852,7 +868,7 @@ class BurstAttack {
         this.x += this.vX;
 
         this.y += this.vY;
-        if (this.y > 500) {
+        if (this.y > 500 || this.x < 3000 || this.x >3800) {
             this.active = false
         }
 
