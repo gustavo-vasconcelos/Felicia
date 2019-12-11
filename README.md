@@ -1,21 +1,12 @@
 # MAD-Game-Jam-2019
 ![GitHub Logo ](/Game/img/ui/title2.png)
 
-
-## Description comming soon!
-
-## Game Jam expirience
-
-## Characters
-![](/Game/img/ui/character.png)
-
-
 ## Levels
 
 0 - Tutorial
 ![](/Game/img/levels_background/zero.png)
 
-1 - First conflit
+1 - First conflict
 ![](/Game/img/levels_background/one.png)
 
 2 - "Never one ... without the other"
